@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Los Mellis, peluquería canina en Merlo. Reservá el turno de tu perro.">
+<title>Los Mellis Inicio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&family=Poppins:wght@700;800&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: papel crema con trama de puntos; header verde a ancho completo; hero en 2 columnas (1 en celular, CTA arriba del pliegue); servicios en tickets; barra inferior en el celular. Tokens de CLAUDE.md §7. */
+:root {
+  --background: #f7f0d8;
+  --card: #fffdf5;
+  --foreground: #12392d;
+  --ink: #0d2c22;
+  --primary: #14503b;
+  --cream: #fbf3d2;
+  --secondary: #efe5bf;
+  --sand: #f0e6c2;
+  --muted: #e6dab0;
+  --muted-foreground: #5b6a58;
+  --border: #cfc397;
+  --orange: #f26b1d;
+  --orange-text: #c2410c;
+  --ring: #f26b1d;
+  --success: #1f6b45; --success-bg: #dcefe2;
+  --warning: #8a5a00; --warning-bg: #fbefc8;
+
+  --font-display: "Poppins", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  color-scheme: light;
+}
+/* Diseño de un solo tema (papel crema), elegido a propósito: todos los colores son explícitos. */
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+body {
+  background-color: var(--background);
+  background-image: radial-gradient(color-mix(in srgb, var(--border) 70%, transparent) 1px, transparent 1.2px);
+  background-size: 18px 18px;
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.55;
+  padding-bottom: 84px;
+}
+@media (min-width: 768px) { body { padding-bottom: 0; } }
+
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--primary);
+}
+
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 4px; }
+
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: var(--gutter-l); padding-right: var(--gutter-r);
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--primary); color: var(--cream);
+  border-bottom: 2px solid var(--ink);
+}
+.site-header .wrap {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  min-height: 64px;
+}
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand-mark {
+  width: 38px; height: 38px; flex: none; border-radius: 50%;
+  background: var(--cream); border: 2px solid var(--ink);
+  display: grid; place-items: center;
+}
+.brand-name {
+  font-family: var(--font-display); font-weight: 800; font-size: 20px;
+  letter-spacing: -0.025em; line-height: 1; text-transform: lowercase;
+}
+.brand-name small {
+  display: block; margin-top: 3px;
+  font-family: var(--font-mono); font-weight: 400; font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase; opacity: .85;
+}
+.top-nav { display: none; gap: 4px; }
+.top-nav a {
+  text-decoration: none; font-weight: 700; font-size: 14px;
+  padding: 8px 12px; border-radius: 6px;
+}
+.top-nav a:hover { background: color-mix(in srgb, var(--cream) 14%, transparent); }
+.top-nav a[aria-current="page"] { background: var(--cream); color: var(--primary); }
+.header-login {
+  font-weight: 700; font-size: 14px; text-decoration: none;
+  border: 2px solid var(--cream); border-radius: 6px; padding: 6px 12px; white-space: nowrap;
+}
+@media (min-width: 768px) { .top-nav { display: flex; } }
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font-family: var(--font-sans); font-weight: 800; font-size: 16px; line-height: 1;
+  padding: 15px 22px; border-radius: 8px; border: 2px solid var(--ink);
+  text-decoration: none; cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn-primary { background: var(--orange); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+.btn-secondary { background: var(--card); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+
+/* ---------- Ticket ---------- */
+.ticket {
+  background: var(--card); border: 2px solid var(--ink);
+  border-radius: 10px; box-shadow: 4px 4px 0 var(--ink);
+}
+.label {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted-foreground);
+}
+h1, h2, h3 {
+  font-family: var(--font-display); text-transform: lowercase;
+  letter-spacing: -0.025em; line-height: 1.08; margin: 0; text-wrap: balance;
+}
+
+/* ---------- Hero ---------- */
+.hero { padding-block: 28px 40px; }
+.hero-grid { display: grid; gap: 28px; align-items: center; }
+.hero-copy { display: grid; gap: 16px; min-width: 0; }
+.hero h1 { font-size: clamp(32px, 7.5vw, 44px); font-weight: 800; }
+.hero h1 em { font-style: normal; color: var(--primary); position: relative; white-space: nowrap; }
+.hero h1 em::after {
+  content: ""; position: absolute; left: -2px; right: -2px; bottom: 2px; height: 10px;
+  background: var(--orange); opacity: .35; z-index: -1; border-radius: 3px;
+}
+.hero-lead { margin: 0; max-width: 34em; font-size: 17px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 4px; }
+.hero-meta span { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; color: var(--muted-foreground); }
+
+.photo { position: relative; padding: 10px; transform: rotate(1.2deg); }
+.photo-frame {
+  aspect-ratio: 4 / 3; max-width: 100%; border-radius: 6px; overflow: hidden;
+  border: 2px solid var(--ink); background: var(--sand); position: relative;
+}
+.photo-frame svg { display: block; width: 100%; height: 100%; }
+.photo-caption { display: flex; justify-content: space-between; gap: 12px; padding: 10px 4px 2px; }
+.tape {
+  position: absolute; top: -12px; left: 50%; width: 110px; height: 26px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--secondary) 80%, transparent);
+  border: 1px dashed var(--border);
+}
+@media (min-width: 860px) {
+  .hero { padding-block: 56px 64px; }
+  .hero-grid { grid-template-columns: 1.05fr 1fr; gap: 48px; }
+}
+
+/* ---------- Sections ---------- */
+section { padding-block: 32px; }
+.section-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; margin-bottom: 20px; }
+.section-head h2 { font-size: 28px; font-weight: 800; }
+.section-head a { color: var(--orange-text); font-weight: 800; font-size: 14px; }
+
+/* Servicios */
+.services { display: grid; gap: 20px; }
+@media (min-width: 720px) { .services { grid-template-columns: repeat(3, 1fr); } }
+.service { display: flex; flex-direction: column; gap: 12px; padding: 20px; position: relative; }
+.service-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.service-icon {
+  width: 44px; height: 44px; border-radius: 8px; flex: none;
+  background: var(--sand); border: 2px solid var(--ink); display: grid; place-items: center; color: var(--primary);
+}
+.badge {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+  background: var(--warning-bg); color: var(--warning); border: 1.5px solid var(--warning);
+  padding: 3px 8px; border-radius: 999px;
+}
+.service h3 { font-size: 20px; font-weight: 800; }
+.service p { margin: 0; color: var(--muted-foreground); font-size: 15px; }
+.service-foot {
+  margin-top: auto; padding-top: 14px; border-top: 2px dashed var(--border);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+}
+.price { font-family: var(--font-display); font-weight: 800; font-size: 28px; line-height: 1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+.price small { display: block; font-family: var(--font-mono); font-weight: 400; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted-foreground); margin-bottom: 4px; }
+.duration { font-family: var(--font-mono); font-size: 12px; color: var(--muted-foreground); text-align: right; }
+.services-note { margin: 16px 0 0; font-size: 14px; color: var(--muted-foreground); }
+
+/* Ficha evolutiva teaser */
+.evo { display: grid; gap: 24px; padding: 24px; background: var(--primary); color: var(--cream); }
+.evo .label { color: var(--cream); opacity: .85; }
+.evo h2 { font-size: 28px; font-weight: 800; margin-top: 6px; }
+.evo p { margin: 10px 0 0; max-width: 32em; }
+.evo-table { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--card); color: var(--foreground); border: 2px solid var(--ink); border-radius: 8px; overflow: hidden; }
+.evo-table th, .evo-table td { padding: 10px 12px; text-align: left; border-bottom: 1.5px solid var(--border); vertical-align: top; }
+.evo-table thead th { font-family: var(--font-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; background: var(--secondary); color: var(--muted-foreground); }
+.evo-table tr:last-child td { border-bottom: 0; }
+.evo-table td:first-child { font-weight: 800; }
+.evo-table td:last-child { color: var(--success); font-weight: 700; }
+.evo-scroll { overflow-x: auto; min-width: 0; }
+@media (min-width: 860px) { .evo { grid-template-columns: 0.9fr 1.1fr; align-items: center; padding: 36px; } }
+
+/* Visitanos */
+.visit { display: grid; gap: 20px; }
+@media (min-width: 720px) { .visit { grid-template-columns: 1fr 1fr; } }
+.visit-card { padding: 20px; display: grid; gap: 14px; align-content: start; }
+.visit-card h3 { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+.hours { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.hours td { padding: 8px 0; border-bottom: 1.5px dashed var(--border); }
+.hours tr:last-child td { border-bottom: 0; }
+.hours td:last-child { text-align: right; font-weight: 700; }
+.hours tr.today td { color: var(--primary); font-weight: 800; }
+.hours tr.today td:first-child::after {
+  content: "hoy"; margin-left: 8px; font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em; background: var(--success-bg); color: var(--success);
+  padding: 2px 6px; border-radius: 999px; vertical-align: 1px;
+}
+.pending {
+  font-size: 14px; background: var(--warning-bg); color: var(--warning);
+  border: 1.5px dashed var(--warning); border-radius: 6px; padding: 8px 10px;
+}
+.address { font-size: 18px; font-weight: 800; margin: 0; }
+.visit-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Footer */
+footer { padding-block: 32px 40px; color: var(--muted-foreground); font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; border-top: 2px solid var(--border); padding-top: 20px; }
+
+/* Bottom nav (celular) */
+.bottom-nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--card); border-top: 2px solid var(--ink);
+  padding: 6px var(--gutter-r) calc(6px + env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px;
+}
+.bottom-nav a {
+  display: grid; justify-items: center; gap: 2px; padding: 6px 2px; border-radius: 8px;
+  text-decoration: none; font-size: 12px; font-weight: 800; color: var(--muted-foreground);
+}
+.bottom-nav a[aria-current="page"] { color: var(--primary); background: var(--secondary); }
+.bottom-nav svg { width: 22px; height: 22px; }
+@media (min-width: 768px) { .bottom-nav { display: none; } }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(96px + env(safe-area-inset-bottom, 0px)); z-index: 30;
+  transform: translateX(-50%); max-width: calc(100% - 32px);
+  background: var(--ink); color: var(--cream); font-weight: 700; font-size: 14px;
+  padding: 12px 16px; border-radius: 8px; box-shadow: 4px 4px 0 var(--orange);
+}
+@media (min-width: 768px) { .toast { bottom: 32px; } }
+
+.icon { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .photo { transform: none; } }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-paw" viewBox="0 0 24 24"><ellipse cx="7" cy="9" rx="1.8" ry="2.4"/><ellipse cx="17" cy="9" rx="1.8" ry="2.4"/><ellipse cx="10" cy="5" rx="1.7" ry="2.2"/><ellipse cx="14" cy="5" rx="1.7" ry="2.2"/><path d="M12 11.5c-3 0-5.5 3.6-5.5 5.6 0 1.6 1.3 2.4 2.7 2.4 1.2 0 1.8-.6 2.8-.6s1.6.6 2.8.6c1.4 0 2.7-.8 2.7-2.4 0-2-2.5-5.6-5.5-5.6Z"/></symbol>
+    <symbol id="i-scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/></symbol>
+    <symbol id="i-bath" viewBox="0 0 24 24"><path d="M4 12h16v3a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-3Z"/><path d="M6 12V5.5A2.5 2.5 0 0 1 10.5 4"/><path d="M7 20l-1 2M17 20l1 2"/></symbol>
+    <symbol id="i-brush" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="6" rx="2"/><path d="M6 10v8M9 10v10M12 10v8M15 10v10M18 10v8"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 20l1.4-4A8 8 0 1 1 8 18.6L4 20Z"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4v-9Z"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></symbol>
+    <symbol id="i-cal" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4Z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  </defs>
+</svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Los Mellis, inicio">
+      <span class="brand-mark"><svg class="icon" style="color:var(--primary);fill:var(--primary);stroke:none" aria-hidden="true"><use href="#i-paw"/></svg></span>
+      <span class="brand-name">los mellis<small>Peluquería canina</small></span>
+    </a>
+    <nav class="top-nav" aria-label="Principal">
+      <a href="#inicio" aria-current="page">Inicio</a>
+      <a href="#" data-soon="El cotizador">Cotizar</a>
+      <a href="#" data-soon="La reserva de turnos">Reservar</a>
+      <a href="#" data-soon="La libreta de tu mascota">Mi mascota</a>
+      <a href="#" data-soon="Tus turnos">Mis turnos</a>
+    </nav>
+    <a class="header-login" href="#" data-soon="El ingreso con WhatsApp">Ingresar</a>
+  </div>
+</header>
+
+<main id="inicio">
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <span class="label">Merlo · Buenos Aires</span>
+        <h1>cada visita mejora <em>la siguiente</em></h1>
+        <p class="hero-lead">Baño, corte y cuidado para tu perro con una libreta que recuerda cómo le fue la última vez: qué toleró, qué le costó y cómo estaba el manto.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#" data-soon="La reserva de turnos">
+            Reservar turno
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="#" data-soon="El cotizador">Cotizar precio</a>
+        </div>
+        <div class="hero-meta">
+          <span><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg><span id="open-status">Lunes a sábado</span></span>
+          <span><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>Confirmamos por WhatsApp</span>
+        </div>
+      </div>
+
+      <figure class="photo ticket" style="margin:0">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="photo-frame" role="img" aria-label="Lugar reservado para la foto del local">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="300" fill="#f0e6c2"/>
+            <rect x="0" y="210" width="400" height="90" fill="#e6dab0"/>
+            <rect x="40" y="60" width="140" height="150" rx="6" fill="#fffdf5" stroke="#0d2c22" stroke-width="3"/>
+            <rect x="52" y="74" width="116" height="60" rx="4" fill="#efe5bf" stroke="#0d2c22" stroke-width="2"/>
+            <rect x="220" y="40" width="150" height="34" rx="6" fill="#14503b" stroke="#0d2c22" stroke-width="3"/>
+            <text x="295" y="63" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="17" fill="#fbf3d2">los mellis</text>
+            <rect x="230" y="95" width="130" height="115" rx="6" fill="#fffdf5" stroke="#0d2c22" stroke-width="3"/>
+            <path d="M246 196 v-50 h98 v50" fill="none" stroke="#cfc397" stroke-width="3"/>
+            <g transform="translate(110 222)">
+              <ellipse cx="0" cy="40" rx="62" ry="10" fill="#cfc397"/>
+              <path d="M-48 30 q-6 -42 34 -50 q30 -6 48 10 q18 16 12 40 z" fill="#fffdf5" stroke="#0d2c22" stroke-width="3"/>
+              <circle cx="38" cy="-28" r="24" fill="#fffdf5" stroke="#0d2c22" stroke-width="3"/>
+              <path d="M22 -46 q-12 -4 -14 14 q8 6 14 -2 z" fill="#f26b1d" stroke="#0d2c22" stroke-width="2.5"/>
+              <circle cx="44" cy="-32" r="3" fill="#0d2c22"/>
+              <circle cx="60" cy="-22" r="4" fill="#0d2c22"/>
+            </g>
+            <circle cx="320" cy="250" r="5" fill="#f26b1d"/><circle cx="338" cy="244" r="5" fill="#f26b1d"/><circle cx="352" cy="256" r="5" fill="#f26b1d"/>
+          </svg>
+        </div>
+        <figcaption class="photo-caption">
+          <span class="label">El salón</span>
+          <span class="label">Foto real pendiente</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <section aria-labelledby="servicios-titulo">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="servicios-titulo">los más pedidos</h2>
+        <a href="#" data-soon="El cotizador">Ver todos los servicios y extras</a>
+      </div>
+      <div class="services">
+        <article class="ticket service">
+          <div class="service-top">
+            <span class="service-icon"><svg class="icon" aria-hidden="true"><use href="#i-scissors"/></svg></span>
+            <span class="badge">Popular</span>
+          </div>
+          <h3>baño y corte</h3>
+          <p>Baño completo, secado y corte según la raza o a tu gusto.</p>
+          <div class="service-foot">
+            <div class="price"><small>Desde</small><span data-price="8500"></span></div>
+            <div class="duration">2 a 3 h</div>
+          </div>
+        </article>
+        <article class="ticket service">
+          <div class="service-top">
+            <span class="service-icon"><svg class="icon" aria-hidden="true"><use href="#i-bath"/></svg></span>
+          </div>
+          <h3>baño y cepillado</h3>
+          <p>Baño, secado y cepillado del manto, sin corte.</p>
+          <div class="service-foot">
+            <div class="price"><small>Desde</small><span data-price="5500"></span></div>
+            <div class="duration">1 a 2 h</div>
+          </div>
+        </article>
+        <article class="ticket service">
+          <div class="service-top">
+            <span class="service-icon"><svg class="icon" aria-hidden="true"><use href="#i-brush"/></svg></span>
+          </div>
+          <h3>corte estético</h3>
+          <p>Corte y terminación prolija para perros que ya vienen bañados.</p>
+          <div class="service-foot">
+            <div class="price"><small>Desde</small><span data-price="7000"></span></div>
+            <div class="duration">1,5 a 2 h</div>
+          </div>
+        </article>
+      </div>
+      <p class="services-note">Precio para perros chicos (hasta 10 kg). Cambia según el tamaño, el manto y los nudos: el cotizador te da el total exacto.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="ficha-titulo">
+    <div class="wrap">
+      <div class="ticket evo">
+        <div>
+          <span class="label">Ficha evolutiva</span>
+          <h2 id="ficha-titulo">tu perro no empieza de cero</h2>
+          <p>Después de cada atención anotamos cómo se portó. En la próxima visita sabemos por dónde empezar y te mandamos un resumen por WhatsApp.</p>
+        </div>
+        <div class="evo-scroll">
+          <table class="evo-table">
+            <caption class="label" style="caption-side:bottom;text-align:left;padding-top:8px;color:var(--cream)">Ejemplo: Toby, caniche toy</caption>
+            <thead>
+              <tr><th scope="col">Aspecto</th><th scope="col">1ª visita</th><th scope="col">2ª visita</th><th scope="col">Próxima vez</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Secador</td><td>Mucho miedo</td><td>Tolera mejor</td><td>Seguir de a poco</td></tr>
+              <tr><td>Uñas</td><td>Le costó</td><td>Regular</td><td>Empezar por acá</td></tr>
+              <tr><td>Desenredado</td><td>Muy difícil</td><td>Moderado</td><td>Revisar el manto antes</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="visita-titulo">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="visita-titulo">dónde y cuándo</h2>
+      </div>
+      <div class="visit">
+        <div class="ticket visit-card">
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>horarios</h3>
+          <table class="hours" aria-label="Horarios de atención">
+            <tbody id="hours-body"></tbody>
+          </table>
+          <p class="pending" style="margin:0">Horarios de ejemplo. Falta confirmarlos con el salón.</p>
+        </div>
+        <div class="ticket visit-card">
+          <h3><svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>el salón</h3>
+          <p class="address">Merlo, provincia de Buenos Aires</p>
+          <p style="margin:0;color:var(--muted-foreground)">Atendemos con turno. Te confirmamos el horario por WhatsApp antes de que vengas.</p>
+          <p class="pending" style="margin:0">Falta la dirección exacta y el número de WhatsApp del local.</p>
+          <div class="visit-actions">
+            <a class="btn btn-primary" href="#" data-soon="La reserva de turnos">Reservar turno</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Los Mellis · Peluquería canina · Merlo</span>
+    <span>Vista previa · la app completa está en desarrollo</span>
+  </div>
+</footer>
+
+<nav class="bottom-nav" aria-label="Principal (celular)">
+  <a href="#inicio" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg>Inicio</a>
+  <a href="#" data-soon="El cotizador"><svg class="icon" aria-hidden="true"><use href="#i-calc"/></svg>Cotizar</a>
+  <a href="#" data-soon="La reserva de turnos"><svg class="icon" aria-hidden="true"><use href="#i-cal"/></svg>Reservar</a>
+  <a href="#" data-soon="La libreta de tu mascota"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg>Mi mascota</a>
+</nav>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function () {
+  var ars = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 });
+  document.querySelectorAll('[data-price]').forEach(function (el) {
+    el.textContent = ars.format(Number(el.getAttribute('data-price')));
+  });
+
+  // Horarios de ejemplo (a confirmar). 0 = domingo.
+  var horarios = [
+    { dias: [1, 2, 3, 4, 5], nombre: 'Lunes a viernes', abre: 9, cierra: 18 },
+    { dias: [6], nombre: 'Sábado', abre: 9, cierra: 13 },
+    { dias: [0], nombre: 'Domingo', abre: null, cierra: null }
+  ];
+  var now = new Date();
+  var dia = now.getDay();
+  var hora = now.getHours() + now.getMinutes() / 60;
+  var body = document.getElementById('hours-body');
+  horarios.forEach(function (h) {
+    var tr = document.createElement('tr');
+    if (h.dias.indexOf(dia) !== -1) tr.className = 'today';
+    var a = document.createElement('td'); a.textContent = h.nombre;
+    var b = document.createElement('td'); b.textContent = h.abre === null ? 'Cerrado' : h.abre + ' a ' + h.cierra + ' h';
+    tr.appendChild(a); tr.appendChild(b); body.appendChild(tr);
+  });
+  var hoy = horarios.filter(function (h) { return h.dias.indexOf(dia) !== -1; })[0];
+  var status = document.getElementById('open-status');
+  var fecha = new Intl.DateTimeFormat('es-AR', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
+  if (hoy && hoy.abre !== null && hora >= hoy.abre && hora < hoy.cierra) {
+    status.textContent = 'Abierto hoy hasta las ' + hoy.cierra + ' h';
+  } else {
+    status.textContent = 'Hoy, ' + fecha + ': reservá para el próximo turno';
+  }
+
+  var toast = document.getElementById('toast');
+  var timer;
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-soon]');
+    if (!link) return;
+    e.preventDefault();
+    toast.textContent = link.getAttribute('data-soon') + ' es la próxima pantalla que vamos a armar.';
+    toast.hidden = false;
+    clearTimeout(timer);
+    timer = setTimeout(function () { toast.hidden = true; }, 2800);
+  });
+})();
+</script>
+</body>
+</html>
