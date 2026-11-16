@@ -5,14 +5,20 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Atenciones } from './collections/Atenciones'
+import { Etiquetas } from './collections/Etiquetas'
+import { Extras } from './collections/Extras'
+import { Mascotas } from './collections/Mascotas'
 import { Media } from './collections/Media'
+import { Servicios } from './collections/Servicios'
+import { Turnos } from './collections/Turnos'
+import { Tutores } from './collections/Tutores'
 import { Usuarios } from './collections/Usuarios'
+import { Configuracion } from './globals/Configuracion'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Fase 0: solo usuarios (auth de la peluquera) y media.
-// Las colecciones del negocio (tutores, mascotas, servicios, turnos...) llegan en la Fase 1.
 export default buildConfig({
   admin: {
     user: Usuarios.slug,
@@ -23,7 +29,8 @@ export default buildConfig({
       titleSuffix: ' · Pet Mellis',
     },
   },
-  collections: [Usuarios, Media],
+  collections: [Turnos, Atenciones, Mascotas, Tutores, Servicios, Extras, Etiquetas, Media, Usuarios],
+  globals: [Configuracion],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

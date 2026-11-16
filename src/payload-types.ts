@@ -67,17 +67,38 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    usuarios: Usuario;
+    turnos: Turno;
+    atenciones: Atencione;
+    mascotas: Mascota;
+    tutores: Tutore;
+    servicios: Servicio;
+    extras: Extra;
+    etiquetas: Etiqueta;
     media: Media;
+    usuarios: Usuario;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    mascotas: {
+      atenciones: 'atenciones';
+    };
+    tutores: {
+      mascotas: 'mascotas';
+    };
+  };
   collectionsSelect: {
-    usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
+    turnos: TurnosSelect<false> | TurnosSelect<true>;
+    atenciones: AtencionesSelect<false> | AtencionesSelect<true>;
+    mascotas: MascotasSelect<false> | MascotasSelect<true>;
+    tutores: TutoresSelect<false> | TutoresSelect<true>;
+    servicios: ServiciosSelect<false> | ServiciosSelect<true>;
+    extras: ExtrasSelect<false> | ExtrasSelect<true>;
+    etiquetas: EtiquetasSelect<false> | EtiquetasSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -87,8 +108,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    configuracion: Configuracion;
+  };
+  globalsSelect: {
+    configuracion: ConfiguracionSelect<false> | ConfiguracionSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -116,6 +141,187 @@ export interface UsuarioAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "turnos".
+ */
+export interface Turno {
+  id: number;
+  fechaHora: string;
+  estado: 'solicitado' | 'confirmado' | 'en_atencion' | 'listo' | 'finalizado' | 'cancelado';
+  tutor: number | Tutore;
+  mascota: number | Mascota;
+  servicios: (number | Servicio)[];
+  extras?: (number | Extra)[] | null;
+  nudos: 'sin' | 'leves' | 'moderados' | 'severos';
+  /**
+   * Calculado con el cotizador al reservar (incluye recargo por nudos).
+   */
+  precioEstimado?: number | null;
+  origen: 'web' | 'panel';
+  notasCliente?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tutores".
+ */
+export interface Tutore {
+  id: number;
+  nombre: string;
+  /**
+   * Formato internacional, por ejemplo 5491122334455. Se guarda solo con dígitos.
+   */
+  whatsapp: string;
+  email?: string | null;
+  zona?: string | null;
+  notas?: string | null;
+  mascotas?: {
+    docs?: (number | Mascota)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mascotas".
+ */
+export interface Mascota {
+  id: number;
+  nombre: string;
+  tutor: number | Tutore;
+  foto?: (number | null) | Media;
+  raza?: string | null;
+  tamano: 'chico' | 'mediano' | 'grande';
+  manto: 'corto' | 'largo' | 'rizado';
+  pesoKg?: number | null;
+  nacimiento?: string | null;
+  /**
+   * Lo ve la peluquera antes de empezar. Por ejemplo: «usar técnica gradual con las uñas».
+   */
+  cuidadosEspeciales?: string | null;
+  etiquetas?: (number | Etiqueta)[] | null;
+  atenciones?: {
+    docs?: (number | Atencione)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "etiquetas".
+ */
+export interface Etiqueta {
+  id: number;
+  nombre: string;
+  tipo: 'alerta' | 'info';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "atenciones".
+ */
+export interface Atencione {
+  id: number;
+  fecha: string;
+  mascota: number | Mascota;
+  turno?: (number | null) | Turno;
+  serviciosRealizados?: (number | Servicio)[] | null;
+  precioFinal?: number | null;
+  puntajes?: {
+    /**
+     * 1 = muy mal, 5 = muy bien
+     */
+    secador?: number | null;
+    /**
+     * 1 = muy mal, 5 = muy bien
+     */
+    unas?: number | null;
+    /**
+     * 1 = muy mal, 5 = muy bien
+     */
+    bano?: number | null;
+    /**
+     * 1 = muy mal, 5 = muy bien
+     */
+    desenredado?: number | null;
+  };
+  etiquetas?: (number | Etiqueta)[] | null;
+  /**
+   * Solo la ve el salón.
+   */
+  notaInterna?: string | null;
+  resumenTutor?: string | null;
+  recomendacion?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "servicios".
+ */
+export interface Servicio {
+  id: number;
+  nombre: string;
+  /**
+   * Fijo, sin espacios. Lo usan el cotizador y el ícono (por ejemplo, bano-corte).
+   */
+  slug: string;
+  descripcion?: string | null;
+  /**
+   * Por ejemplo: 2 a 3 h
+   */
+  duracion?: string | null;
+  precioChico: number;
+  precioMediano: number;
+  precioGrande: number;
+  aplicaRecargoManto?: boolean | null;
+  popular?: boolean | null;
+  activo?: boolean | null;
+  orden?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "extras".
+ */
+export interface Extra {
+  id: number;
+  nombre: string;
+  slug: string;
+  descripcion?: string | null;
+  precio: number;
+  activo?: boolean | null;
+  orden?: number | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -147,25 +353,6 @@ export interface Usuario {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -189,12 +376,40 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'usuarios';
-        value: number | Usuario;
+        relationTo: 'turnos';
+        value: number | Turno;
+      } | null)
+    | ({
+        relationTo: 'atenciones';
+        value: number | Atencione;
+      } | null)
+    | ({
+        relationTo: 'mascotas';
+        value: number | Mascota;
+      } | null)
+    | ({
+        relationTo: 'tutores';
+        value: number | Tutore;
+      } | null)
+    | ({
+        relationTo: 'servicios';
+        value: number | Servicio;
+      } | null)
+    | ({
+        relationTo: 'extras';
+        value: number | Extra;
+      } | null)
+    | ({
+        relationTo: 'etiquetas';
+        value: number | Etiqueta;
       } | null)
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'usuarios';
+        value: number | Usuario;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -240,6 +455,143 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "turnos_select".
+ */
+export interface TurnosSelect<T extends boolean = true> {
+  fechaHora?: T;
+  estado?: T;
+  tutor?: T;
+  mascota?: T;
+  servicios?: T;
+  extras?: T;
+  nudos?: T;
+  precioEstimado?: T;
+  origen?: T;
+  notasCliente?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "atenciones_select".
+ */
+export interface AtencionesSelect<T extends boolean = true> {
+  fecha?: T;
+  mascota?: T;
+  turno?: T;
+  serviciosRealizados?: T;
+  precioFinal?: T;
+  puntajes?:
+    | T
+    | {
+        secador?: T;
+        unas?: T;
+        bano?: T;
+        desenredado?: T;
+      };
+  etiquetas?: T;
+  notaInterna?: T;
+  resumenTutor?: T;
+  recomendacion?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "mascotas_select".
+ */
+export interface MascotasSelect<T extends boolean = true> {
+  nombre?: T;
+  tutor?: T;
+  foto?: T;
+  raza?: T;
+  tamano?: T;
+  manto?: T;
+  pesoKg?: T;
+  nacimiento?: T;
+  cuidadosEspeciales?: T;
+  etiquetas?: T;
+  atenciones?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tutores_select".
+ */
+export interface TutoresSelect<T extends boolean = true> {
+  nombre?: T;
+  whatsapp?: T;
+  email?: T;
+  zona?: T;
+  notas?: T;
+  mascotas?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "servicios_select".
+ */
+export interface ServiciosSelect<T extends boolean = true> {
+  nombre?: T;
+  slug?: T;
+  descripcion?: T;
+  duracion?: T;
+  precioChico?: T;
+  precioMediano?: T;
+  precioGrande?: T;
+  aplicaRecargoManto?: T;
+  popular?: T;
+  activo?: T;
+  orden?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "extras_select".
+ */
+export interface ExtrasSelect<T extends boolean = true> {
+  nombre?: T;
+  slug?: T;
+  descripcion?: T;
+  precio?: T;
+  activo?: T;
+  orden?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "etiquetas_select".
+ */
+export interface EtiquetasSelect<T extends boolean = true> {
+  nombre?: T;
+  tipo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usuarios_select".
  */
 export interface UsuariosSelect<T extends boolean = true> {
@@ -262,24 +614,6 @@ export interface UsuariosSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
-  updatedAt?: T;
-  createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -320,6 +654,73 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configuracion".
+ */
+export interface Configuracion {
+  id: number;
+  direccion?: string | null;
+  /**
+   * Formato internacional, solo dígitos. Si está vacío se usa WHATSAPP_LOCAL del .env.
+   */
+  whatsappLocal?: string | null;
+  duracionTurnoMin?: number | null;
+  horarios?:
+    | {
+        dia: 'lunes' | 'martes' | 'miercoles' | 'jueves' | 'viernes' | 'sabado' | 'domingo';
+        abre: string;
+        cierra: string;
+        id?: string | null;
+      }[]
+    | null;
+  multiplicadoresManto: {
+    corto: number;
+    largo: number;
+    rizado: number;
+  };
+  recargosNudos: {
+    leves: number;
+    moderados: number;
+    severos: number;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "configuracion_select".
+ */
+export interface ConfiguracionSelect<T extends boolean = true> {
+  direccion?: T;
+  whatsappLocal?: T;
+  duracionTurnoMin?: T;
+  horarios?:
+    | T
+    | {
+        dia?: T;
+        abre?: T;
+        cierra?: T;
+        id?: T;
+      };
+  multiplicadoresManto?:
+    | T
+    | {
+        corto?: T;
+        largo?: T;
+        rizado?: T;
+      };
+  recargosNudos?:
+    | T
+    | {
+        leves?: T;
+        moderados?: T;
+        severos?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
