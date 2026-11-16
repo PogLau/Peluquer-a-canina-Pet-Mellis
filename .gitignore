@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+.pnpm-store/
+
+# Next.js / build
+.next/
+out/
+build/
+dist/
+
+# Variables de entorno (nunca subir claves)
+.env
+.env.*
+!.env.example
+
+# Base de datos local de la demo
+*.db
+*.db-journal
+
+# Payload
+/media/
+
+# Logs y varios
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+*.tsbuildinfo
+next-env.d.ts
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
