@@ -368,7 +368,7 @@ Trabajar **por fases**, de a una, con un commit al final de cada una. Antes de c
 - [ ] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), ingreso con WhatsApp + código, Mi mascota, Mis turnos.
 - [ ] **Fase 5. Resto del panel:** Clientes, Servicios y precios, Informes con CSV.
 - [ ] **Fase 6. Pulido para la demo:** responsive (360 px, 768 px, 1280 px), accesibilidad (contraste, foco, labels), estados vacíos y de error, y recorrer el guion de la sección 10 completo.
-- [ ] **Fase 7 (opcional):** «Sugerir con foto (beta)», del lado del servidor. Propuesta en `docs/ia-lectura-mascota.md` (proveedor a decidir).
+- [x] **Fase 7 (opcional, adelantada):** «Sugerir con foto (beta)» con Gemini del lado del servidor y ejemplos de demo rotulados. Ver `docs/ia-lectura-mascota.md`. Falta probar con una clave real.
 
 ### Definición de «terminado» para cada pantalla
 - Usa solo tokens y componentes de `ui/`.

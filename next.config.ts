@@ -7,6 +7,10 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // «Sugerir con foto»: el navegador reduce la imagen, pero se acepta hasta 4 MB por si no puede
+    serverActions: { bodySizeLimit: '5mb' },
+  },
   images: {
     localPatterns: [
       {

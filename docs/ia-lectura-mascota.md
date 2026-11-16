@@ -1,6 +1,11 @@
 # IA como lectora de la mascota: propuesta
 
-> Estado: **propuesta, sin implementar**. Falta decidir el proveedor (sección 4). Corresponde a la Fase 7 de `CLAUDE.md`, pero se puede adelantar después de la Fase 4 (cotizador).
+> Estado: **implementado** (cotizador en `/cotizar`).
+> - **Modo demo (sin clave):** tres ejemplos (Toby, Luna, Coco) con resultados **precargados** en `src/lib/ia/ejemplos.ts`. La interfaz dice «Modo demo de visión artificial: no se analiza ninguna imagen». El botón para subir una foto propia no aparece.
+> - **Con `GEMINI_API_KEY` y `GEMINI_MODEL` en el `.env`:** se suma «Subir una foto de tu perro», que se analiza de verdad en el servidor (`src/lib/ia/gemini.ts`, server action en `app/(cliente)/cotizar/actions.ts`). Probado con respuestas simuladas en los tests; **falta probarlo con una clave real**.
+> - Se eligió Gemini porque ya era el proveedor de `CLAUDE.md` y se llama con `fetch`, sin dependencias nuevas. La sección 4 queda como referencia por si se cambia.
+>
+> Por qué los ejemplos no «analizan» la foto que sube el usuario: simular un análisis sobre una foto real repetiría el error n.º 3 del prototipo («Smart Vision» elegía una raza al azar y decía «Visión Artificial Activa»).
 
 ## 1. Qué hace
 
