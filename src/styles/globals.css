@@ -1,0 +1,207 @@
+@import 'tailwindcss';
+
+/*
+  Pet Mellis: tokens de marca (branding-pet-mellis.md §11).
+  Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
+*/
+
+:root {
+  /* Paleta de marca */
+  --amarillo-mellis: #ffd000;
+  --amarillo-claro: #fff3b0;
+  --amarillo-profundo: #f2b705;
+  --amarillo-texto: #7a5c00;
+  --negro: #111111;
+  --blanco: #ffffff;
+  --crema: #fffbea;
+
+  /* Semánticos (cambian con el tema) */
+  --fondo: #fffbea;
+  --superficie: #ffffff;
+  --superficie-alt: #fff3b0;
+  --texto: #111111;
+  --texto-suave: #5c5c5c;
+  --tinta: #111111;
+  --linea: #e6dfc4;
+  --accion: var(--amarillo-mellis);
+  --sobre-accion: var(--negro);
+
+  /* Estados */
+  --exito: #1f6b45;
+  --exito-fondo: #dcefe2;
+  --aviso: #7a5c00;
+  --aviso-fondo: #fff3b0;
+  --peligro: #b42318;
+  --peligro-fondo: #fde4e1;
+  --info: #1f4f7a;
+  --info-fondo: #dde9f3;
+
+  /* Forma */
+  --radio-sm: 6px;
+  --radio-md: 10px;
+  --radio-lg: 18px;
+  --radio-pill: 999px;
+  --borde-ticket: 2px;
+  --sombra-ticket: 4px 4px 0 0 var(--tinta);
+  --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
+  --trazo-icono: 1.75px;
+
+  /* Patrón de puntos del papel (línea al 12 %) */
+  --trama: color-mix(in srgb, var(--tinta) 12%, transparent);
+
+  color-scheme: light;
+}
+
+[data-theme='oscuro'] {
+  --fondo: #111111;
+  --superficie: #1c1c1c;
+  --superficie-alt: #2a2a2a;
+  --texto: #ffffff;
+  --texto-suave: #c4c4c4;
+  --tinta: #ffd000;
+  --linea: #3a3a3a;
+  --exito: #7fd3a3;
+  --exito-fondo: #12301f;
+  --aviso: #ffd000;
+  --aviso-fondo: #332a00;
+  --peligro: #ff8a80;
+  --peligro-fondo: #3a1512;
+  --info: #8cc2f0;
+  --info-fondo: #142636;
+  --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
+  /* Los var() de :root ya se resolvieron con la tinta clara: hay que redefinirlos */
+  --sombra-ticket: 4px 4px 0 0 var(--tinta);
+  --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
+
+  color-scheme: dark;
+}
+
+/*
+  Mapeo a utilidades de Tailwind: bg-fondo, text-texto-suave, border-tinta, shadow-ticket, font-display...
+  Se reinicia la paleta por defecto para que no se cuelen emerald-*, gray-*, etc.
+*/
+@theme inline {
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --color-amarillo: var(--amarillo-mellis);
+  --color-amarillo-claro: var(--amarillo-claro);
+  --color-amarillo-profundo: var(--amarillo-profundo);
+  --color-amarillo-texto: var(--amarillo-texto);
+  --color-negro: var(--negro);
+  --color-blanco: var(--blanco);
+  --color-crema: var(--crema);
+
+  --color-fondo: var(--fondo);
+  --color-superficie: var(--superficie);
+  --color-superficie-alt: var(--superficie-alt);
+  --color-texto: var(--texto);
+  --color-texto-suave: var(--texto-suave);
+  --color-tinta: var(--tinta);
+  --color-linea: var(--linea);
+  --color-accion: var(--accion);
+  --color-sobre-accion: var(--sobre-accion);
+
+  --color-exito: var(--exito);
+  --color-exito-fondo: var(--exito-fondo);
+  --color-aviso: var(--aviso);
+  --color-aviso-fondo: var(--aviso-fondo);
+  --color-peligro: var(--peligro);
+  --color-peligro-fondo: var(--peligro-fondo);
+  --color-info: var(--info);
+  --color-info-fondo: var(--info-fondo);
+
+  /* Oddval primero cuando se agregue con next/font/local (ver src/app/fonts.ts) */
+  --font-display: var(--font-sora), ui-rounded, system-ui, sans-serif;
+  --font-sans: var(--font-nunito), ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: var(--font-space-mono), ui-monospace, Consolas, monospace;
+
+  --radius-sm: var(--radio-sm);
+  --radius-md: var(--radio-md);
+  --radius-lg: var(--radio-lg);
+  --radius-pill: var(--radio-pill);
+
+  --shadow-ticket: var(--sombra-ticket);
+  --shadow-ticket-presionada: var(--sombra-ticket-presionada);
+
+  /* Escala tipográfica de marca. Nada por debajo de 12 px. */
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 21px;
+  --text-base: 16px;
+  --text-base--line-height: 25px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 26px;
+  --text-2xl: 28px;
+  --text-2xl--line-height: 32px;
+  --text-3xl: 40px;
+  --text-3xl--line-height: 44px;
+  --text-4xl: 56px;
+  --text-4xl--line-height: 1;
+}
+
+@layer base {
+  html {
+    background: var(--fondo);
+  }
+
+  body {
+    background-color: var(--fondo);
+    background-image: radial-gradient(var(--trama) 1px, transparent 1.2px);
+    background-size: 18px 18px;
+    color: var(--texto);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 25px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-transform: lowercase;
+  }
+
+  /* Foco visible en todo lo interactivo */
+  :focus-visible {
+    outline: 2px solid var(--tinta);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--amarillo-claro);
+    color: var(--negro);
+  }
+}
+
+@layer components {
+  /* Rótulo de datos: Space Mono 12 px en mayúscula */
+  .rotulo {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .cifras {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}

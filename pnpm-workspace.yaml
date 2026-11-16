@@ -1,0 +1,5 @@
+# Dependencias que pueden ejecutar scripts de instalación (binarios nativos)
+allowBuilds:
+  esbuild: true
+  sharp: true
+  unrs-resolver: true

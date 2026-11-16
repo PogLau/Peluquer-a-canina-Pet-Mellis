@@ -166,50 +166,46 @@ src/
 
 ## 7. Sistema de diseño
 
-Estilo: papel crema con trama de puntos, tarjetas «ticket» (borde de tinta de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+> **Fuente de verdad: `branding-pet-mellis.md`** (manual de marca, §11). Esta sección reemplaza la paleta verde y naranja del prototipo. Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`, `font-display`...). La paleta por defecto de Tailwind está desactivada.
+
+Estilo: fondo crema con trama de puntos, tarjetas «ticket» blancas (borde de tinta de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
 ### 7.1 Tokens de color
 
-```css
-:root {
-  --background: #f7f0d8;   /* fondo papel */
-  --card: #fffdf5;         /* tarjetas */
-  --foreground: #12392d;   /* texto principal (11,2:1 sobre el fondo) */
-  --ink: #0d2c22;          /* bordes y sombras ticket */
-  --primary: #14503b;      /* verde bosque: header, seleccionados */
-  --cream: #fbf3d2;        /* texto sobre verde (8,4:1) */
-  --secondary: #efe5bf;    /* barras, opciones no seleccionadas */
-  --sand: #f0e6c2;
-  --muted: #e6dab0;
-  --muted-foreground: #5b6a58; /* texto secundario (5,1:1) */
-  --border: #cfc397;
-  --orange: #f26b1d;       /* SOLO fondos de CTA, íconos y texto >= 24px */
-  --orange-text: #c2410c;  /* links y texto naranja chico (5,1:1 sobre la tarjeta) */
-  --ring: #f26b1d;
+| Token | Claro | Uso |
+|---|---|---|
+| `amarillo-mellis` | #ffd000 | Color de marca: botones principales, bloques, destacados |
+| `amarillo-claro` | #fff3b0 | Avisos, filas y chips seleccionados |
+| `amarillo-profundo` | #f2b705 | Hover del botón amarillo |
+| `amarillo-texto` | #7a5c00 | Único amarillo para texto chico sobre blanco o crema (6,3:1) |
+| `negro` | #111111 | Tinta: bordes, sombras, texto, header |
+| `blanco` | #ffffff | Tarjetas, texto sobre negro |
+| `crema` / `fondo` | #fffbea | Fondo de página (evitar blanco puro en fondos grandes) |
+| `superficie` | #ffffff | Tickets, modales, campos |
+| `superficie-alt` | #fff3b0 | Barras, encabezados de tabla, deshabilitado |
+| `texto` / `texto-suave` | #111111 / #5c5c5c | Texto principal / secundario (6,5:1) |
+| `tinta` | #111111 | Borde de 2 px, sombra dura y anillo de foco |
+| `linea` | #e6dfc4 | Separadores decorativos (no para controles) |
+| `exito` · `aviso` · `peligro` · `info` | ver manual | Estados de turno, cada uno con su `*-fondo` |
 
-  --success: #1f6b45;  --success-bg: #dcefe2;  /* listo, finalizado, confirmado */
-  --warning: #8a5a00;  --warning-bg: #fbefc8;  /* alertas, solicitado */
-  --danger:  #a8321e;  --danger-bg:  #fbe1da;  /* cancelado, cuidados críticos */
-  --info:    #1f4f7a;  --info-bg:    #dde9f3;  /* en atención */
-}
-```
+Hay tema oscuro (`[data-theme="oscuro"]`: fondo negro, tinta amarilla); los tokens semánticos cambian solos.
 
 **Reglas de color:**
-- **Nunca** usar `#f26b1d` como color de texto chico: sobre fondo claro da entre 2,7:1 y 3,0:1.
-- Botón principal: fondo `--orange` con texto `--ink` (4,9:1). No usar texto blanco.
-- Botón deshabilitado: fondo `--muted`, texto `--muted-foreground` y un mensaje debajo que diga qué falta.
-- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*` en los componentes: solo tokens.
+- Botón principal: fondo amarillo con texto negro (12,8:1). **Prohibido** texto blanco sobre amarillo y amarillo #ffd000 como texto sobre claro.
+- Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje debajo con lo que falta.
+- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`.
 
 ### 7.2 Tipografía
 
 | Rol | Fuente | Pesos | Tamaños |
 |---|---|---|---|
-| Títulos y logo (`font-display`) | Poppins | 700, 800 | 44 / 28 / 20 px, en minúscula, `letter-spacing: -0.025em` |
-| Cuerpo y botones (`font-sans`) | Nunito | 400, 700, 800 | 16 px el cuerpo; 14 px botones y texto secundario |
-| Etiquetas y datos (`font-mono`) | Space Mono | 400, 700 | 12 px, en mayúscula, con espaciado amplio |
+| Títulos, logo y precios (`font-display`) | Oddval SemiBold → **Sora** (Google Fonts) mientras no esté el archivo | 600, 700 | 56 / 40 / 28 / 20 px, en minúscula |
+| Cuerpo y botones (`font-sans`) | Nunito | 400, 700, 800 | 16 px el cuerpo; botones 16 px (mínimo 14) |
+| Etiquetas y datos (`font-mono`, clase `.rotulo`) | Space Mono | 400, 700 | 12 px, en mayúscula |
 
-- Cargar las fuentes con `next/font/google`, no con `@import`.
+- Cargar las fuentes con `next/font` (`src/app/fonts.ts`), no con `@import`.
 - **Mínimo de 12 px** para cualquier texto y de **14 px** para acciones. Prohibido `text-[9px]` y `text-[10px]`.
+- Íconos de interfaz: SVG de 24 × 24 con trazo de 1,75 px en `currentColor` (`components/ui/Icons.tsx`). **Sin emojis.**
 
 ### 7.3 Componentes compartidos (`components/ui/`)
 - `Ticket` (normal y chico)
