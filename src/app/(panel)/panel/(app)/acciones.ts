@@ -27,11 +27,18 @@ import {
 
 export type Resultado = { ok: true } | { ok: false; error: string }
 
-async function run(fn: () => Promise<unknown>): Promise<Resultado> {
+/**
+ * `refrescar: false` deja la pantalla actual como está. Lo usan las solicitudes: si se recargara la lista,
+ * la tarjeta aceptada o rechazada desaparecería junto con su botón para avisar por WhatsApp.
+ * Las páginas del panel son dinámicas, así que al navegar se ven los datos nuevos igual.
+ */
+async function run(fn: () => Promise<unknown>, refrescar = true): Promise<Resultado> {
   try {
     await fn()
-    revalidatePath('/panel', 'layout')
-    revalidatePath('/', 'layout')
+    if (refrescar) {
+      revalidatePath('/panel', 'layout')
+      revalidatePath('/', 'layout')
+    }
     return { ok: true }
   } catch (error) {
     if (error instanceof PanelError) return { ok: false, error: error.message }
@@ -51,12 +58,12 @@ export async function avanzarTurno(id: number, desde: string): Promise<Resultado
 
 export async function aceptarSolicitud(id: number): Promise<Resultado> {
   const { payload, user } = await requireStaff()
-  return run(() => acceptRequest(payload, user, id))
+  return run(() => acceptRequest(payload, user, id), false)
 }
 
 export async function rechazarSolicitud(id: number): Promise<Resultado> {
   const { payload, user } = await requireStaff()
-  return run(() => rejectRequest(payload, user, id))
+  return run(() => rejectRequest(payload, user, id), false)
 }
 
 /** `valor` viene de un <input type="datetime-local"> en hora de Buenos Aires. */
@@ -64,7 +71,7 @@ export async function proponerHorario(id: number, valor: string): Promise<Result
   const { payload, user } = await requireStaff()
   const fecha = fromDateTimeLocalAR(valor)
   if (!fecha) return { ok: false, error: 'Elegí día y hora.' }
-  return run(() => proposeTime(payload, user, id, fecha))
+  return run(() => proposeTime(payload, user, id, fecha), false)
 }
 
 export async function registrarAtencion(input: RegistroInput) {
