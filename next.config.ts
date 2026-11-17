@@ -32,4 +32,20 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default withPayload(nextConfig, { devBundleServerPackages: false })
+/*
+  Demo estática para GitHub Pages (DEMO_ESTATICO=1, ver docs/demo.md): solo se compilan las páginas *.demo.tsx
+  de src/app/(demo), que guardan los datos en el navegador. Sin servidor, sin Payload y sin base de datos.
+*/
+const demoConfig: NextConfig = {
+  output: 'export',
+  pageExtensions: ['demo.tsx', 'demo.ts'],
+  basePath: process.env.DEMO_BASE_PATH || '',
+  trailingSlash: true,
+  distDir: '.next-demo',
+  images: { unoptimized: true },
+  turbopack: { root: path.resolve(dirname) },
+}
+
+export default process.env.DEMO_ESTATICO === '1'
+  ? demoConfig
+  : withPayload(nextConfig, { devBundleServerPackages: false })

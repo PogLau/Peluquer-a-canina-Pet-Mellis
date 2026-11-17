@@ -1,14 +1,38 @@
 import Link from 'next/link'
+import type { ReactNode } from 'react'
 
-import { LinkButton, StatusBadge, TagChip, Ticket } from '@/components/ui'
-import { nextStatus } from '@/lib/estados'
+import { LinkButton, StatusBadge, TagChip, Ticket, type ButtonVariant } from '@/components/ui'
+import { nextStatus, type AppointmentStatus } from '@/lib/estados'
 import { formatMoney, formatTime } from '@/lib/format'
 import type { TurnoPanel } from '@/lib/panel/turnos'
 
-import { AvanzarTurno } from './AvanzarTurno'
+export type AccionTurno = {
+  id: number
+  estado: AppointmentStatus
+  accion: string
+  variant: ButtonVariant
+}
+
+export type RutasPanel = {
+  mascota: (id: number) => string
+  registrar: (turnoId: number) => string
+}
+
+/** Rutas de la app real. La demo estática usa ?id= porque no puede generar una página por perro. */
+export const rutasPanel: RutasPanel = {
+  mascota: (id) => `/panel/mascotas/${id}`,
+  registrar: (turnoId) => `/panel/registrar/${turnoId}`,
+}
+
+type Props = {
+  turno: TurnoPanel
+  /** Botón para pasar al estado siguiente (en la app real, AvanzarTurno con su acción del servidor). */
+  renderAccion: (a: AccionTurno) => ReactNode
+  rutas?: RutasPanel
+}
 
 /** Turno de la agenda de hoy: hora, perro, alertas de la ficha y la acción que sigue. */
-export function TurnoCard({ turno }: { turno: TurnoPanel }) {
+export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
   const next = nextStatus(turno.estado)
   const enAtencion = turno.estado === 'en_atencion'
   const terminado = turno.estado === 'finalizado'
@@ -31,7 +55,7 @@ export function TurnoCard({ turno }: { turno: TurnoPanel }) {
           <div>
             <h2 id={`turno-${turno.id}`} className="text-xl">
               <Link
-                href={`/panel/mascotas/${turno.mascota.id}`}
+                href={rutas.mascota(turno.mascota.id)}
                 className="underline-offset-4 hover:underline"
               >
                 {turno.mascota.nombre.toLowerCase()}
@@ -73,18 +97,17 @@ export function TurnoCard({ turno }: { turno: TurnoPanel }) {
         {!terminado && (
           <div className="flex flex-wrap gap-2 sm:w-48 sm:flex-col sm:items-stretch">
             {enAtencion && (
-              <LinkButton href={`/panel/registrar/${turno.id}`} size="small" icon="libreta">
+              <LinkButton href={rutas.registrar(turno.id)} size="small" icon="libreta">
                 Registrar atención
               </LinkButton>
             )}
-            {next && (
-              <AvanzarTurno
-                id={turno.id}
-                estado={turno.estado}
-                accion={next.accion}
-                variant={enAtencion ? 'secondary' : 'primary'}
-              />
-            )}
+            {next &&
+              renderAccion({
+                id: turno.id,
+                estado: turno.estado,
+                accion: next.accion,
+                variant: enAtencion ? 'secondary' : 'primary',
+              })}
           </div>
         )}
       </div>

@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from 'react'
 
-import { guardarRecomendacion } from '@/app/(panel)/panel/(app)/acciones'
 import { Button, TextareaField } from '@/components/ui'
 
 /** La recomendación para la próxima visita siempre se puede editar. Se guarda en la última atención. */
@@ -10,10 +9,15 @@ export function EditarRecomendacion({
   atencionId,
   inicial,
   sugerida,
+  guardar,
 }: {
   atencionId: number
   inicial: string
   sugerida: string
+  guardar: (
+    atencionId: number,
+    texto: string,
+  ) => Promise<{ ok: true } | { ok: false; error: string }>
 }) {
   const [texto, setTexto] = useState(inicial || sugerida)
   const [guardado, setGuardado] = useState(inicial || sugerida)
@@ -27,7 +31,7 @@ export function EditarRecomendacion({
       onSubmit={(e) => {
         e.preventDefault()
         startTransition(async () => {
-          const r = await guardarRecomendacion(atencionId, texto)
+          const r = await guardar(atencionId, texto)
           if (r.ok) {
             setGuardado(texto)
             setEstado({ tipo: 'ok', texto: 'Recomendación guardada.' })

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { aceptarSolicitud, proponerHorario, rechazarSolicitud } from '../acciones'
 
 import { SolicitudCard } from '@/components/panel/SolicitudCard'
 import { EmptyState, PageHeader } from '@/components/ui'
@@ -29,7 +30,15 @@ export default async function SolicitudesPage() {
         <ul className="flex flex-col gap-5">
           {solicitudes.map((turno) => (
             <li key={turno.id}>
-              <SolicitudCard turno={turno} enlace={enlaces.get(turno.tutor.id)} />
+              <SolicitudCard
+                turno={turno}
+                enlace={enlaces.get(turno.tutor.id)}
+                acciones={{
+                  aceptar: aceptarSolicitud,
+                  rechazar: rechazarSolicitud,
+                  proponer: proponerHorario,
+                }}
+              />
             </li>
           ))}
         </ul>

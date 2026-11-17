@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from 'react'
 
-import { registrarAtencion } from '@/app/(panel)/panel/(app)/acciones'
 import { scoreAspects } from '@/collections/options'
 import {
   Button,
@@ -14,7 +13,12 @@ import {
   ToggleChip,
 } from '@/components/ui'
 import { suggestTutorSummary, type Aspecto, type Puntajes } from '@/lib/ficha'
-import type { DatosRegistro, ErroresRegistro } from '@/lib/panel/atenciones'
+import type {
+  DatosRegistro,
+  ErroresRegistro,
+  RegistroInput,
+  ResultadoRegistro,
+} from '@/lib/panel/atenciones'
 
 import { EnviarResumen } from './EnviarResumen'
 
@@ -25,7 +29,14 @@ function toggle(list: number[], id: number, on: boolean) {
 }
 
 /** Registrar atención: pensado para completarse en menos de 2 minutos, con toques. */
-export function FormularioAtencion({ datos }: { datos: DatosRegistro }) {
+export function FormularioAtencion({
+  datos,
+  registrar: registrarAtencion,
+}: {
+  datos: DatosRegistro
+  /** Acción del servidor en la app real; función local en la demo estática. */
+  registrar: (input: RegistroInput) => Promise<ResultadoRegistro>
+}) {
   const { turno } = datos
   const [servicios, setServicios] = useState<number[]>(datos.serviciosTurno)
   const [precio, setPrecio] = useState(turno.precioEstimado ? String(turno.precioEstimado) : '')

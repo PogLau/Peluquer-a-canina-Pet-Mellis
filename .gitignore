@@ -33,3 +33,7 @@ next-env.d.ts
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Demo estática (GitHub Pages)
+.next-demo/
+out/

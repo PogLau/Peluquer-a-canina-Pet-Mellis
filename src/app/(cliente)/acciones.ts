@@ -6,7 +6,8 @@ import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 
 import { cancelClientAppointment, ClienteError } from '@/lib/cliente/libreta'
-import { createBooking, type ErroresReserva, type ReservaInput } from '@/lib/cliente/reserva'
+import type { RespuestaReserva } from '@/components/cliente/reserva/AsistenteReserva'
+import { createBooking, type ReservaInput } from '@/lib/cliente/reserva'
 import { getClienteSession, olvidarTutor, recordarTutor } from '@/lib/enlace-cliente'
 import { bookingRequestMessage } from '@/lib/mensajes'
 import { whatsappLink } from '@/lib/whatsapp'
@@ -30,9 +31,7 @@ async function superaLimite(): Promise<boolean> {
   return false
 }
 
-export type RespuestaReserva =
-  | { ok: true; precioEstimado: number; avisarLink: string | null; conEnlace: boolean }
-  | { ok: false; error: string; errores?: ErroresReserva }
+export type { RespuestaReserva }
 
 async function whatsappLocal(): Promise<string | null> {
   const payload = await getPayload({ config })

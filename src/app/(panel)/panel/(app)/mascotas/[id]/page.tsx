@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { EditarRecomendacion } from '@/components/panel/EditarRecomendacion'
+import { guardarRecomendacion } from '../../acciones'
 import { EnlaceCliente } from '@/components/panel/EnlaceCliente'
 import { FichaEvolutiva } from '@/components/panel/FichaEvolutiva'
 import { ReenviarResumen } from '@/components/panel/ReenviarResumen'
@@ -140,6 +141,7 @@ export default async function MascotaPage({ params }: Props) {
           <FichaEvolutiva ficha={ficha} />
           {ultima && (
             <EditarRecomendacion
+              guardar={guardarRecomendacion}
               key={ultima.id}
               atencionId={ultima.id}
               inicial={ultima.recomendacion ?? ''}

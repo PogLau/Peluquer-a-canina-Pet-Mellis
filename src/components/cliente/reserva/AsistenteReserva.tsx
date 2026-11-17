@@ -2,7 +2,6 @@
 
 import { useMemo, useRef, useState, useTransition } from 'react'
 
-import { reservarTurno } from '@/app/(cliente)/acciones'
 import { Button, LinkButton, Notice, Stepper, Ticket } from '@/components/ui'
 import type { DiaLibre } from '@/lib/agenda'
 import type { Catalog } from '@/lib/catalogo'
@@ -12,7 +11,7 @@ import {
   pasosReserva,
   type EstadoReserva,
 } from '@/lib/cliente/pasos'
-import type { MascotaDelTutor } from '@/lib/cliente/reserva'
+import type { ErroresReserva, MascotaDelTutor, ReservaInput } from '@/lib/cliente/reserva'
 import type { EstadoCotizacion } from '@/lib/cotizacion'
 import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
 import { buildQuote } from '@/lib/pricing'
@@ -29,7 +28,17 @@ type Props = {
   mascotas: MascotaDelTutor[]
   preset: Partial<EstadoCotizacion>
   whatsappLocal: string | null
+  /** Acción del servidor en la app real; función local en la demo estática. */
+  reservar: (
+    input: ReservaInput,
+    resumen: { mascota: string; servicios: string[] },
+  ) => Promise<RespuestaReserva>
+  misTurnosHref?: string
 }
+
+export type RespuestaReserva =
+  | { ok: true; precioEstimado: number; avisarLink: string | null; conEnlace: boolean }
+  | { ok: false; error: string; errores?: ErroresReserva }
 
 type Listo = {
   precio: number
@@ -49,7 +58,16 @@ const pasoDeError = {
 } as const
 
 /** Reserva en 4 pasos. Cada paso dice qué falta; el servidor valida todo de nuevo al confirmar. */
-export function AsistenteReserva({ catalog, dias, tutor, mascotas, preset, whatsappLocal }: Props) {
+export function AsistenteReserva({
+  catalog,
+  dias,
+  tutor,
+  mascotas,
+  preset,
+  whatsappLocal,
+  reservar: reservarTurno,
+  misTurnosHref = '/mis-turnos',
+}: Props) {
   const popular = catalog.servicios.find((s) => s.popular)?.id
   const [estado, setEstado] = useState<EstadoReserva>(() =>
     initialBooking(preset, mascotas, popular),
@@ -150,7 +168,7 @@ export function AsistenteReserva({ catalog, dias, tutor, mascotas, preset, whats
             </LinkButton>
           )}
           {listo.conEnlace && (
-            <LinkButton href="/mis-turnos" variant="secondary" icon="reloj">
+            <LinkButton href={misTurnosHref} variant="secondary" icon="reloj">
               Ver mis turnos
             </LinkButton>
           )}

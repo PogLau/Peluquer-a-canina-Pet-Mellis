@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { TablaPrecios } from '@/components/panel/TablaPrecios'
+import { guardarPrecios } from '../acciones-gestion'
 import { PageHeader } from '@/components/ui'
 import { getPricing } from '@/lib/panel/precios'
 import { requireStaff } from '@/lib/panel/sesion'
@@ -17,7 +18,7 @@ export default async function ServiciosPage() {
         Los cambios se ven al instante en el cotizador de los clientes. Los turnos ya pedidos
         mantienen su precio.
       </PageHeader>
-      <TablaPrecios inicial={precios} />
+      <TablaPrecios inicial={precios} guardar={guardarPrecios} />
     </>
   )
 }

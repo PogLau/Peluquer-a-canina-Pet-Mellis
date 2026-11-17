@@ -2,11 +2,18 @@
 
 import { useState, useTransition } from 'react'
 
-import { cancelarTurno } from '@/app/(cliente)/acciones'
 import { Button, Modal, Notice } from '@/components/ui'
 
 /** Cancelar desde la web (solo si faltan más de 24 h). Pide confirmación antes. */
-export function CancelarTurno({ id, descripcion }: { id: number; descripcion: string }) {
+export function CancelarTurno({
+  id,
+  descripcion,
+  cancelar: cancelarTurno,
+}: {
+  id: number
+  descripcion: string
+  cancelar: (id: number) => Promise<{ ok: true } | { ok: false; error: string }>
+}) {
   const [abierto, setAbierto] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()

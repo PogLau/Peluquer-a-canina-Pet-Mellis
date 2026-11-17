@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 
 import { EnviarResumen } from '@/components/panel/EnviarResumen'
 import { FormularioAtencion } from '@/components/panel/FormularioAtencion'
+import { registrarAtencion } from '../../acciones'
 import { Icon, LinkButton, Notice, PageHeader, TagChip, Ticket } from '@/components/ui'
 import { formatTime } from '@/lib/format'
 import { enlaceDeTutor } from '@/lib/enlace-cliente'
@@ -76,7 +77,7 @@ export default async function RegistrarPage({ params }: { params: Promise<{ turn
         <Notice tone="aviso" title="Este turno todavía no está confirmado." />
       ) : (
         <Ticket>
-          <FormularioAtencion datos={datos} />
+          <FormularioAtencion datos={datos} registrar={registrarAtencion} />
         </Ticket>
       )}
     </>

@@ -2,7 +2,6 @@
 
 import { useState, useTransition } from 'react'
 
-import { guardarPrecios } from '@/app/(panel)/panel/(app)/acciones-gestion'
 import { Button, LinkButton, Notice, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { ErroresCampos } from '@/lib/panel/clientes'
@@ -76,7 +75,17 @@ function Check({
 }
 
 /** Tabla editable de precios. Al guardar, el cotizador del cliente usa los valores nuevos. */
-export function TablaPrecios({ inicial }: { inicial: PreciosEditables }) {
+export function TablaPrecios({
+  inicial,
+  guardar: guardarPrecios,
+  cotizadorHref = '/cotizar',
+}: {
+  inicial: PreciosEditables
+  guardar: (
+    p: PreciosEditables,
+  ) => Promise<{ ok: true } | { ok: false; error: string; errores?: ErroresCampos }>
+  cotizadorHref?: string
+}) {
   const [p, setP] = useState(inicial)
   const [guardado, setGuardado] = useState(inicial)
   const [errores, setErrores] = useState<ErroresCampos>({})
@@ -267,7 +276,7 @@ export function TablaPrecios({ inicial }: { inicial: PreciosEditables }) {
         <Button type="submit" icon="check" disabled={pending || !cambios}>
           {pending ? 'Guardando…' : 'Guardar precios'}
         </Button>
-        <LinkButton href="/cotizar" external variant="ghost" iconEnd="flecha">
+        <LinkButton href={cotizadorHref} external variant="ghost" iconEnd="flecha">
           Ver el cotizador
         </LinkButton>
         {!cambios && !aviso && (

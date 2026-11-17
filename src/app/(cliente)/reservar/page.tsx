@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getPayload } from 'payload'
 
 import { AsistenteReserva } from '@/components/cliente/reserva/AsistenteReserva'
+import { reservarTurno } from '../acciones'
 import { Notice, PageHeader } from '@/components/ui'
 import { availableDays, petsOfTutor } from '@/lib/cliente/reserva'
 import { estadoDesdeParams } from '@/lib/cotizacion'
@@ -47,6 +48,7 @@ export default async function ReservarPage({ searchParams }: Props) {
       </PageHeader>
       {catalog && catalog.servicios.length > 0 && dias ? (
         <AsistenteReserva
+          reservar={reservarTurno}
           catalog={catalog}
           dias={dias}
           tutor={sesion?.tutor.nombre ?? null}

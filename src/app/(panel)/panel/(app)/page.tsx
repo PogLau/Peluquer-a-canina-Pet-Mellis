@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { AvanzarTurno } from '@/components/panel/AvanzarTurno'
 import { TurnoCard } from '@/components/panel/TurnoCard'
 import { EmptyState, Notice, PageHeader } from '@/components/ui'
 import { statusLabel } from '@/lib/estados'
@@ -61,7 +62,7 @@ export default async function HoyPage() {
         <ol className="flex flex-col gap-5" aria-label="Turnos de hoy">
           {turnos.map((turno) => (
             <li key={turno.id}>
-              <TurnoCard turno={turno} />
+              <TurnoCard turno={turno} renderAccion={(a) => <AvanzarTurno {...a} />} />
             </li>
           ))}
         </ol>

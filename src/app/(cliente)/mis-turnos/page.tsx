@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { CancelarTurno } from '@/components/cliente/CancelarTurno'
+import { cancelarTurno } from '../acciones'
 import { OlvidarTelefono } from '@/components/cliente/OlvidarTelefono'
 import { SinEnlace } from '@/components/cliente/SinEnlace'
 import { EmptyState, LinkButton, PageHeader, StatusBadge, Ticket } from '@/components/ui'
@@ -32,7 +33,11 @@ function Turno({ turno }: { turno: TurnoCliente }) {
       )}
       {turno.puedeCancelar && (
         <div>
-          <CancelarTurno id={turno.id} descripcion={`${turno.mascota} del ${cuando}`} />
+          <CancelarTurno
+            id={turno.id}
+            descripcion={`${turno.mascota} del ${cuando}`}
+            cancelar={cancelarTurno}
+          />
         </div>
       )}
     </Ticket>

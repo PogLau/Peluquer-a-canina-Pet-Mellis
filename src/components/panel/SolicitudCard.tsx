@@ -2,11 +2,6 @@
 
 import { useMemo, useState, useTransition } from 'react'
 
-import {
-  aceptarSolicitud,
-  proponerHorario,
-  rechazarSolicitud,
-} from '@/app/(panel)/panel/(app)/acciones'
 import { Button, LinkButton, Modal, Notice, TagChip, TextField, Ticket } from '@/components/ui'
 import { fromDateTimeLocalAR, toDateTimeLocalAR } from '@/lib/dates'
 import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
@@ -21,6 +16,15 @@ import { whatsappLink } from '@/lib/whatsapp'
 
 type Hecho = { titulo: string; link: string | null }
 
+type Respuesta = { ok: true } | { ok: false; error: string }
+
+/** En la app real son acciones del servidor; en la demo estática, funciones sobre los datos del navegador. */
+export type AccionesSolicitud = {
+  aceptar: (id: number) => Promise<Respuesta>
+  rechazar: (id: number) => Promise<Respuesta>
+  proponer: (id: number, valor: string) => Promise<Respuesta>
+}
+
 function safeLink(phone: string, message: string): string | null {
   try {
     return whatsappLink(phone, message)
@@ -30,7 +34,20 @@ function safeLink(phone: string, message: string): string | null {
 }
 
 /** Solicitud desde la web: aceptar (abre WhatsApp), proponer otro horario o rechazar. */
-export function SolicitudCard({ turno, enlace }: { turno: TurnoPanel; enlace?: string | null }) {
+export function SolicitudCard({
+  turno,
+  enlace,
+  acciones,
+}: {
+  turno: TurnoPanel
+  enlace?: string | null
+  acciones: AccionesSolicitud
+}) {
+  const {
+    aceptar: aceptarSolicitud,
+    rechazar: rechazarSolicitud,
+    proponer: proponerHorario,
+  } = acciones
   const fecha = new Date(turno.fechaHora)
   const datos: DatosTurnoMensaje = useMemo(
     () => ({

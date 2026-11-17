@@ -2,17 +2,18 @@
 
 import { useId, useState, useTransition } from 'react'
 
-import { sugerirConFoto } from '@/app/(cliente)/cotizar/actions'
 import { Icon, Notice, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import { ejemplosMascota } from '@/lib/ia/ejemplos'
-import type { Sugerencia } from '@/lib/ia/sugerencia'
+import type { ResultadoSugerencia, Sugerencia } from '@/lib/ia/sugerencia'
 import { coatLabels, knotsLabels, sizeLabels } from '@/lib/pricing'
 
 type Props = {
   iaActiva: boolean
   sugerencia: Sugerencia | null
   onSugerencia: (s: Sugerencia) => void
+  /** Análisis real de la foto (acción del servidor). Sin ella solo están los ejemplos. */
+  analizar?: (data: FormData) => Promise<ResultadoSugerencia>
 }
 
 /** Reduce la foto en el navegador (≤ 1024 px, JPEG) antes de mandarla: menos datos y más rápido. */
@@ -31,7 +32,8 @@ async function reducir(file: File): Promise<File> {
   }
 }
 
-export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
+export function SugerirConFoto({ iaActiva: iaPedida, sugerencia, onSugerencia, analizar }: Props) {
+  const iaActiva = iaPedida && !!analizar
   const inputId = useId()
   const [pendiente, startTransition] = useTransition()
   const [error, setError] = useState<string | null>(null)
@@ -52,7 +54,8 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
     startTransition(async () => {
       const data = new FormData()
       data.set('foto', await reducir(file))
-      const res = await sugerirConFoto(data)
+      if (!analizar) return
+      const res = await analizar(data)
       if (res.ok) onSugerencia(res.sugerencia)
       else setError(res.mensaje)
     })
@@ -70,13 +73,13 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
 
       {iaActiva ? (
         <Notice tone="info" title="Sugerencia con IA">
-          Analizamos la foto para sugerir el manto, los nudos y el tamaño. La foto no se guarda. Revisá los datos: los
-          podés cambiar a mano.
+          Analizamos la foto para sugerir el manto, los nudos y el tamaño. La foto no se guarda.
+          Revisá los datos: los podés cambiar a mano.
         </Notice>
       ) : (
         <Notice tone="info" title="Modo demo de visión artificial">
-          Los ejemplos tienen un resultado precargado: no se analiza ninguna imagen. Sirven para ver cómo se completan
-          los datos, que siempre podés cambiar a mano.
+          Los ejemplos tienen un resultado precargado: no se analiza ninguna imagen. Sirven para ver
+          cómo se completan los datos, que siempre podés cambiar a mano.
         </Notice>
       )}
 
@@ -93,7 +96,9 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
                   onClick={() => usarEjemplo(e.id)}
                   className={cn(
                     'flex h-full w-full items-start gap-3 rounded-md border-2 border-tinta p-3 text-left',
-                    activo ? 'bg-accion text-sobre-accion' : 'bg-superficie text-texto hover:bg-superficie-alt',
+                    activo
+                      ? 'bg-accion text-sobre-accion'
+                      : 'bg-superficie text-texto hover:bg-superficie-alt',
                   )}
                 >
                   <span className="grid size-10 shrink-0 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-negro">
@@ -134,7 +139,9 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
               }}
             />
           </label>
-          <p className="text-sm text-texto-suave">JPG, PNG o WEBP. Mejor de cuerpo entero y con buena luz.</p>
+          <p className="text-sm text-texto-suave">
+            JPG, PNG o WEBP. Mejor de cuerpo entero y con buena luz.
+          </p>
         </div>
       )}
 
@@ -150,8 +157,12 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
             title={`${sugerencia.origen === 'ejemplo' ? 'Ejemplo' : 'Sugerencia'}: ${sugerencia.raza}`}
           >
             <p>
-              Completamos: {sizeLabels[sugerencia.tamano].label} · manto {coatLabels[sugerencia.manto].toLowerCase()} ·{' '}
-              {sugerencia.nudos === 'sin' ? 'sin nudos' : `nudos ${knotsLabels[sugerencia.nudos].toLowerCase()}`}.
+              Completamos: {sizeLabels[sugerencia.tamano].label} · manto{' '}
+              {coatLabels[sugerencia.manto].toLowerCase()} ·{' '}
+              {sugerencia.nudos === 'sin'
+                ? 'sin nudos'
+                : `nudos ${knotsLabels[sugerencia.nudos].toLowerCase()}`}
+              .
             </p>
             {sugerencia.observaciones && <p className="mt-1">{sugerencia.observaciones}</p>}
           </Notice>

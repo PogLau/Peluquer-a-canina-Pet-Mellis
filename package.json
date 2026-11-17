@@ -15,7 +15,9 @@
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/index.ts",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
-    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types"
+    "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
+    "dev:demo": "cross-env DEMO_ESTATICO=1 NODE_OPTIONS=--no-deprecation next dev -p 3002",
+    "build:demo": "cross-env DEMO_ESTATICO=1 NODE_OPTIONS=--no-deprecation next build"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.93.0",
