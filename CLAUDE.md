@@ -393,7 +393,11 @@ pnpm lint
 pnpm typecheck    # tsc --noEmit
 pnpm test         # tests unitarios (precios, permisos)
 pnpm build
+pnpm dev:demo     # demo estática en http://localhost:3002
+pnpm build:demo   # demo estática en .next-demo/ (la publica GitHub Pages)
 ```
+
+**Demo para mostrar el proyecto** (decisión del 17/11/2026, ver `docs/demo.md`): se publica en GitHub Pages un sitio estático que funciona entero en el navegador, con datos ficticios en `localStorage`, barra «Ver como cliente / peluquera» y «Reiniciar demo». No usa servidor, base de datos ni login. Vive en `src/app/(demo)/*.demo.tsx` y `src/demo/`, y reutiliza los componentes y la lógica de la app real (los componentes reciben sus acciones por props). Cualquier cambio en una pantalla compartida tiene que seguir funcionando en las dos versiones. WhatsApp del salón: `5491151770132`.
 
 Variables de entorno (`.env.example`):
 

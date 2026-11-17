@@ -55,4 +55,4 @@ src/
 
 ## Publicación
 
-La app completa se publica en **Vercel** (con Postgres) y la portada estática (`portada/`) en **GitHub Pages**, las dos solas en cada push a `main`. Pasos en [`docs/publicacion.md`](docs/publicacion.md).
+**Demo interactiva:** https://poglau.github.io/Peluquer-a-canina-Pet-Mellis/ — funciona entera en el navegador, con datos ficticios, y se publica sola en cada push a `main` ([`docs/demo.md`](docs/demo.md)). Para producción, la app completa va en Vercel con Postgres ([`docs/publicacion.md`](docs/publicacion.md)).

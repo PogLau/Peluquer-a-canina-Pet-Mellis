@@ -40,9 +40,12 @@ const demoConfig: NextConfig = {
   output: 'export',
   pageExtensions: ['demo.tsx', 'demo.ts'],
   basePath: process.env.DEMO_BASE_PATH || '',
+  env: { NEXT_PUBLIC_BASE_PATH: process.env.DEMO_BASE_PATH || '' },
   trailingSlash: true,
   distDir: '.next-demo',
   images: { unoptimized: true },
+  // El typecheck corre aparte (pnpm typecheck): acá chocaría con los tipos de rutas de la app real en .next/
+  typescript: { ignoreBuildErrors: true, tsconfigPath: 'tsconfig.demo.json' },
   turbopack: { root: path.resolve(dirname) },
 }
 

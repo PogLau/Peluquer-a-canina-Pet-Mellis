@@ -1,18 +1,12 @@
-# Publica la portada estática (carpeta portada/) en GitHub Pages en cada push a main.
-# La app completa (Next.js + Payload) se publica aparte en Vercel: GitHub Pages no puede correr un servidor.
-#
-# Variable del repositorio (Settings > Secrets and variables > Actions > Variables):
-#   APP_URL = URL de la app en Vercel, sin barra final (por ejemplo https://pet-mellis.vercel.app)
-# Si no está definida, la portada se publica igual y oculta los botones que llevan a la app.
+# Publica la demo interactiva de Pet Mellis en GitHub Pages en cada push a main.
+# La demo es un sitio estático (pnpm build:demo): los datos son ficticios y viven en el navegador
+# de cada visitante. No hace falta servidor, base de datos ni variables secretas. Ver docs/demo.md.
 
-name: Portada en GitHub Pages
+name: Demo en GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths:
-      - 'portada/**'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -30,23 +24,29 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Poner la URL de la app
-        env:
-          APP_URL: ${{ vars.APP_URL }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Instalar dependencias
+        run: npx --yes pnpm@12.21.0 install --frozen-lockfile
+
+      - name: Typecheck y tests
         run: |
-          if [ -n "$APP_URL" ]; then
-            APP_URL="${APP_URL%/}"
-            sed -i "s#__APP_URL__#${APP_URL}#g" portada/index.html
-            echo "Portada enlazada a $APP_URL"
-          else
-            echo "::warning::Falta la variable APP_URL: la portada se publica sin los botones de la app."
-          fi
+          npx --yes pnpm@12.21.0 typecheck
+          npx --yes pnpm@12.21.0 test
+
+      - name: Construir la demo estática
+        env:
+          # GitHub Pages sirve el sitio bajo /<nombre-del-repo>/
+          DEMO_BASE_PATH: /${{ github.event.repository.name }}
+        run: npx --yes pnpm@12.21.0 build:demo
 
       - uses: actions/configure-pages@v5
 
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: portada
+          path: .next-demo
 
   deploy:
     needs: build

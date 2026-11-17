@@ -14,7 +14,7 @@ const eslintConfig = [
   },
   {
     // Archivos generados por Payload
-    ignores: ['.next/', 'node_modules/', 'src/payload-types.ts', 'src/app/(payload)/', 'src/migrations/'],
+    ignores: ['.next/', '.next-demo/', 'node_modules/', 'src/payload-types.ts', 'src/app/(payload)/', 'src/migrations/'],
   },
 ]
 

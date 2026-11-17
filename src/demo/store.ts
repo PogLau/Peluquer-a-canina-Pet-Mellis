@@ -82,3 +82,15 @@ export function reiniciarDemo() {
 export function useDemo(): DemoState | null {
   return useSyncExternalStore(suscribir, snapshot, () => null)
 }
+
+/** Estado actual fuera de React (para las acciones). Null en el servidor. */
+export function leerEstado(): DemoState | null {
+  return typeof window === 'undefined' ? null : snapshot()
+}
+
+/** Para las páginas de la demo: DemoShell solo las muestra cuando el estado ya está listo. */
+export function useEstado(): DemoState {
+  const s = useDemo()
+  if (!s) throw new Error('La demo todavía no cargó sus datos')
+  return s
+}

@@ -4,7 +4,12 @@ import { normalizeWhatsapp, validateBooking, type ReservaInput } from '@/lib/cli
 import { nextStatus, statusLabel, type AppointmentStatus } from '@/lib/estados'
 import type { Puntajes } from '@/lib/ficha'
 import { validateVisit } from '@/lib/panel/atenciones'
-import { parseMultiplier, parsePesos } from '@/lib/panel/precios'
+import {
+  parseMultiplier,
+  parsePesos,
+  validatePricing,
+  type PreciosEditables,
+} from '@/lib/panel/precios'
 import type { Coat, Size } from '@/lib/pricing'
 
 import { nextId, priceOf, type DemoState, type DTurno } from './estado'
@@ -232,50 +237,29 @@ export function cancelar(s: DemoState, turnoId: number, now = new Date()): DemoS
   return actualizar(s, turnoId, { estado: 'cancelado' })
 }
 
-export type PreciosDemo = {
-  servicios: Record<string, { chico: string; mediano: string; grande: string; activo: boolean }>
-  extras: Record<string, { precio: string; activo: boolean }>
-  multiplicadores: { corto: string; largo: string; rizado: string }
-  recargos: { leves: string; moderados: string; severos: string }
-}
-
-/** Errores por campo («servicio.bano-corte.chico», «recargo.leves»…). Vacío si está todo bien. */
-export function validarPrecios(p: PreciosDemo): Record<string, string> {
-  const e: Record<string, string> = {}
-  for (const [id, s] of Object.entries(p.servicios)) {
-    for (const t of ['chico', 'mediano', 'grande'] as const)
-      if (parsePesos(s[t]) === null) e[`servicio.${id}.${t}`] = 'Precio en pesos, sin centavos.'
-  }
-  for (const [id, x] of Object.entries(p.extras))
-    if (parsePesos(x.precio) === null) e[`extra.${id}`] = 'Precio en pesos, sin centavos.'
-  for (const k of ['corto', 'largo', 'rizado'] as const)
-    if (parseMultiplier(p.multiplicadores[k]) === null) e[`multiplicador.${k}`] = 'Entre 1 y 3.'
-  for (const k of ['leves', 'moderados', 'severos'] as const)
-    if (parsePesos(p.recargos[k]) === null) e[`recargo.${k}`] = 'Precio en pesos.'
-  if (!Object.values(p.servicios).some((s) => s.activo))
-    e.servicios = 'Dejá al menos un servicio activo.'
-  return e
-}
-
-export function guardarPrecios(s: DemoState, p: PreciosDemo): DemoState {
+/** Guarda la tabla de precios del panel (ids = posición + 1, ver preciosEditables). Valida como la app real. */
+export function guardarPrecios(s: DemoState, p: PreciosEditables): DemoState {
+  const errores = validatePricing(p)
+  if (Object.keys(errores).length) throw new DemoError('Revisá los valores marcados.')
   return {
     ...s,
-    servicios: s.servicios.map((x) => {
-      const n = p.servicios[x.id]
-      return n
-        ? {
-            ...x,
-            activo: n.activo,
-            precios: {
-              chico: parsePesos(n.chico)!,
-              mediano: parsePesos(n.mediano)!,
-              grande: parsePesos(n.grande)!,
-            },
-          }
-        : x
+    servicios: s.servicios.map((x, i) => {
+      const n = p.servicios.find((y) => y.id === i + 1)
+      if (!n) return x
+      return {
+        ...x,
+        activo: n.activo,
+        popular: n.popular,
+        aplicaRecargoManto: n.aplicaRecargoManto,
+        precios: {
+          chico: parsePesos(n.precioChico)!,
+          mediano: parsePesos(n.precioMediano)!,
+          grande: parsePesos(n.precioGrande)!,
+        },
+      }
     }),
-    extras: s.extras.map((x) => {
-      const n = p.extras[x.id]
+    extras: s.extras.map((x, i) => {
+      const n = p.extras.find((y) => y.id === i + 1)
       return n ? { ...x, activo: n.activo, precio: parsePesos(n.precio)! } : x
     }),
     pricing: {
