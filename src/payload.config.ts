@@ -26,7 +26,8 @@ const dirname = path.dirname(filename)
  * En Postgres el esquema se crea con migraciones (src/migrations), que corren en cada build de Vercel.
  */
 function databaseAdapter() {
-  const uri = process.env.DATABASE_URI || 'file:./petmellis.db'
+  // DATABASE_URL es la que crea Vercel al conectar Neon desde «Storage»; DATABASE_URI tiene prioridad
+  const uri = process.env.DATABASE_URI || process.env.DATABASE_URL || 'file:./petmellis.db'
   if (/^postgres(ql)?:\/\//.test(uri)) {
     return postgresAdapter({
       pool: { connectionString: uri },

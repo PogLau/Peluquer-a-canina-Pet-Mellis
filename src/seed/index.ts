@@ -10,7 +10,7 @@ import { seed } from './seed'
   - Base remota (por ejemplo, la Postgres de Vercel): solo con SEED_PERMITIR_REMOTO=si,
     para que nadie borre una base real por error.
 */
-const uri = process.env.DATABASE_URI ?? 'file:./petmellis.db'
+const uri = process.env.DATABASE_URI || process.env.DATABASE_URL || 'file:./petmellis.db'
 const esLocal = uri.startsWith('file:')
 if (!esLocal && process.env.SEED_PERMITIR_REMOTO !== 'si') {
   console.error(
