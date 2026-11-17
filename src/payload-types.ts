@@ -156,7 +156,7 @@ export interface Turno {
   extras?: (number | Extra)[] | null;
   nudos: 'sin' | 'leves' | 'moderados' | 'severos';
   /**
-   * Calculado con el cotizador al reservar (incluye recargo por nudos).
+   * Lo calcula el servidor con los precios vigentes (incluye recargo por nudos).
    */
   precioEstimado?: number | null;
   origen: 'web' | 'panel';
