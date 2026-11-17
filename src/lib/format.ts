@@ -1,4 +1,8 @@
-const money = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
+const money = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS',
+  maximumFractionDigits: 0,
+})
 
 /** $ 15.200 */
 export function formatMoney(amount: number): string {
@@ -27,4 +31,15 @@ export function formatLongDate(date: Date): string {
 /** «14:30» */
 export function formatTime(date: Date): string {
   return time.format(date)
+}
+
+const shortDate = new Intl.DateTimeFormat('es-AR', {
+  day: 'numeric',
+  month: 'short',
+  timeZone: 'America/Argentina/Buenos_Aires',
+})
+
+/** «18 sep» (columnas de la Ficha Evolutiva) */
+export function formatShortDate(date: Date): string {
+  return shortDate.format(date).replace('.', '')
 }

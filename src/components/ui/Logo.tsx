@@ -158,7 +158,7 @@ export function Imagotipo({
       <span className={oscuro ? 'rounded-md bg-marfil px-1 py-0.5' : undefined}>
         <Isotipo height={30} />
       </span>
-      <span className="flex flex-col leading-none">
+      <span className="flex flex-col whitespace-nowrap leading-none">
         <span
           className={`font-display text-xl font-semibold lowercase tracking-tight ${oscuro ? 'text-marfil' : 'text-texto'}`}
         >
