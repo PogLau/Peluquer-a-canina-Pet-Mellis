@@ -65,7 +65,7 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
         <h2 id="titulo-foto" className="text-xl">
           sugerir con foto
         </h2>
-        <span className="rotulo rounded-pill bg-petroleo px-2.5 py-1 text-teal">Beta</span>
+        <span className="rotulo rounded-pill bg-negro px-2.5 py-1 text-amarillo">Beta</span>
       </div>
 
       {iaActiva ? (
@@ -96,7 +96,7 @@ export function SugerirConFoto({ iaActiva, sugerencia, onSugerencia }: Props) {
                     activo ? 'bg-accion text-sobre-accion' : 'bg-superficie text-texto hover:bg-superficie-alt',
                   )}
                 >
-                  <span className="grid size-10 shrink-0 place-items-center rounded-lg border-2 border-tinta bg-superficie-alt text-petroleo">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-negro">
                     <Icon name="pata" size={22} />
                   </span>
                   <span className="flex flex-col">

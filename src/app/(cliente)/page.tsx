@@ -17,7 +17,7 @@ export default async function InicioPage() {
     <div className="flex flex-col gap-12">
       <section aria-labelledby="titulo-inicio" className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]">
         <div className="flex flex-col gap-5">
-          <p className="rotulo text-enlace">Peluquería canina · Merlo</p>
+          <p className="rotulo text-amarillo-texto">Peluquería canina · Merlo</p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
             cada visita mejora la siguiente
           </h1>

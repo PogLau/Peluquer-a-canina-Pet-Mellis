@@ -84,7 +84,7 @@ export function SolicitudCard({ turno }: { turno: TurnoPanel }) {
         <h2 id={`sol-${turno.id}`} className="text-xl">
           {turno.mascota.nombre.toLowerCase()}
         </h2>
-        <p className="rotulo text-enlace">
+        <p className="rotulo text-amarillo-texto">
           {formatLongDate(fecha)} · {formatTime(fecha)}
         </p>
       </div>

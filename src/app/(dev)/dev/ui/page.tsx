@@ -18,15 +18,13 @@ import {
 import { InteractiveDemo } from './InteractiveDemo'
 
 const colorTokens = [
-  ['petroleo', 'bg-petroleo'],
-  ['teal', 'bg-teal'],
-  ['menta', 'bg-menta'],
-  ['marfil', 'bg-marfil'],
-  ['pizarra', 'bg-pizarra'],
-  ['teal-hover', 'bg-teal-hover'],
-  ['teal-texto', 'bg-teal-texto'],
-  ['menta-fuerte', 'bg-menta-fuerte'],
-  ['pizarra-texto (texto-suave)', 'bg-texto-suave'],
+  ['amarillo', 'bg-amarillo'],
+  ['amarillo-claro', 'bg-amarillo-claro'],
+  ['amarillo-profundo', 'bg-amarillo-profundo'],
+  ['amarillo-texto', 'bg-amarillo-texto'],
+  ['negro', 'bg-negro'],
+  ['blanco', 'bg-blanco'],
+  ['crema', 'bg-crema'],
   ['linea', 'bg-linea'],
 ] as const
 
@@ -50,7 +48,7 @@ export default function DevUiPage() {
         <div className="flex flex-wrap items-center gap-6">
           <Isotipo height={64} title="Pet Mellis" />
           <Imagotipo />
-          <span className="rounded-md bg-petroleo p-4">
+          <span className="rounded-md bg-negro p-4">
             <Imagotipo tone="dark" />
           </span>
         </div>
@@ -146,9 +144,7 @@ export default function DevUiPage() {
             Toby está en el baño.
           </Notice>
         </div>
-        <EmptyState title="sin turnos para hoy">
-          Cuando entren solicitudes, aparecen acá.
-        </EmptyState>
+        <EmptyState title="sin turnos para hoy">Cuando entren solicitudes, aparecen acá.</EmptyState>
       </Section>
 
       <Section title="pasos">
@@ -162,10 +158,7 @@ export default function DevUiPage() {
       <Section title="íconos de interfaz">
         <ul className="grid grid-cols-3 gap-3 sm:grid-cols-6">
           {iconNames.map((name) => (
-            <li
-              key={name}
-              className="flex flex-col items-center gap-2 rounded-md border-2 border-linea p-3"
-            >
+            <li key={name} className="flex flex-col items-center gap-2 rounded-md border-2 border-linea p-3">
               <Icon name={name} />
               <span className="rotulo text-texto-suave">{name}</span>
             </li>

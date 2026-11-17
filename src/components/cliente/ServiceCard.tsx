@@ -26,10 +26,10 @@ export function ServiceCard({ id, name, description, price, duration, priceLabel
   return (
     <Ticket as="article" className="flex h-full flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
-        <span className="grid size-16 place-items-center rounded-lg border-2 border-tinta bg-superficie-alt text-petroleo">
+        <span className="grid size-16 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-negro">
           <Icon name={serviceIcons[id] ?? 'pata'} size={30} />
         </span>
-        {popular && <span className="rotulo rounded-pill bg-petroleo px-2.5 py-1 text-teal">Popular</span>}
+        {popular && <span className="rotulo rounded-pill bg-negro px-2.5 py-1 text-amarillo">Popular</span>}
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-xl">{name}</h3>

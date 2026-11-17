@@ -69,12 +69,16 @@ Archivos clave del prototipo:
 |---|---|---|
 | Ruta | `/` (grupo `app/(cliente)`) | `/panel` (grupo `app/(panel)`) |
 | Quién | Tutor del perro | Peluquera |
-| Acceso | WhatsApp + código de 4 dígitos (en la demo, el código se muestra en pantalla o es fijo por `.env`) | Usuario y contraseña (auth de Payload) |
+| Acceso | **Sin login.** Entra por el enlace de la web app; para ver lo suyo usa su **enlace personal** (`/mi/<token>`), que el salón le manda por WhatsApp | Usuario y contraseña (auth de Payload). **Es el único login de la app** |
 | Ve | Solo **sus** turnos y **sus** perros | Todo el salón |
 | Layout | Header propio + barra inferior en el celular | Menú lateral (barra inferior en el celular) |
 
 **Reglas:**
 - **No** existe un botón público «Cliente / Peluquera». Cada panel tiene su propio layout y su propio header (uno solo, a ancho completo).
+- **Solo la administradora (peluquera) inicia sesión** (decisión del 17/11/2026). Los clientes nunca crean cuenta ni ponen contraseña ni código:
+  - Inicio, Cotizador y Reservar son públicos, desde el enlace de la web app.
+  - «Mi mascota» y «Mis turnos» se abren con un enlace personal por tutor: un token largo y aleatorio guardado en `tutores` (se puede regenerar desde el panel si se filtra). El panel lo incluye en los mensajes de WhatsApp (confirmación y resumen).
+  - Con el enlace se ve solo lo de ese tutor; nunca la nota interna ni datos de otros clientes.
 - Los dos paneles leen y escriben **la misma base de datos**:
   - un turno reservado por el cliente aparece en «Solicitudes»;
   - un precio cambiado en el panel se ve en el cotizador.
@@ -95,7 +99,7 @@ src/
 ├── components/ui/        Ticket, Button, Field, Chip, StatusBadge, TagChip, Stepper, Modal, Nav, Icons
 ├── components/cliente/   componentes propios del panel de cliente
 ├── components/panel/     componentes propios del panel de administrador
-├── lib/                  pricing.ts, whatsapp.ts, dates.ts, auth-cliente.ts
+├── lib/                  pricing.ts, whatsapp.ts, dates.ts, enlace-cliente.ts
 └── seed/                 datos de demo
 ```
 
@@ -168,29 +172,30 @@ src/
 
 > **Fuente de verdad: `branding-pet-mellis.md`** (manual de marca, §11). Esta sección reemplaza la paleta verde y naranja del prototipo. Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`, `font-display`...). La paleta por defecto de Tailwind está desactivada.
 
-Estilo: fondo marfil con trama de puntos, tarjetas «ticket» menta (borde de tinta petróleo de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional, higiénico y cálido**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+Estilo: fondo crema con trama de puntos, tarjetas «ticket» blancas (borde de tinta de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
-### 7.1 Tokens de color (paleta «bienestar», desde el 17/11/2026)
+### 7.1 Tokens de color
 
 | Token | Claro | Uso |
 |---|---|---|
-| `petroleo` | #0f2942 | Azul medianoche: texto principal, títulos, header y navegación, tinta |
-| `teal` | #14b8a6 | Acento: botones de acción (CTA), íconos destacados, interactivos |
-| `menta` / `superficie` | #e2f8f5 | Fondos de tarjetas, secciones secundarias, hover suave |
-| `marfil` / `fondo` | #fffdf9 | Fondo general (evitar blanco puro) y texto sobre petróleo |
-| `pizarra` | #64748b | Texto secundario e íconos de menor jerarquía sobre marfil (4,7:1) |
-| `teal-hover` / `accion-hover` | #2dd4bf | Hover del botón teal |
-| `teal-texto` / `enlace` | #0f766e | Único teal para texto chico (5,4:1 sobre marfil, 4,9:1 sobre menta) |
-| `menta-fuerte` / `superficie-alt` | #c4eee7 | Seleccionado, barras, encabezados de tabla, deshabilitado |
-| `texto-suave` (`pizarra-texto`) | #56657a | Texto secundario sobre menta (5,4:1); #64748b ahí da 4,3:1 |
-| `texto` / `tinta` | = `petroleo` | Texto principal; borde de 2 px, sombra dura y anillo de foco |
-| `linea` | #cbe7e2 | Separadores decorativos (no para controles) |
+| `amarillo-mellis` | #ffd000 | Color de marca: botones principales, bloques, destacados |
+| `amarillo-claro` | #fff3b0 | Avisos, filas y chips seleccionados |
+| `amarillo-profundo` | #f2b705 | Hover del botón amarillo |
+| `amarillo-texto` | #7a5c00 | Único amarillo para texto chico sobre blanco o crema (6,3:1) |
+| `negro` | #111111 | Tinta: bordes, sombras, texto, header |
+| `blanco` | #ffffff | Tarjetas, texto sobre negro |
+| `crema` / `fondo` | #fffbea | Fondo de página (evitar blanco puro en fondos grandes) |
+| `superficie` | #ffffff | Tickets, modales, campos |
+| `superficie-alt` | #fff3b0 | Barras, encabezados de tabla, deshabilitado |
+| `texto` / `texto-suave` | #111111 / #5c5c5c | Texto principal / secundario (6,5:1) |
+| `tinta` | #111111 | Borde de 2 px, sombra dura y anillo de foco |
+| `linea` | #e6dfc4 | Separadores decorativos (no para controles) |
 | `exito` · `aviso` · `peligro` · `info` | ver manual | Estados de turno, cada uno con su `*-fondo` |
 
-Hay tema oscuro (`[data-theme="oscuro"]`: fondo petróleo profundo, tinta teal); los tokens semánticos cambian solos.
+Hay tema oscuro (`[data-theme="oscuro"]`: fondo negro, tinta amarilla); los tokens semánticos cambian solos.
 
 **Reglas de color:**
-- Botón principal: fondo `accion` (teal) con texto `sobre-accion` (petróleo, 6:1). **Prohibido** texto blanco o marfil sobre teal y teal #14b8a6 como texto sobre claro (2,5:1).
+- Botón principal: fondo amarillo con texto negro (12,8:1). **Prohibido** texto blanco sobre amarillo y amarillo #ffd000 como texto sobre claro.
 - Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje debajo con lo que falta.
 - Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`.
 
@@ -364,7 +369,7 @@ Trabajar **por fases**, de a una, con un commit al final de cada una. Antes de c
 - [x] **Fase 1. Datos:** colecciones y global de la sección 6, control de acceso y `pnpm seed`.
 - [x] **Fase 2. Precios:** `lib/pricing.ts` leyendo de la base de datos, con tests unitarios (incluido el caso de $15.200).
 - [x] **Fase 3. Panel de administrador:** login, Hoy, Solicitudes, Mascotas + Ficha Evolutiva, Registrar atención, Enviar resumen. Las rutas protegidas viven en `app/(panel)/panel/(app)/` y la lógica en `lib/panel/` (probada en `tests/panel-*.test.ts`). El usuario de demo sale de `DEMO_ADMIN_*` en `.env`.
-- [ ] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), ingreso con WhatsApp + código, Mi mascota, Mis turnos.
+- [ ] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), enlace personal del tutor (sin login), Mi mascota, Mis turnos.
 - [ ] **Fase 5. Resto del panel:** Clientes, Servicios y precios, Informes con CSV.
 - [ ] **Fase 6. Pulido para la demo:** responsive (360 px, 768 px, 1280 px), accesibilidad (contraste, foco, labels), estados vacíos y de error, y recorrer el guion de la sección 10 completo.
 - [x] **Fase 7 (opcional, adelantada):** «Sugerir con foto (beta)» con Gemini del lado del servidor y ejemplos de demo rotulados. Ver `docs/ia-lectura-mascota.md`. Falta probar con una clave real.

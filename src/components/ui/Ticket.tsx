@@ -6,7 +6,7 @@ type Props<T extends ElementType> = {
   as?: T
   /** `normal`: relleno de 20 px. `small`: 12 px, para filas y listas. */
   size?: 'normal' | 'small'
-  /** Fondo menta fuerte: avisos o fila elegida. */
+  /** Fondo amarillo claro: avisos o fila elegida. */
   highlighted?: boolean
 } & Omit<ComponentPropsWithoutRef<T>, 'as'>
 
