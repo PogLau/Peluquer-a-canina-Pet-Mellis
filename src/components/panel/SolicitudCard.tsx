@@ -30,7 +30,7 @@ function safeLink(phone: string, message: string): string | null {
 }
 
 /** Solicitud desde la web: aceptar (abre WhatsApp), proponer otro horario o rechazar. */
-export function SolicitudCard({ turno }: { turno: TurnoPanel }) {
+export function SolicitudCard({ turno, enlace }: { turno: TurnoPanel; enlace?: string | null }) {
   const fecha = new Date(turno.fechaHora)
   const datos: DatosTurnoMensaje = useMemo(
     () => ({
@@ -39,8 +39,9 @@ export function SolicitudCard({ turno }: { turno: TurnoPanel }) {
       fechaHora: new Date(turno.fechaHora),
       servicios: turno.servicios,
       precioEstimado: turno.precioEstimado,
+      enlace,
     }),
-    [turno],
+    [turno, enlace],
   )
   const linkConfirmar = safeLink(turno.tutor.whatsapp, confirmationMessage(datos))
 

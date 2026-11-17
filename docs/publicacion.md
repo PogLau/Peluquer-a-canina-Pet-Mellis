@@ -59,7 +59,7 @@ Si `APP_URL` no está cargada, la portada se publica igual, pero oculta los boto
 ## Cambios en el código para publicar
 
 - `src/payload.config.ts`: usa **Postgres** si `DATABASE_URI` empieza con `postgres://` o `postgresql://`, y SQLite en cualquier otro caso (demo local).
-- `src/migrations/`: migración inicial de Postgres. Cuando se cambie una colección, generar otra con `pnpm payload migrate:create <nombre>` (con `DATABASE_URI` de Postgres) y commitearla.
+- `src/migrations/`: migraciones de Postgres (la inicial y `enlace_tutor`, escrita a mano para el enlace personal del cliente). Cuando se cambie una colección, generar otra con `pnpm payload migrate:create <nombre>` (con `DATABASE_URI` de Postgres) y commitearla.
 - `pnpm seed` contra una base remota exige `SEED_PERMITIR_REMOTO=si`.
 
 ## Pendiente antes de subir fotos en producción

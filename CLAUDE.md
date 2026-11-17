@@ -369,7 +369,7 @@ Trabajar **por fases**, de a una, con un commit al final de cada una. Antes de c
 - [x] **Fase 1. Datos:** colecciones y global de la sección 6, control de acceso y `pnpm seed`.
 - [x] **Fase 2. Precios:** `lib/pricing.ts` leyendo de la base de datos, con tests unitarios (incluido el caso de $15.200).
 - [x] **Fase 3. Panel de administrador:** login, Hoy, Solicitudes, Mascotas + Ficha Evolutiva, Registrar atención, Enviar resumen. Las rutas protegidas viven en `app/(panel)/panel/(app)/` y la lógica en `lib/panel/` (probada en `tests/panel-*.test.ts`). El usuario de demo sale de `DEMO_ADMIN_*` en `.env`.
-- [ ] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), enlace personal del tutor (sin login), Mi mascota, Mis turnos.
+- [x] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), enlace personal del tutor (sin login), Mi mascota, Mis turnos. Enlace: `lib/enlace-cliente.ts` y `app/(cliente)/mi/[token]`; reserva y horarios libres: `lib/cliente/` y `lib/agenda.ts` (probados en `tests/cliente-*.test.ts`). El botón «Avisar por WhatsApp» aparece cuando hay un WhatsApp real del local (configuración o `WHATSAPP_LOCAL`).
 - [ ] **Fase 5. Resto del panel:** Clientes, Servicios y precios, Informes con CSV.
 - [ ] **Fase 6. Pulido para la demo:** responsive (360 px, 768 px, 1280 px), accesibilidad (contraste, foco, labels), estados vacíos y de error, y recorrer el guion de la sección 10 completo.
 - [x] **Fase 7 (opcional, adelantada):** «Sugerir con foto (beta)» con Gemini del lado del servidor y ejemplos de demo rotulados. Ver `docs/ia-lectura-mascota.md`. Falta probar con una clave real.

@@ -42,6 +42,9 @@ export type ResultadoRegistro =
 
 const MAX_TEXTO = 2000
 
+/** Arma el enlace personal del tutor para sumarlo al mensaje (lo pasa la acción; los tests lo omiten). */
+export type EnlaceDe = (tutorId: number) => Promise<string | null>
+
 function ids(list: unknown[] | null | undefined): number[] {
   return (list ?? [])
     .map((v) => (v && typeof v === 'object' && 'id' in v ? (v as { id: number }).id : v))
@@ -143,6 +146,7 @@ export async function registerVisit(
   user: Usuario,
   input: RegistroInput,
   now = new Date(),
+  enlaceDe?: EnlaceDe,
 ): Promise<ResultadoRegistro> {
   const errores = validateVisit(input)
   if (Object.keys(errores).length)
@@ -195,6 +199,7 @@ export async function registerVisit(
     servicios: input.servicios.map((id) => nombres.get(id)).filter((n): n is string => !!n),
     resumenTutor: input.resumenTutor,
     recomendacion: input.recomendacion,
+    enlace: enlaceDe ? await enlaceDe(datos.turno.tutor.id) : null,
   })
   return { ok: true, atencionId: atencion.id, mensaje, telefono: datos.turno.tutor.whatsapp }
 }
@@ -217,7 +222,12 @@ export async function updateRecommendation(
 }
 
 /** Mensaje de resumen de una atención ya registrada (para reenviarlo desde la ficha). */
-export async function summaryForVisit(payload: Payload, user: Usuario, atencionId: number) {
+export async function summaryForVisit(
+  payload: Payload,
+  user: Usuario,
+  atencionId: number,
+  enlaceDe?: EnlaceDe,
+) {
   const a = await payload.findByID({
     collection: 'atenciones',
     id: atencionId,
@@ -239,6 +249,7 @@ export async function summaryForVisit(payload: Payload, user: Usuario, atencionI
       servicios,
       resumenTutor: a.resumenTutor,
       recomendacion: a.recomendacion,
+      enlace: enlaceDe ? await enlaceDe(tutor.id) : null,
     }),
   }
 }

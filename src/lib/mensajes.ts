@@ -12,6 +12,12 @@ export type DatosTurnoMensaje = {
   fechaHora: Date
   servicios: string[]
   precioEstimado?: number | null
+  /** Enlace personal del cliente (/mi/<token>) para ver su libreta y sus turnos. */
+  enlace?: string | null
+}
+
+function lineaEnlace(enlace?: string | null): string[] {
+  return enlace ? [`Tu libreta y tus turnos, sin contraseña: ${enlace}`] : []
 }
 
 function primerNombre(nombre: string): string {
@@ -33,7 +39,7 @@ export function confirmationMessage(t: DatosTurnoMensaje): string {
     `Servicios: ${listar(t.servicios.map((s) => s.toLowerCase()))}.`,
   ]
   if (t.precioEstimado) lineas.push(`Precio estimado: ${formatMoney(t.precioEstimado)}.`)
-  lineas.push('Si necesitás cambiar algo, avisanos por acá.')
+  lineas.push('Si necesitás cambiar algo, avisanos por acá.', ...lineaEnlace(t.enlace))
   return lineas.join('\n')
 }
 
@@ -60,6 +66,7 @@ export type DatosResumen = {
   recomendacion?: string | null
   /** Días hasta la próxima visita sugerida. */
   proximaEnDias?: number
+  enlace?: string | null
 }
 
 export function summaryMessage(r: DatosResumen): string {
@@ -71,8 +78,25 @@ export function summaryMessage(r: DatosResumen): string {
   const proxima = addDays(r.fecha, r.proximaEnDias ?? 30)
   lineas.push(
     `Te sugerimos volver alrededor del ${formatLongDate(proxima)}.`,
-    '',
-    'Los Mellis · Peluquería canina',
+    ...lineaEnlace(r.enlace),
   )
+  lineas.push('', 'Los Mellis · Peluquería canina')
   return lineas.join('\n')
+}
+
+export type DatosPedido = {
+  tutor: string
+  mascota: string
+  fechaHora: Date
+  servicios: string[]
+  precioEstimado: number
+}
+
+/** Mensaje del cliente al salón después de pedir un turno desde la web. */
+export function bookingRequestMessage(p: DatosPedido): string {
+  return [
+    `Hola, soy ${p.tutor.trim()}. Pedí un turno desde la web para ${p.mascota} ${cuando(p.fechaHora)}.`,
+    `Servicios: ${listar(p.servicios.map((s) => s.toLowerCase()))}. Precio estimado: ${formatMoney(p.precioEstimado)}.`,
+    '¿Me lo confirman? Gracias.',
+  ].join('\n')
 }

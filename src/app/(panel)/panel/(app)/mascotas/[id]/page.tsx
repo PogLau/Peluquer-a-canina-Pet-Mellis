@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
 import { EditarRecomendacion } from '@/components/panel/EditarRecomendacion'
+import { EnlaceCliente } from '@/components/panel/EnlaceCliente'
 import { FichaEvolutiva } from '@/components/panel/FichaEvolutiva'
 import { ReenviarResumen } from '@/components/panel/ReenviarResumen'
 import {
@@ -15,6 +16,7 @@ import {
   TagChip,
   Ticket,
 } from '@/components/ui'
+import { enlaceDeTutor } from '@/lib/enlace-cliente'
 import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
 import { getPetProfile } from '@/lib/panel/mascotas'
 import { requireStaff } from '@/lib/panel/sesion'
@@ -42,6 +44,7 @@ export default async function MascotaPage({ params }: Props) {
 
   const { mascota, tutor, atenciones, ficha, proximos } = perfil
   const ultima = atenciones[0]
+  const enlace = tutor.id ? await enlaceDeTutor(payload, tutor.id) : null
   const linkTutor = waTutor(tutor.whatsapp)
   const datos = [
     mascota.raza,
@@ -144,6 +147,15 @@ export default async function MascotaPage({ params }: Props) {
             />
           )}
         </Ticket>
+
+        {enlace && (
+          <Ticket as="section" aria-labelledby="enlace" className="flex flex-col gap-3">
+            <h2 id="enlace" className="text-xl">
+              enlace de {tutor.nombre.split(' ')[0].toLowerCase()}
+            </h2>
+            <EnlaceCliente tutorId={tutor.id} tutor={tutor.nombre.split(' ')[0]} inicial={enlace} />
+          </Ticket>
+        )}
 
         <section aria-labelledby="historial" className="flex flex-col gap-3">
           <h2 id="historial" className="text-xl">

@@ -6,6 +6,7 @@ import { EnviarResumen } from '@/components/panel/EnviarResumen'
 import { FormularioAtencion } from '@/components/panel/FormularioAtencion'
 import { Icon, LinkButton, Notice, PageHeader, TagChip, Ticket } from '@/components/ui'
 import { formatTime } from '@/lib/format'
+import { enlaceDeTutor } from '@/lib/enlace-cliente'
 import { getRegisterData, summaryForVisit } from '@/lib/panel/atenciones'
 import { requireStaff } from '@/lib/panel/sesion'
 
@@ -19,7 +20,9 @@ export default async function RegistrarPage({ params }: { params: Promise<{ turn
   if (!datos) notFound()
   const { turno } = datos
   const resumen = datos.atencionExistente
-    ? await summaryForVisit(payload, user, datos.atencionExistente)
+    ? await summaryForVisit(payload, user, datos.atencionExistente, (id) =>
+        enlaceDeTutor(payload, id),
+      )
     : null
 
   return (

@@ -175,6 +175,10 @@ export interface Tutore {
    * Formato internacional, por ejemplo 5491122334455. Se guarda solo con dígitos.
    */
   whatsapp: string;
+  /**
+   * Se genera solo. Para invalidar el enlace, usá «Generar enlace nuevo» en el panel.
+   */
+  enlaceToken?: string | null;
   email?: string | null;
   zona?: string | null;
   notas?: string | null;
@@ -522,6 +526,7 @@ export interface MascotasSelect<T extends boolean = true> {
 export interface TutoresSelect<T extends boolean = true> {
   nombre?: T;
   whatsapp?: T;
+  enlaceToken?: T;
   email?: T;
   zona?: T;
   notas?: T;

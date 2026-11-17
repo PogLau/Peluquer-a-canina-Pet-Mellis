@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 
 import { fromDateTimeLocalAR } from '@/lib/dates'
+import { appBaseUrl, enlaceDeTutor, enlacePersonal, regenerarToken } from '@/lib/enlace-cliente'
 import { appointmentStatuses, type AppointmentStatus } from '@/lib/estados'
 import {
   registerVisit,
@@ -69,7 +70,9 @@ export async function proponerHorario(id: number, valor: string): Promise<Result
 export async function registrarAtencion(input: RegistroInput) {
   const { payload, user } = await requireStaff()
   try {
-    const resultado = await registerVisit(payload, user, input)
+    const resultado = await registerVisit(payload, user, input, new Date(), (id) =>
+      enlaceDeTutor(payload, id),
+    )
     if (resultado.ok) {
       revalidatePath('/panel', 'layout')
       revalidatePath('/', 'layout')
@@ -88,8 +91,25 @@ export async function guardarRecomendacion(atencionId: number, texto: string): P
 export async function resumenDeAtencion(atencionId: number) {
   const { payload, user } = await requireStaff()
   try {
-    return { ok: true as const, ...(await summaryForVisit(payload, user, atencionId)) }
+    return {
+      ok: true as const,
+      ...(await summaryForVisit(payload, user, atencionId, (id) => enlaceDeTutor(payload, id))),
+    }
   } catch {
     return { ok: false as const, error: 'No encontramos esa atención.' }
+  }
+}
+
+/** Genera un enlace personal nuevo para el tutor: el anterior deja de funcionar. */
+export async function regenerarEnlace(
+  tutorId: number,
+): Promise<{ ok: true; enlace: string } | { ok: false; error: string }> {
+  const { payload } = await requireStaff()
+  try {
+    const token = await regenerarToken(payload, tutorId)
+    revalidatePath('/panel', 'layout')
+    return { ok: true, enlace: enlacePersonal(await appBaseUrl(), token) }
+  } catch {
+    return { ok: false, error: 'No se pudo generar el enlace. Probá de nuevo.' }
   }
 }
