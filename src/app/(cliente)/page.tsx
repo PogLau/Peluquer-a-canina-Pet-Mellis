@@ -1,23 +1,17 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
 import { Icon, Isotipo, LinkButton, Ticket } from '@/components/ui'
-import { servicios } from '@/lib/catalogo-demo'
+import { getCatalogo, getDatosLocal } from '@/lib/datos-publicos'
 import { startingPrice } from '@/lib/pricing'
-import { whatsappLink } from '@/lib/whatsapp'
 
-// Fase 0: el catálogo sale de catalogo-demo. En la Fase 2 se lee de Payload.
-function localWhatsapp(): string | null {
-  const phone = process.env.WHATSAPP_LOCAL ?? ''
-  if (/x/i.test(phone)) return null
-  try {
-    return whatsappLink(phone, 'Hola, quería consultar por un turno para mi perro.')
-  } catch {
-    return null
-  }
-}
+// Precios, dirección y horarios salen de la base: un cambio en el panel se ve en la próxima visita
+export const dynamic = 'force-dynamic'
 
-export default function InicioPage() {
-  const destacados = [...servicios].sort((a, b) => Number(b.popular ?? false) - Number(a.popular ?? false)).slice(0, 3)
-  const whatsapp = localWhatsapp()
+export default async function InicioPage() {
+  const [catalogo, local] = await Promise.all([getCatalogo(), getDatosLocal()])
+  const destacados = [...(catalogo?.servicios ?? [])]
+    .sort((a, b) => Number(b.popular ?? false) - Number(a.popular ?? false))
+    .slice(0, 3)
+  const { whatsapp } = local
 
   return (
     <div className="flex flex-col gap-12">
@@ -58,6 +52,9 @@ export default function InicioPage() {
             Ver todos y cotizar
           </LinkButton>
         </div>
+        {destacados.length === 0 && (
+          <p className="text-texto-suave">Los precios no están disponibles en este momento. Escribinos para consultar.</p>
+        )}
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {destacados.map((s) => (
             <li key={s.id}>
@@ -85,7 +82,7 @@ export default function InicioPage() {
           <Icon name="ubicacion" size={28} />
           <div>
             <p className="font-display text-xl lowercase">dónde estamos</p>
-            <p className="text-texto-suave">Merlo, Buenos Aires</p>
+            <p className="text-texto-suave">{local.direccion}</p>
           </div>
         </Ticket>
         <Ticket className="flex flex-wrap items-center justify-between gap-4">
@@ -93,7 +90,17 @@ export default function InicioPage() {
             <Icon name="reloj" size={28} />
             <div>
               <p className="font-display text-xl lowercase">horarios</p>
-              <p className="text-texto-suave">Consultá los días y horarios disponibles al reservar.</p>
+              {local.horarios.length > 0 ? (
+                <ul className="text-texto-suave">
+                  {local.horarios.map((h) => (
+                    <li key={h.dia}>
+                      {h.dia}: {h.abre} a {h.cierra} h
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-texto-suave">Consultá los días y horarios disponibles al reservar.</p>
+              )}
             </div>
           </div>
           {whatsapp && (

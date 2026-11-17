@@ -53,6 +53,6 @@ src/
 └── styles/globals.css    tokens de marca
 ```
 
-## Despliegue
+## Publicación
 
-La app necesita un servidor Node (Payload y la base de datos), así que **no** se puede publicar en GitHub Pages. Opciones: Vercel con Postgres, o un VPS con SQLite.
+La app completa se publica en **Vercel** (con Postgres) y la portada estática (`portada/`) en **GitHub Pages**, las dos solas en cada push a `main`. Pasos en [`docs/publicacion.md`](docs/publicacion.md).

@@ -4,10 +4,18 @@ import { getPayload } from 'payload'
 
 import { seed } from './seed'
 
-// Solo contra una base SQLite local: nunca borrar datos de una base desplegada
+/*
+  El seed BORRA los datos del negocio y carga la demo.
+  - SQLite local (DATABASE_URI=file:...): corre directo.
+  - Base remota (por ejemplo, la Postgres de Vercel): solo con SEED_PERMITIR_REMOTO=si,
+    para que nadie borre una base real por error.
+*/
 const uri = process.env.DATABASE_URI ?? 'file:./petmellis.db'
-if (!uri.startsWith('file:')) {
-  console.error(`pnpm seed solo corre contra SQLite local (DATABASE_URI=file:...). Recibido: ${uri.split(':')[0]}:...`)
+const esLocal = uri.startsWith('file:')
+if (!esLocal && process.env.SEED_PERMITIR_REMOTO !== 'si') {
+  console.error(
+    'pnpm seed borra los datos. Contra una base remota hay que confirmarlo con SEED_PERMITIR_REMOTO=si.',
+  )
   process.exit(1)
 }
 

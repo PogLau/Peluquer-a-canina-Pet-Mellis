@@ -2,6 +2,7 @@ import { ValidationError, type CollectionConfig } from 'payload'
 
 import { staffOnly } from '../access'
 
+import { calcularPrecioTurno } from './hooks/precioTurno'
 import { knotsOptions, statusOptions } from './options'
 
 function relationId(value: unknown): number | string | null {
@@ -20,6 +21,7 @@ export const Turnos: CollectionConfig = {
   // Fase 4: el tutor crea su turno desde el servidor (acción de reserva), no con acceso público
   access: { read: staffOnly, create: staffOnly, update: staffOnly, delete: staffOnly },
   hooks: {
+    beforeChange: [calcularPrecioTurno],
     beforeValidate: [
       // La mascota tiene que ser del tutor del turno
       async ({ data, originalDoc, req }) => {
@@ -70,7 +72,10 @@ export const Turnos: CollectionConfig = {
       type: 'number',
       label: 'Precio estimado',
       min: 0,
-      admin: { description: 'Calculado con el cotizador al reservar (incluye recargo por nudos).' },
+      admin: {
+        readOnly: true,
+        description: 'Lo calcula el servidor con los precios vigentes (incluye recargo por nudos).',
+      },
     },
     {
       name: 'origen',

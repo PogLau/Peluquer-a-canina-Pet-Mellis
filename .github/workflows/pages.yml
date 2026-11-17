@@ -1,0 +1,59 @@
+# Publica la portada estática (carpeta portada/) en GitHub Pages en cada push a main.
+# La app completa (Next.js + Payload) se publica aparte en Vercel: GitHub Pages no puede correr un servidor.
+#
+# Variable del repositorio (Settings > Secrets and variables > Actions > Variables):
+#   APP_URL = URL de la app en Vercel, sin barra final (por ejemplo https://pet-mellis.vercel.app)
+# Si no está definida, la portada se publica igual y oculta los botones que llevan a la app.
+
+name: Portada en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'portada/**'
+      - '.github/workflows/pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Poner la URL de la app
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+        run: |
+          if [ -n "$APP_URL" ]; then
+            APP_URL="${APP_URL%/}"
+            sed -i "s#__APP_URL__#${APP_URL}#g" portada/index.html
+            echo "Portada enlazada a $APP_URL"
+          else
+            echo "::warning::Falta la variable APP_URL: la portada se publica sin los botones de la app."
+          fi
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: portada
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -363,7 +363,7 @@ Trabajar **por fases**, de a una, con un commit al final de cada una. Antes de c
 
 - [x] **Fase 0. Base:** proyecto Next.js + TS + Tailwind 4 + Payload (SQLite), tokens de la sección 7, fuentes con `next/font`, `components/ui/` y una página `/dev/ui` con todos los componentes para revisarlos.
 - [x] **Fase 1. Datos:** colecciones y global de la sección 6, control de acceso y `pnpm seed`.
-- [ ] **Fase 2. Precios:** `lib/pricing.ts` leyendo de la base de datos, con tests unitarios (incluido el caso de $15.200).
+- [x] **Fase 2. Precios:** `lib/pricing.ts` leyendo de la base de datos, con tests unitarios (incluido el caso de $15.200).
 - [ ] **Fase 3. Panel de administrador:** login, Hoy, Solicitudes, Mascotas + Ficha Evolutiva, Registrar atención, Enviar resumen.
 - [ ] **Fase 4. Panel de cliente:** Inicio, Cotizador, Reservar (4 pasos), ingreso con WhatsApp + código, Mi mascota, Mis turnos.
 - [ ] **Fase 5. Resto del panel:** Clientes, Servicios y precios, Informes con CSV.

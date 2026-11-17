@@ -143,3 +143,36 @@ describe('reglas de los datos', () => {
     expect(catalog.servicios.find((s) => s.id === 'bano-corte')?.precios.chico).toBe(9000)
   })
 })
+
+describe('precio del turno (Fase 2)', () => {
+  it('lo calcula el servidor e ignora el precio que manda el cliente', async () => {
+    const toby = (await payload.find({ collection: 'mascotas', where: { nombre: { equals: 'Toby' } }, depth: 0 })).docs[0]
+    const slugId = async (collection: 'servicios' | 'extras', slug: string) =>
+      (await payload.find({ collection, where: { slug: { equals: slug } }, depth: 0 })).docs[0].id
+
+    // Toby: chico, rizado. Uñas no lleva recargo por manto, así que los nudos no se cobran.
+    const turno = await payload.create({
+      collection: 'turnos',
+      data: {
+        fechaHora: new Date().toISOString(),
+        estado: 'solicitado',
+        tutor: toby.tutor as number,
+        mascota: toby.id,
+        servicios: [await slugId('servicios', 'unas')],
+        extras: [await slugId('extras', 'perfume')],
+        nudos: 'severos',
+        origen: 'web',
+        precioEstimado: 1,
+      },
+    })
+    expect(turno.precioEstimado).toBe(3000)
+
+    // Al sumar Baño y Cepillado (5.500 × 1,2 = 6.600) entra el recargo por nudos severos, una sola vez
+    const actualizado = await payload.update({
+      collection: 'turnos',
+      id: turno.id,
+      data: { servicios: [await slugId('servicios', 'unas'), await slugId('servicios', 'bano-cepillado')] },
+    })
+    expect(actualizado.precioEstimado).toBe(2000 + 6600 + 1000 + 6000)
+  })
+})

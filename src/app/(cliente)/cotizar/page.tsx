@@ -1,10 +1,8 @@
-import config from '@payload-config'
 import type { Metadata } from 'next'
-import { getPayload } from 'payload'
 
 import { Cotizador } from '@/components/cliente/Cotizador'
 import { Notice, PageHeader } from '@/components/ui'
-import { loadCatalog } from '@/lib/catalogo'
+import { getCatalogo } from '@/lib/datos-publicos'
 import { iaDisponible } from '@/lib/ia/gemini'
 
 export const metadata: Metadata = { title: 'Cotizar' }
@@ -13,12 +11,7 @@ export const metadata: Metadata = { title: 'Cotizar' }
 export const dynamic = 'force-dynamic'
 
 export default async function CotizarPage() {
-  let catalog
-  try {
-    catalog = await loadCatalog(await getPayload({ config }))
-  } catch {
-    catalog = null
-  }
+  const catalog = await getCatalogo()
 
   return (
     <>

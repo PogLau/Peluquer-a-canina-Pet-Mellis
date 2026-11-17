@@ -13,7 +13,8 @@ const eslintConfig = [
     },
   },
   {
-    ignores: ['.next/', 'node_modules/', 'src/payload-types.ts', 'src/app/(payload)/', 'index.html'],
+    // Archivos generados por Payload
+    ignores: ['.next/', 'node_modules/', 'src/payload-types.ts', 'src/app/(payload)/', 'src/migrations/'],
   },
 ]
 
