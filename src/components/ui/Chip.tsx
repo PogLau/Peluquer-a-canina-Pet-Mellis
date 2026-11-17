@@ -26,14 +26,31 @@ type Props<V extends string> = {
   value: V | null
   onChange: (value: V) => void
   hint?: string
+  /** Una sola fila que se desliza de costado (por ejemplo, los días de la reserva en el celular). */
+  scroll?: boolean
 }
 
-export function ChipGroup<V extends string>({ legend, name, options, value, onChange, hint }: Props<V>) {
+export function ChipGroup<V extends string>({
+  legend,
+  name,
+  options,
+  value,
+  onChange,
+  hint,
+  scroll = false,
+}: Props<V>) {
   const hintId = useId()
   return (
-    <fieldset className="flex flex-col gap-2" aria-describedby={hint ? hintId : undefined}>
+    <fieldset className="flex min-w-0 flex-col gap-2" aria-describedby={hint ? hintId : undefined}>
       <legend className="mb-2 text-sm font-bold text-texto">{legend}</legend>
-      <div className="flex flex-wrap gap-2">
+      <div
+        className={cn(
+          'flex gap-2',
+          scroll
+            ? '-mx-1 snap-x overflow-x-auto px-1 pb-3 pt-1 [&>label]:shrink-0 [&>label]:snap-start'
+            : 'flex-wrap',
+        )}
+      >
         {options.map((option) => {
           const checked = option.value === value
           return (
@@ -42,7 +59,9 @@ export function ChipGroup<V extends string>({ legend, name, options, value, onCh
               className={cn(
                 'relative flex min-h-12 cursor-pointer items-center gap-2 rounded-sm border-2 border-tinta px-3.5 py-2 text-sm font-extrabold transition-colors',
                 'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-tinta',
-                checked ? 'bg-accion text-sobre-accion shadow-ticket-presionada' : 'bg-superficie text-texto hover:bg-superficie-alt',
+                checked
+                  ? 'bg-accion text-sobre-accion shadow-ticket-presionada'
+                  : 'bg-superficie text-texto hover:bg-superficie-alt',
               )}
             >
               <input
@@ -87,7 +106,9 @@ export function ToggleChip({ pressed, onPressedChange, children, icon }: ToggleC
       onClick={() => onPressedChange(!pressed)}
       className={cn(
         'inline-flex min-h-10 items-center gap-2 rounded-sm border-2 border-tinta px-3.5 text-sm font-extrabold transition-colors',
-        pressed ? 'bg-accion text-sobre-accion' : 'bg-superficie text-texto hover:bg-superficie-alt',
+        pressed
+          ? 'bg-accion text-sobre-accion'
+          : 'bg-superficie text-texto hover:bg-superficie-alt',
       )}
     >
       {icon && <Icon name={icon} size={18} />}

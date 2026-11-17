@@ -56,7 +56,10 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
       aria-label="Principal"
       className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-tinta bg-superficie pb-[env(safe-area-inset-bottom)] md:hidden"
     >
-      <ul className="grid" style={{ gridTemplateColumns: `repeat(${visible.length}, minmax(0, 1fr))` }}>
+      <ul
+        className="grid"
+        style={{ gridTemplateColumns: `repeat(${visible.length}, minmax(0, 1fr))` }}
+      >
         {visible.map((item) => {
           const active = isActive(pathname, item.href, root)
           return (
@@ -65,12 +68,14 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'flex min-h-16 flex-col items-center justify-center gap-1 px-1 text-xs font-extrabold',
+                  'flex min-h-16 flex-col items-center justify-center gap-1 px-0.5 py-1.5 text-xs font-extrabold',
                   active ? 'bg-amarillo text-negro' : 'text-texto',
                 )}
               >
                 <Icon name={item.icon} size={22} />
-                <span className="max-w-full truncate">{item.label}</span>
+                <span className="max-w-full text-center leading-tight [overflow-wrap:anywhere]">
+                  {item.label}
+                </span>
               </Link>
             </li>
           )

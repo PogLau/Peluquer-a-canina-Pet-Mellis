@@ -42,6 +42,7 @@ export function PasoHorario({ estado, set, dias, whatsappLocal }: Props) {
       <ChipGroup
         legend="Día"
         name="dia"
+        scroll
         options={dias.map((d) => ({
           value: d.fecha,
           label: d.etiqueta,
