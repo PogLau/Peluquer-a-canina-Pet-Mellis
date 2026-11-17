@@ -25,7 +25,7 @@ export function ResumenPresupuesto({ quote, estado }: { quote: Quote; estado: Es
         <ul className="flex flex-col gap-2 border-y-2 border-dashed border-linea py-3" aria-live="polite">
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex items-baseline justify-between gap-3 text-sm">
-              <span className={cn(l.tipo === 'recargo' && 'font-bold text-amarillo-texto')}>{l.nombre}</span>
+              <span className={cn(l.tipo === 'recargo' && 'font-bold text-enlace')}>{l.nombre}</span>
               <span className="cifras font-bold">{formatMoney(l.monto)}</span>
             </li>
           ))}

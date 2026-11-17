@@ -1,36 +1,43 @@
 @import 'tailwindcss';
 
 /*
-  Pet Mellis: tokens de marca (branding-pet-mellis.md §11).
+  Pet Mellis: tokens de marca (branding-pet-mellis.md §11, paleta «bienestar»).
   Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
+  Los cinco colores de marca van tal cual; los derivados existen solo para cumplir WCAG AA.
 */
 
 :root {
   /* Paleta de marca */
-  --amarillo-mellis: #ffd000;
-  --amarillo-claro: #fff3b0;
-  --amarillo-profundo: #f2b705;
-  --amarillo-texto: #7a5c00;
-  --negro: #111111;
-  --blanco: #ffffff;
-  --crema: #fffbea;
+  --petroleo: #0f2942; /* textos principales, títulos, navegación, tinta */
+  --teal: #14b8a6; /* acento: botones de acción, íconos destacados, interactivos */
+  --menta: #e2f8f5; /* fondos de tarjetas y secciones secundarias, hover suave */
+  --marfil: #fffdf9; /* fondo general */
+  --pizarra: #64748b; /* textos secundarios e íconos de menor jerarquía (sobre marfil, 4,7:1) */
+
+  /* Derivados para contraste. El teal #14b8a6 nunca va como texto sobre claro (2,5:1). */
+  --teal-hover: #2dd4bf; /* hover del botón teal; texto petróleo encima, 8:1 */
+  --teal-texto: #0f766e; /* links y rótulos teal chicos: 5,4:1 sobre marfil, 4,9:1 sobre menta */
+  --menta-fuerte: #c4eee7; /* seleccionado, encabezados de tabla, deshabilitado */
+  --pizarra-texto: #56657a; /* texto secundario: 5,4:1 sobre menta (#64748b ahí da 4,3:1) */
 
   /* Semánticos (cambian con el tema) */
-  --fondo: #fffbea;
-  --superficie: #ffffff;
-  --superficie-alt: #fff3b0;
-  --texto: #111111;
-  --texto-suave: #5c5c5c;
-  --tinta: #111111;
-  --linea: #e6dfc4;
-  --accion: var(--amarillo-mellis);
-  --sobre-accion: var(--negro);
+  --fondo: var(--marfil);
+  --superficie: var(--menta);
+  --superficie-alt: var(--menta-fuerte);
+  --texto: var(--petroleo);
+  --texto-suave: var(--pizarra-texto);
+  --tinta: var(--petroleo);
+  --linea: #cbe7e2;
+  --accion: var(--teal);
+  --accion-hover: var(--teal-hover);
+  --sobre-accion: var(--petroleo);
+  --enlace: var(--teal-texto);
 
   /* Estados */
   --exito: #1f6b45;
   --exito-fondo: #dcefe2;
-  --aviso: #7a5c00;
-  --aviso-fondo: #fff3b0;
+  --aviso: #8a5a00;
+  --aviso-fondo: #fbefc8;
   --peligro: #b42318;
   --peligro-fondo: #fde4e1;
   --info: #1f4f7a;
@@ -46,24 +53,25 @@
   --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
   --trazo-icono: 1.75px;
 
-  /* Patrón de puntos del papel (línea al 12 %) */
-  --trama: color-mix(in srgb, var(--tinta) 12%, transparent);
+  /* Patrón de puntos del papel (tinta al 10 %) */
+  --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
 
   color-scheme: light;
 }
 
 [data-theme='oscuro'] {
-  --fondo: #111111;
-  --superficie: #1c1c1c;
-  --superficie-alt: #2a2a2a;
-  --texto: #ffffff;
-  --texto-suave: #c4c4c4;
-  --tinta: #ffd000;
-  --linea: #3a3a3a;
+  --fondo: #0a1d30;
+  --superficie: #11304c;
+  --superficie-alt: #183d5e;
+  --texto: #fffdf9;
+  --texto-suave: #a9b8c8;
+  --tinta: #14b8a6;
+  --linea: #23466a;
+  --enlace: #5eead4;
   --exito: #7fd3a3;
   --exito-fondo: #12301f;
-  --aviso: #ffd000;
-  --aviso-fondo: #332a00;
+  --aviso: #f5c451;
+  --aviso-fondo: #33270a;
   --peligro: #ff8a80;
   --peligro-fondo: #3a1512;
   --info: #8cc2f0;
@@ -85,13 +93,14 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-amarillo: var(--amarillo-mellis);
-  --color-amarillo-claro: var(--amarillo-claro);
-  --color-amarillo-profundo: var(--amarillo-profundo);
-  --color-amarillo-texto: var(--amarillo-texto);
-  --color-negro: var(--negro);
-  --color-blanco: var(--blanco);
-  --color-crema: var(--crema);
+  --color-petroleo: var(--petroleo);
+  --color-teal: var(--teal);
+  --color-teal-hover: var(--teal-hover);
+  --color-teal-texto: var(--teal-texto);
+  --color-menta: var(--menta);
+  --color-menta-fuerte: var(--menta-fuerte);
+  --color-marfil: var(--marfil);
+  --color-pizarra: var(--pizarra);
 
   --color-fondo: var(--fondo);
   --color-superficie: var(--superficie);
@@ -101,6 +110,8 @@
   --color-tinta: var(--tinta);
   --color-linea: var(--linea);
   --color-accion: var(--accion);
+  --color-accion-hover: var(--accion-hover);
+  --color-enlace: var(--enlace);
   --color-sobre-accion: var(--sobre-accion);
 
   --color-exito: var(--exito);
@@ -176,8 +187,8 @@
   }
 
   ::selection {
-    background: var(--amarillo-claro);
-    color: var(--negro);
+    background: var(--menta-fuerte);
+    color: var(--petroleo);
   }
 }
 

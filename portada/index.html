@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Los Mellis, peluquería canina en Merlo. Cotizá y reservá el turno de tu perro. Cada visita mejora la siguiente.">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#0f2942">
 <title>Pet Mellis · Peluquería canina en Merlo</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,15 +17,17 @@
   Todas las rutas son relativas, así funciona bajo /Peluquer-a-canina-Pet-Mellis/ sin basePath.
 */
 :root {
-  --amarillo: #ffd000;
-  --amarillo-claro: #fff3b0;
-  --amarillo-profundo: #f2b705;
-  --amarillo-texto: #7a5c00;
-  --negro: #111111;
-  --blanco: #ffffff;
-  --fondo: #fffbea;
-  --texto-suave: #5c5c5c;
-  --linea: #e6dfc4;
+  /* Paleta «bienestar»: los cinco colores de marca, más derivados solo para contraste */
+  --petroleo: #0f2942;
+  --teal: #14b8a6;
+  --menta: #e2f8f5;
+  --marfil: #fffdf9;
+  --pizarra: #64748b;
+  --teal-hover: #2dd4bf;
+  --teal-texto: #0f766e;
+  --menta-fuerte: #c4eee7;
+  --pizarra-texto: #56657a;
+  --fondo: var(--marfil);
   --font-display: "Sora", ui-rounded, system-ui, sans-serif;
   --font-texto: "Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
   --font-datos: "Space Mono", ui-monospace, Consolas, monospace;
@@ -34,39 +36,39 @@
 html { background: var(--fondo); }
 body {
   margin: 0;
-  color: var(--negro);
+  color: var(--petroleo);
   font: 16px/25px var(--font-texto);
   background-color: var(--fondo);
-  background-image: radial-gradient(color-mix(in srgb, var(--negro) 12%, transparent) 1px, transparent 1.2px);
+  background-image: radial-gradient(color-mix(in srgb, var(--petroleo) 10%, transparent) 1px, transparent 1.2px);
   background-size: 18px 18px;
   -webkit-font-smoothing: antialiased;
 }
 a { color: inherit; }
-:focus-visible { outline: 2px solid var(--negro); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--petroleo); outline-offset: 3px; }
 .envoltura { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .rotulo { font: 700 12px/16px var(--font-datos); letter-spacing: .08em; text-transform: uppercase; }
 h1, h2, h3 { font-family: var(--font-display); font-weight: 600; letter-spacing: -.02em; text-transform: lowercase; margin: 0; }
 
-header { background: var(--negro); border-bottom: 2px solid var(--negro); }
+header { background: var(--petroleo); border-bottom: 2px solid var(--petroleo); }
 header .envoltura { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 64px; }
 .logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
 .logo .placa { background: var(--fondo); border-radius: 6px; padding: 2px 4px; display: inline-flex; }
 .logo .nombre { display: flex; flex-direction: column; line-height: 1; }
-.logo .nombre b { font: 600 20px/1 var(--font-display); color: var(--blanco); }
-.logo .nombre .rotulo { color: var(--amarillo); margin-top: 4px; }
-header a:focus-visible { outline-color: var(--amarillo); }
+.logo .nombre b { font: 600 20px/1 var(--font-display); color: var(--marfil); }
+.logo .nombre .rotulo { color: var(--teal); margin-top: 4px; }
+header a:focus-visible { outline-color: var(--teal); }
 
 .boton {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px; padding: 0 20px; border: 2px solid var(--negro); border-radius: 10px;
-  font: 800 16px/1 var(--font-texto); text-decoration: none; box-shadow: 4px 4px 0 0 var(--negro);
+  min-height: 48px; padding: 0 20px; border: 2px solid var(--petroleo); border-radius: 10px;
+  font: 800 16px/1 var(--font-texto); text-decoration: none; box-shadow: 4px 4px 0 0 var(--petroleo);
   transition: transform .1s, box-shadow .1s, background-color .1s;
 }
-.boton:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--negro); }
-.boton.principal { background: var(--amarillo); color: var(--negro); }
-.boton.principal:hover { background: var(--amarillo-profundo); }
-.boton.secundario { background: var(--blanco); color: var(--negro); }
-.boton.secundario:hover { background: var(--amarillo-claro); }
+.boton:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 0 var(--petroleo); }
+.boton.principal { background: var(--teal); color: var(--petroleo); }
+.boton.principal:hover { background: var(--teal-hover); }
+.boton.secundario { background: var(--menta); color: var(--petroleo); }
+.boton.secundario:hover { background: var(--menta-fuerte); }
 .boton.chico { min-height: 40px; padding: 0 16px; font-size: 14px; }
 .boton svg { width: 20px; height: 20px; }
 /* Íconos del sprite: trazo de 1,75 px en currentColor (los <use> no heredan los atributos del sprite) */
@@ -74,29 +76,29 @@ header a:focus-visible { outline-color: var(--amarillo); }
 
 .hero { display: grid; gap: 32px; align-items: center; padding: 32px 0 48px; }
 .hero h1 { font-size: 40px; line-height: 44px; margin: 12px 0 16px; }
-.hero p.bajada { font-size: 18px; line-height: 28px; color: var(--texto-suave); margin: 0 0 24px; max-width: 34em; }
+.hero p.bajada { font-size: 18px; line-height: 28px; color: var(--pizarra); margin: 0 0 24px; max-width: 34em; }
 .hero .acciones { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero .rotulo { color: var(--amarillo-texto); }
+.hero .rotulo { color: var(--teal-texto); }
 
-.ticket { background: var(--blanco); border: 2px solid var(--negro); border-radius: 10px; box-shadow: 4px 4px 0 0 var(--negro); padding: 20px; }
-.ticket.resaltado { background: var(--amarillo-claro); }
+.ticket { background: var(--menta); border: 2px solid var(--petroleo); border-radius: 10px; box-shadow: 4px 4px 0 0 var(--petroleo); padding: 20px; }
+.ticket.resaltado { background: var(--menta-fuerte); }
 .hero .ticket { text-align: center; padding: 32px 20px; }
 .hero .ticket svg { width: 100%; max-width: 220px; height: auto; }
-.hero .ticket p { font-size: 14px; line-height: 21px; max-width: 22em; margin: 12px auto 0; }
+.hero .ticket p { color: var(--pizarra-texto); font-size: 14px; line-height: 21px; max-width: 22em; margin: 12px auto 0; }
 
 section.como { padding-bottom: 48px; }
 section.como h2 { font-size: 28px; line-height: 32px; margin-bottom: 20px; }
 .pasos { display: grid; gap: 24px; list-style: none; padding: 0; margin: 0; }
 .pasos li { display: flex; flex-direction: column; gap: 8px; }
-.pasos .icono { width: 56px; height: 56px; display: grid; place-items: center; border: 2px solid var(--negro); border-radius: 18px; background: var(--amarillo-claro); }
+.pasos .icono { width: 56px; height: 56px; display: grid; place-items: center; border: 2px solid var(--petroleo); border-radius: 18px; background: var(--menta); }
 .pasos .icono svg { width: 28px; height: 28px; }
 .pasos h3 { font-size: 20px; line-height: 26px; }
-.pasos p { margin: 0; font-size: 14px; line-height: 21px; color: var(--texto-suave); }
+.pasos p { margin: 0; font-size: 14px; line-height: 21px; color: var(--pizarra); }
 
-footer { border-top: 2px solid var(--negro); background: var(--blanco); }
-footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 20px 16px; font-size: 14px; color: var(--texto-suave); }
+footer { border-top: 2px solid var(--petroleo); background: var(--menta); }
+footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 20px 16px; font-size: 14px; color: var(--pizarra-texto); }
 
-.pronto { display: none; font-size: 14px; color: var(--texto-suave); margin: 12px 0 0; }
+.pronto { display: none; font-size: 14px; color: var(--pizarra); margin: 12px 0 0; }
 .sin-app .requiere-app { display: none; }
 .sin-app .pronto { display: block; }
 
@@ -142,26 +144,26 @@ footer .envoltura { display: flex; flex-wrap: wrap; justify-content: space-betwe
     <div class="ticket resaltado">
       <svg id="isotipo-hero" viewBox="0 0 230 150" role="img" aria-label="Los mellis, dos perros recién peinados">
         <g id="isotipo">
-          <path d="M125.63 53.18A9.42 9.42 0 0 1 136.16 65.18A9.42 9.42 0 0 1 133.35 80.9A9.42 9.42 0 0 1 119.31 88.5A9.42 9.42 0 0 1 104.61 82.26A9.42 9.42 0 0 1 100.33 66.88A9.42 9.42 0 0 1 109.68 53.94A9.42 9.42 0 0 1 125.63 53.18Z" fill="#FFFFFF" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M204.75 53.18A9.42 9.42 0 0 1 215.28 65.18A9.42 9.42 0 0 1 212.47 80.9A9.42 9.42 0 0 1 198.43 88.5A9.42 9.42 0 0 1 183.73 82.26A9.42 9.42 0 0 1 179.45 66.88A9.42 9.42 0 0 1 188.8 53.94A9.42 9.42 0 0 1 204.75 53.18Z" fill="#FFFFFF" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M165.99 14.7A14.05 14.05 0 0 1 187.57 24.76A14.05 14.05 0 0 1 201.23 44.27A14.05 14.05 0 0 1 203.3 67.99A14.05 14.05 0 0 1 193.24 89.57A14.05 14.05 0 0 1 173.73 103.23A14.05 14.05 0 0 1 150.01 105.3A14.05 14.05 0 0 1 128.43 95.24A14.05 14.05 0 0 1 114.77 75.73A14.05 14.05 0 0 1 112.7 52.01A14.05 14.05 0 0 1 122.76 30.43A14.05 14.05 0 0 1 142.27 16.77A14.05 14.05 0 0 1 165.99 14.7Z" fill="#FFFFFF" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M136.38 60.92Q142.36 67.5 148.34 60.92" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round"/>
-          <path d="M167.66 60.92Q173.64 67.5 179.62 60.92" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round"/>
-          <circle cx="132.7" cy="72.42" r="4.6" fill="#F2B705"/><circle cx="183.3" cy="72.42" r="4.6" fill="#F2B705"/>
-          <ellipse cx="158" cy="70.12" rx="5.98" ry="4.14" fill="#111111"/>
-          <path d="M158 74.26v3.22M151.56 76.56Q154.78 81.62 158 77.48Q161.22 81.62 164.44 76.56" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M125.63 53.18A9.42 9.42 0 0 1 136.16 65.18A9.42 9.42 0 0 1 133.35 80.9A9.42 9.42 0 0 1 119.31 88.5A9.42 9.42 0 0 1 104.61 82.26A9.42 9.42 0 0 1 100.33 66.88A9.42 9.42 0 0 1 109.68 53.94A9.42 9.42 0 0 1 125.63 53.18Z" fill="#FFFDF9" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M204.75 53.18A9.42 9.42 0 0 1 215.28 65.18A9.42 9.42 0 0 1 212.47 80.9A9.42 9.42 0 0 1 198.43 88.5A9.42 9.42 0 0 1 183.73 82.26A9.42 9.42 0 0 1 179.45 66.88A9.42 9.42 0 0 1 188.8 53.94A9.42 9.42 0 0 1 204.75 53.18Z" fill="#FFFDF9" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M165.99 14.7A14.05 14.05 0 0 1 187.57 24.76A14.05 14.05 0 0 1 201.23 44.27A14.05 14.05 0 0 1 203.3 67.99A14.05 14.05 0 0 1 193.24 89.57A14.05 14.05 0 0 1 173.73 103.23A14.05 14.05 0 0 1 150.01 105.3A14.05 14.05 0 0 1 128.43 95.24A14.05 14.05 0 0 1 114.77 75.73A14.05 14.05 0 0 1 112.7 52.01A14.05 14.05 0 0 1 122.76 30.43A14.05 14.05 0 0 1 142.27 16.77A14.05 14.05 0 0 1 165.99 14.7Z" fill="#FFFDF9" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M136.38 60.92Q142.36 67.5 148.34 60.92" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round"/>
+          <path d="M167.66 60.92Q173.64 67.5 179.62 60.92" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round"/>
+          <circle cx="132.7" cy="72.42" r="4.6" fill="#2DD4BF"/><circle cx="183.3" cy="72.42" r="4.6" fill="#2DD4BF"/>
+          <ellipse cx="158" cy="70.12" rx="5.98" ry="4.14" fill="#0F2942"/>
+          <path d="M158 74.26v3.22M151.56 76.56Q154.78 81.62 158 77.48Q161.22 81.62 164.44 76.56" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round"/>
           <g transform="rotate(-18 177.32 24.12)">
-            <path d="M177.32 24.12L161.68 14.74Q159.33 24.12 161.68 33.5Z" fill="#FFD000" stroke="#111111" stroke-width="4.25" stroke-linejoin="round"/>
-            <path d="M177.32 24.12L192.96 14.74Q195.31 24.12 192.96 33.5Z" fill="#FFD000" stroke="#111111" stroke-width="4.25" stroke-linejoin="round"/>
-            <circle cx="177.32" cy="24.12" r="3.75" fill="#FFD000" stroke="#111111" stroke-width="4.25"/>
+            <path d="M177.32 24.12L161.68 14.74Q159.33 24.12 161.68 33.5Z" fill="#14B8A6" stroke="#0F2942" stroke-width="4.25" stroke-linejoin="round"/>
+            <path d="M177.32 24.12L192.96 14.74Q195.31 24.12 192.96 33.5Z" fill="#14B8A6" stroke="#0F2942" stroke-width="4.25" stroke-linejoin="round"/>
+            <circle cx="177.32" cy="24.12" r="3.75" fill="#14B8A6" stroke="#0F2942" stroke-width="4.25"/>
           </g>
-          <path d="M39.5 77.51A10.24 10.24 0 0 1 53.04 88.37A10.24 10.24 0 0 1 53 105.72A10.24 10.24 0 0 1 39.4 116.51A10.24 10.24 0 0 1 22.49 112.61A10.24 10.24 0 0 1 15 96.95A10.24 10.24 0 0 1 22.57 81.33A10.24 10.24 0 0 1 39.5 77.51Z" fill="#FFD000" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M125.5 77.51A10.24 10.24 0 0 1 139.04 88.37A10.24 10.24 0 0 1 139 105.72A10.24 10.24 0 0 1 125.4 116.51A10.24 10.24 0 0 1 108.49 112.61A10.24 10.24 0 0 1 101 96.95A10.24 10.24 0 0 1 108.57 81.33A10.24 10.24 0 0 1 125.5 77.51Z" fill="#FFD000" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M78 36A15.27 15.27 0 0 1 103 42.7A15.27 15.27 0 0 1 121.3 61A15.27 15.27 0 0 1 128 86A15.27 15.27 0 0 1 121.3 111A15.27 15.27 0 0 1 103 129.3A15.27 15.27 0 0 1 78 136A15.27 15.27 0 0 1 53 129.3A15.27 15.27 0 0 1 34.7 111A15.27 15.27 0 0 1 28 86A15.27 15.27 0 0 1 34.7 61A15.27 15.27 0 0 1 53 42.7A15.27 15.27 0 0 1 78 36Z" fill="#FFD000" stroke="#111111" stroke-width="5" stroke-linejoin="round"/>
-          <path d="M54.5 87Q61 94.15 67.5 87" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round"/>
-          <path d="M88.5 87Q95 94.15 101.5 87" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round"/>
-          <ellipse cx="78" cy="97" rx="6.5" ry="4.5" fill="#111111"/>
-          <path d="M78 101.5v3.5M71 104Q74.5 109.5 78 105Q81.5 109.5 85 104" fill="none" stroke="#111111" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M39.5 77.51A10.24 10.24 0 0 1 53.04 88.37A10.24 10.24 0 0 1 53 105.72A10.24 10.24 0 0 1 39.4 116.51A10.24 10.24 0 0 1 22.49 112.61A10.24 10.24 0 0 1 15 96.95A10.24 10.24 0 0 1 22.57 81.33A10.24 10.24 0 0 1 39.5 77.51Z" fill="#14B8A6" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M125.5 77.51A10.24 10.24 0 0 1 139.04 88.37A10.24 10.24 0 0 1 139 105.72A10.24 10.24 0 0 1 125.4 116.51A10.24 10.24 0 0 1 108.49 112.61A10.24 10.24 0 0 1 101 96.95A10.24 10.24 0 0 1 108.57 81.33A10.24 10.24 0 0 1 125.5 77.51Z" fill="#14B8A6" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M78 36A15.27 15.27 0 0 1 103 42.7A15.27 15.27 0 0 1 121.3 61A15.27 15.27 0 0 1 128 86A15.27 15.27 0 0 1 121.3 111A15.27 15.27 0 0 1 103 129.3A15.27 15.27 0 0 1 78 136A15.27 15.27 0 0 1 53 129.3A15.27 15.27 0 0 1 34.7 111A15.27 15.27 0 0 1 28 86A15.27 15.27 0 0 1 34.7 61A15.27 15.27 0 0 1 53 42.7A15.27 15.27 0 0 1 78 36Z" fill="#14B8A6" stroke="#0F2942" stroke-width="5" stroke-linejoin="round"/>
+          <path d="M54.5 87Q61 94.15 67.5 87" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round"/>
+          <path d="M88.5 87Q95 94.15 101.5 87" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round"/>
+          <ellipse cx="78" cy="97" rx="6.5" ry="4.5" fill="#0F2942"/>
+          <path d="M78 101.5v3.5M71 104Q74.5 109.5 78 105Q81.5 109.5 85 104" fill="none" stroke="#0F2942" stroke-width="4.25" stroke-linecap="round" stroke-linejoin="round"/>
         </g>
       </svg>
       <p>Toby le teme al secador, Max no se deja cortar las uñas. Cada historia queda en su <strong>Ficha Evolutiva</strong>.</p>

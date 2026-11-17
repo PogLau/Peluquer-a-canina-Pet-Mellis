@@ -41,7 +41,7 @@ export function Notice({
 export function EmptyState({ icon = 'pata', title, children }: { icon?: IconName; title: string; children?: ReactNode }) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-md border-2 border-dashed border-linea px-6 py-10 text-center">
-      <span className="grid size-14 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-negro">
+      <span className="grid size-14 place-items-center rounded-lg border-2 border-tinta bg-superficie-alt text-petroleo">
         <Icon name={icon} size={28} />
       </span>
       <p className="font-display text-xl lowercase">{title}</p>
