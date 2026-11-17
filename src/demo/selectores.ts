@@ -2,6 +2,7 @@ import { canClientCancel, type LibretaMascota, type TurnoCliente } from '@/lib/c
 import type { MascotaDelTutor } from '@/lib/cliente/reserva'
 import { dayRangeAR } from '@/lib/dates'
 import { buildFicha, suggestRecommendation } from '@/lib/ficha'
+import { parseEscaneo } from '@/lib/ia/cuidado'
 import {
   lapsedClients,
   monthAR,
@@ -36,6 +37,7 @@ export function toTurnoPanel(s: DemoState, t: DTurno): TurnoPanel {
     origen: t.origen,
     precioEstimado: t.precioEstimado,
     notasCliente: t.notasCliente || null,
+    escaneo: parseEscaneo(t.escaneo),
     servicios: t.servicios.map((id) => nombreServicio(s, id)),
     mascota: {
       id: m?.id ?? 0,

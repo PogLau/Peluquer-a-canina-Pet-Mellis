@@ -13,6 +13,7 @@ import {
   ToggleChip,
 } from '@/components/ui'
 import { suggestTutorSummary, type Aspecto, type Puntajes } from '@/lib/ficha'
+import { notaDeIngreso } from '@/lib/ia/cuidado'
 import type {
   DatosRegistro,
   ErroresRegistro,
@@ -21,6 +22,7 @@ import type {
 } from '@/lib/panel/atenciones'
 
 import { EnviarResumen } from './EnviarResumen'
+import { EscaneoIngreso } from './EscaneoIngreso'
 
 const puntajeOpciones = ['1', '2', '3', '4', '5'].map((v) => ({ value: v, label: v }))
 
@@ -45,7 +47,10 @@ export function FormularioAtencion({
   const [resumen, setResumen] = useState('')
   const [resumenEditado, setResumenEditado] = useState(false)
   const [recomendacion, setRecomendacion] = useState(datos.recomendacionSugerida)
-  const [notaInterna, setNotaInterna] = useState('')
+  // IA Scan & Care: la ficha de ingreso precarga la nota interna (editable)
+  const [notaInterna, setNotaInterna] = useState(() =>
+    turno.escaneo ? notaDeIngreso(turno.escaneo) : '',
+  )
   const [errores, setErrores] = useState<ErroresRegistro>({})
   const [error, setError] = useState<string | null>(null)
   const [enviado, setEnviado] = useState<{ telefono: string; mensaje: string } | null>(null)
@@ -99,6 +104,7 @@ export function FormularioAtencion({
         })
       }}
     >
+      {turno.escaneo && <EscaneoIngreso escaneo={turno.escaneo} />}
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-lg font-extrabold">Qué se hizo</legend>
         <div className="flex flex-wrap gap-2">
@@ -186,7 +192,7 @@ export function FormularioAtencion({
       />
       <TextareaField
         label="Nota interna"
-        rows={2}
+        rows={turno.escaneo ? 3 : 2}
         optional
         value={notaInterna}
         onChange={(e) => setNotaInterna(e.target.value)}

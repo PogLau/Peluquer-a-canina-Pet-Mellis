@@ -1,6 +1,15 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
-import { Icon, Isotipo, LinkButton, Ticket } from '@/components/ui'
+import { Icon, LinkButton, Ticket } from '@/components/ui'
+import { ejemplosMascota } from '@/lib/ia/ejemplos'
 import { startingPrice, type Service } from '@/lib/pricing'
+import { rutaPublica } from '@/lib/ruta-publica'
+
+const fotosSalon = [
+  { src: '/fotos/yorkshire-tijera.webp', alt: 'Corte de un Yorkshire con peine y tijera' },
+  { src: '/fotos/yorkshire-bata.webp', alt: 'Yorkshire envuelto en una toalla después del baño' },
+  { src: '/fotos/corte-mesa.webp', alt: 'Corte de pelo en las patas sobre la mesa de trabajo' },
+  { src: '/fotos/yorkshire-toalla.webp', alt: 'Yorkshire recién bañado, secándose en una toalla' },
+] as const
 
 type Props = {
   servicios: Service[]
@@ -24,7 +33,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]"
       >
         <div className="flex flex-col gap-5">
-          <p className="rotulo text-amarillo-texto">Peluquería canina · Merlo</p>
+          <p className="rotulo text-menta-texto">Peluquería canina · Merlo</p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
             cada visita mejora la siguiente
           </h1>
@@ -41,13 +50,57 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
             </LinkButton>
           </div>
         </div>
-        <Ticket highlighted className="flex flex-col items-center gap-4 py-8 text-center">
-          <Isotipo height={120} title="Los mellis" />
-          <p className="max-w-xs text-sm">
+        <figure className="relative">
+          {/* Foto local de public/fotos (créditos en docs/fotos.md) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={rutaPublica('/fotos/yorkshire-mesa.webp')}
+            alt="Peluquera con guantes preparando a un Yorkshire terrier sobre la mesa de trabajo"
+            className="aspect-[4/3] w-full rounded-md border-2 border-tinta object-cover shadow-ticket"
+          />
+          <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border-2 border-tinta bg-celeste p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
             Toby le teme al secador, Max no se deja cortar las uñas. Cada historia queda en su{' '}
             <strong>Ficha Evolutiva</strong>.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section
+        aria-labelledby="titulo-escaneo"
+        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-azul p-5 text-blanco shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
+      >
+        <div className="flex flex-col gap-4">
+          <p className="rotulo flex items-center gap-2 text-menta">
+            <Icon name="escaner" size={18} /> Nuevo · beta
           </p>
-        </Ticket>
+          <h2 id="titulo-escaneo" className="text-3xl">
+            ia scan &amp; care
+          </h2>
+          <p>
+            Elegí una foto y armamos la ficha de ingreso de tu perro: raza, tamaño, tipo de pelaje,
+            hidratación y nudos. Te sugerimos el tratamiento ideal con su precio, y lo reservás en un
+            paso.
+          </p>
+          <div>
+            <LinkButton href="/cotizar#escaneo" iconEnd="flecha">
+              Probar el escaneo
+            </LinkButton>
+          </div>
+        </div>
+        <ul className="grid grid-cols-3 gap-3" aria-label="Fotos de ejemplo del escaneo">
+          {ejemplosMascota.slice(0, 3).map((e) => (
+            <li key={e.id} className="flex flex-col gap-1.5">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={rutaPublica(e.foto)}
+                alt={e.alt}
+                loading="lazy"
+                className="aspect-[3/4] w-full rounded-md border-2 border-menta object-cover"
+              />
+              <span className="text-xs font-bold">{e.nombre}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section aria-labelledby="titulo-servicios" className="flex flex-col gap-5">
@@ -82,6 +135,26 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           El precio final depende del tamaño, el tipo de manto y los nudos. Calculalo en el
           cotizador.
         </p>
+      </section>
+
+      <section aria-labelledby="titulo-salon" className="flex flex-col gap-5">
+        <h2 id="titulo-salon" className="text-2xl">
+          en el salón
+        </h2>
+        <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+          {fotosSalon.map((f) => (
+            <li key={f.src}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={rutaPublica(f.src)}
+                alt={f.alt}
+                loading="lazy"
+                className="aspect-square w-full rounded-md border-2 border-tinta object-cover shadow-ticket"
+              />
+            </li>
+          ))}
+        </ul>
+        <p className="text-xs text-texto-suave">Fotos de demostración: Freepik y Pexels.</p>
       </section>
 
       <section aria-labelledby="titulo-donde" className="grid gap-6 md:grid-cols-2">

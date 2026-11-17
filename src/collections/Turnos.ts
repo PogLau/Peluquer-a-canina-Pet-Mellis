@@ -89,5 +89,12 @@ export const Turnos: CollectionConfig = {
       ],
     },
     { name: 'notasCliente', type: 'textarea', label: 'Notas del cliente' },
+    {
+      // IA Scan & Care: lo que se vio en la foto al reservar (sin la foto). Se valida con parseEscaneo.
+      name: 'escaneo',
+      type: 'json',
+      label: 'Escaneo de ingreso (IA Scan & Care)',
+      admin: { description: 'Sugerencia sin confirmar: raza, pelaje, hidratación, nudos y tratamiento.' },
+    },
   ],
 }

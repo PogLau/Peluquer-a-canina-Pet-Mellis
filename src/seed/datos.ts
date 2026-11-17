@@ -1,5 +1,6 @@
 import type { AppointmentStatus } from '../lib/estados'
 import type { Coat, Knots, Size } from '../lib/pricing'
+import type { EscaneoTurno } from '../lib/ia/cuidado'
 
 /*
   Datos de demo (CLAUDE.md §9), sin dependencias de la base: los usan el seed de Payload
@@ -99,6 +100,7 @@ export const TURNOS: Array<{
   nudos: Knots
   origen: 'web' | 'panel'
   notasCliente?: string
+  escaneo?: EscaneoTurno
 }> = [
   // Hoy
   {
@@ -149,6 +151,15 @@ export const TURNOS: Array<{
     nudos: 'leves',
     origen: 'web',
     notasCliente: '¿Puede ser a la mañana? Gracias.',
+    // Pedido hecho desde IA Scan & Care con una foto de ejemplo
+    escaneo: {
+      raza: 'Bichón Maltés',
+      textura: 'rizado',
+      hidratacion: 'baja',
+      nudos: 'leves',
+      tratamiento: 'hidratacion-profunda',
+      origen: 'ejemplo',
+    },
   },
   {
     perro: 'Luna',

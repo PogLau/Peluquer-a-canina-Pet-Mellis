@@ -13,6 +13,7 @@ import {
 } from '@/lib/mensajes'
 import type { TurnoPanel } from '@/lib/panel/turnos'
 import { whatsappLink } from '@/lib/whatsapp'
+import { EscaneoIngreso } from './EscaneoIngreso'
 
 type Hecho = { titulo: string; link: string | null }
 
@@ -102,7 +103,7 @@ export function SolicitudCard({
         <h2 id={`sol-${turno.id}`} className="text-xl">
           {turno.mascota.nombre.toLowerCase()}
         </h2>
-        <p className="rotulo text-amarillo-texto">
+        <p className="rotulo text-menta-texto">
           {formatLongDate(fecha)} · {formatTime(fecha)}
         </p>
       </div>
@@ -123,6 +124,7 @@ export function SolicitudCard({
           </>
         )}
       </dl>
+      {turno.escaneo && <EscaneoIngreso escaneo={turno.escaneo} />}
       {turno.mascota.alertas.length > 0 && (
         <ul className="flex flex-wrap gap-2" aria-label="Alertas de la ficha">
           {turno.mascota.alertas.map((a) => (

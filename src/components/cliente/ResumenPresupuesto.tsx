@@ -2,10 +2,20 @@ import { LinkButton, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import { reservarHref, type EstadoCotizacion } from '@/lib/cotizacion'
 import { formatMoney } from '@/lib/format'
+import type { EscaneoTurno } from '@/lib/ia/cuidado'
 import { coatLabels, knotsLabels, sizeLabels, type Quote } from '@/lib/pricing'
 
 /** Ticket del presupuesto: una línea por servicio y extra, el recargo por nudos aparte y el total. */
-export function ResumenPresupuesto({ quote, estado }: { quote: Quote; estado: EstadoCotizacion }) {
+export function ResumenPresupuesto({
+  quote,
+  estado,
+  escaneo = null,
+}: {
+  quote: Quote
+  estado: EstadoCotizacion
+  /** Si hubo IA Scan & Care, la ficha de ingreso viaja con la reserva. */
+  escaneo?: EscaneoTurno | null
+}) {
   const vacio = quote.lineas.length === 0
   return (
     <Ticket as="aside" aria-labelledby="titulo-resumen" className="flex flex-col gap-4 lg:sticky lg:top-24">
@@ -25,7 +35,7 @@ export function ResumenPresupuesto({ quote, estado }: { quote: Quote; estado: Es
         <ul className="flex flex-col gap-2 border-y-2 border-dashed border-linea py-3" aria-live="polite">
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex items-baseline justify-between gap-3 text-sm">
-              <span className={cn(l.tipo === 'recargo' && 'font-bold text-amarillo-texto')}>{l.nombre}</span>
+              <span className={cn(l.tipo === 'recargo' && 'font-bold text-menta-texto')}>{l.nombre}</span>
               <span className="cifras font-bold">{formatMoney(l.monto)}</span>
             </li>
           ))}
@@ -47,7 +57,7 @@ export function ResumenPresupuesto({ quote, estado }: { quote: Quote; estado: Es
           </p>
         </>
       ) : (
-        <LinkButton href={reservarHref(estado)} fullWidth iconEnd="flecha">
+        <LinkButton href={reservarHref(estado, escaneo)} fullWidth iconEnd="flecha">
           Reservar con este presupuesto
         </LinkButton>
       )}

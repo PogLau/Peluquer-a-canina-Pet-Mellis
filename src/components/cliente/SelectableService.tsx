@@ -25,18 +25,18 @@ export function SelectableService({ id, name, description, duration, price, sele
       className={cn(
         'flex h-full w-full flex-col gap-3 rounded-md border-2 border-tinta p-4 text-left text-texto transition-[background-color,box-shadow,transform] duration-100',
         selected
-          ? 'translate-x-[3px] translate-y-[3px] bg-amarillo-claro shadow-ticket-presionada'
+          ? 'translate-x-[3px] translate-y-[3px] bg-celeste shadow-ticket-presionada'
           : 'bg-superficie shadow-ticket hover:bg-superficie-alt',
       )}
     >
       <span className="flex items-start justify-between gap-3">
-        <span className="grid size-12 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-negro">
+        <span className="grid size-12 place-items-center rounded-lg border-2 border-tinta bg-celeste text-azul">
           <Icon name={serviceIcons[id] ?? 'pata'} size={24} />
         </span>
         <span
           className={cn(
             'grid size-7 place-items-center rounded-sm border-2 border-tinta',
-            selected ? 'bg-accion text-sobre-accion' : 'bg-superficie',
+            selected ? 'bg-seleccion text-sobre-seleccion' : 'bg-superficie',
           )}
         >
           {selected && <Icon name="check" size={18} />}

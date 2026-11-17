@@ -3,6 +3,7 @@ import { canClientCancel } from '@/lib/cliente/libreta'
 import { normalizeWhatsapp, validateBooking, type ReservaInput } from '@/lib/cliente/reserva'
 import { nextStatus, statusLabel, type AppointmentStatus } from '@/lib/estados'
 import type { Puntajes } from '@/lib/ficha'
+import { parseEscaneo } from '@/lib/ia/cuidado'
 import { validateVisit } from '@/lib/panel/atenciones'
 import {
   parseMultiplier,
@@ -219,6 +220,7 @@ export function reservar(
     precioEstimado: 0,
     origen: 'web',
     notasCliente: input.notas.trim(),
+    escaneo: parseEscaneo(input.escaneo),
   }
   nuevo.precioEstimado = priceOf(conId, nuevo)
   // Como en la app real: quien reserva por primera vez queda «recordado» en este teléfono

@@ -5,7 +5,7 @@
 > **Tagline:** *Cada visita mejora la siguiente.*
 > **Descriptor:** peluquería canina · Merlo
 
-> Documento de contexto (16/11/2026). Reemplaza la sección 7 «Sistema de diseño» de `CLAUDE.md`.
+> Documento de contexto (16/11/2026; paleta actualizada el 17/11/2026, ver §3). Reemplaza la sección 7 «Sistema de diseño» de `CLAUDE.md`.
 
 Este manual define el nombre, el logo, los colores, la tipografía, los íconos, el patrón y la voz. Todo lo que se diseñe (web app, redes, vidriera, papelería) sale de acá.
 
@@ -16,9 +16,9 @@ Este manual define el nombre, el logo, los colores, la tipografía, los íconos,
 **Referencia visual.** Se toma como base el proyecto *Puppy Grooming* de Noé Chaumont (Behance, 2023): una cabeza de perro redonda y peluda como signo, íconos de servicio donde esa misma cabeza lleva el accesorio de cada servicio, un patrón de cabezas al 10 % y la tipografía **Oddval**.
 
 **Lo propio de Pet Mellis.**
-- **Los mellis.** El nombre viene de *mellizos*: el signo son **dos** cabezas peludas juntas, una amarilla adelante y una blanca con moño atrás. Hablan del equipo (dos personas que atienden) y del vínculo perro–tutor.
+- **Los mellis.** El nombre viene de *mellizos*: el signo son **dos** cabezas peludas juntas, una menta adelante y una blanca con moño coral atrás. Hablan del equipo (dos personas que atienden) y del vínculo perro–tutor.
 - **Recién peinados y tranquilos.** El contorno festoneado es el manto después del baño y el cepillado. Los ojos cerrados y la sonrisa transmiten calma: un perro que la pasó bien.
-- **Amarillo, blanco y negro.** Alegría y energía (amarillo), limpieza y cuidado (blanco), confianza y prolijidad (negro). Es una paleta de alto contraste que se reconoce en un feed y se lee bien en el celular.
+- **Azul calma, menta y coral.** Confianza y calma (azul), frescura y cuidado (menta y celeste), energía para actuar (coral, solo en la acción principal). Es una paleta de alto contraste que se lee bien en el celular.
 - **El ticket.** Las tarjetas con borde negro y sombra dura vienen de la libreta y del presupuesto impreso: la marca registra, anota y recuerda.
 
 **Propósito:** que ningún perro empiece de cero en su próxima visita.
@@ -44,27 +44,46 @@ Archivos en el grupo de assets **Logos**. La vista **Logo** muestra todas las ve
 
 ## 3. Color
 
-| Token | Hex | Rol |
-|---|---|---|
-| `amarillo-mellis` | #FFD000 | Color de marca: botones principales, bloques, destacados |
-| `negro` | #111111 | Tinta: línea del logo, bordes, sombra, texto |
-| `blanco` | #FFFFFF | Tarjetas, el mellis de atrás, texto sobre negro |
-| `crema` | #FFFBEA | Blanco cálido para fondos de página y papelería |
-| `amarillo-claro` | #FFF3B0 | Tinte para avisos y elementos seleccionados |
-| `amarillo-profundo` | #F2B705 | Hover del botón amarillo, mejillas |
-| `amarillo-texto` | #7A5C00 | Único amarillo para texto chico sobre claro |
+> **Paleta oficial desde el 17/11/2026.** Reemplaza al amarillo y negro de la primera versión. Donde el resto de este manual (§1, §2, §5, §6, §10, §11 y §12) nombre `amarillo-*` o `negro`, leer la equivalencia de la última columna. Los valores vigentes están en `src/styles/globals.css`.
 
-**Proporción sugerida:** 55 % blanco/crema, 25 % negro, 20 % amarillo. En redes se puede invertir (fondo negro o amarillo) para que la pieza se reconozca al hacer scroll.
+| Token | Hex | Rol | Reemplaza a |
+|---|---|---|---|
+| `azul-calma` (`azul`) | #0F2942 | Primario: header, títulos, texto, bordes y sombra de los tickets | `negro` |
+| `verde-menta` (`menta`) | #14B8A6 | Secundario: íconos, éxito, chips elegidos, el mellis de adelante | `amarillo-mellis` (fuera de los CTA) |
+| `menta-texto` | #0F766E | Menta oscuro para texto chico sobre claro (5,4:1) | `amarillo-texto` |
+| `celeste` | #E2F8F5 | Tarjetas destacadas, avisos suaves, filas elegidas | `amarillo-claro` |
+| `crema-suave` (`crema`) | #FFFDF9 | Fondo de página | `crema` |
+| `naranja-coral` (`coral`) | #F97316 | Acento: CTA clave («Reservar turno», «Reservar con este plan»), moño del logo | `amarillo-mellis` en botones |
+| `coral-hover` | #FB923C | Hover del CTA | `amarillo-profundo` |
+| `pizarra` | #64748B | Texto secundario de marca (papelería, redes) | — |
+| `blanco` | #FFFFFF | Tarjetas, el mellis de atrás, texto sobre azul | — |
+
+**Proporción sugerida:** 55 % crema/blanco, 25 % azul, 12 % menta y celeste, 8 % coral. El coral se reserva para la acción principal: si hay dos botones coral en la misma vista, uno sobra.
 
 **Contraste (WCAG AA):**
-- Negro sobre amarillo: 12,8:1. Amarillo sobre negro: 12,8:1. ✔
-- Texto blanco sobre amarillo: 1,6:1. ✘ **Prohibido.**
-- Amarillo #FFD000 como texto sobre blanco o crema: ✘ **Prohibido.** Para eso está `amarillo-texto` (6,3:1).
-- Texto secundario `texto-suave` #5C5C5C sobre crema: 6,5:1. ✔
+- Azul sobre crema: 14,6:1. Blanco sobre azul: 14,8:1. ✔
+- **Texto azul sobre coral: 5,3:1.** ✔ Texto blanco sobre coral: 2,8:1. ✘ **Prohibido.**
+- Azul sobre menta: 6,0:1. Menta sobre azul: 6,0:1. ✔
+- Menta #14B8A6 como texto sobre blanco o crema: 2,5:1. ✘ **Prohibido.** Para eso está `menta-texto` (5,4:1).
+- Pizarra #64748B sobre crema: 4,7:1 ✔, pero sobre celeste da 4,3:1 ✘. Por eso en la web app el texto secundario (`texto-suave`) es un pizarra un punto más oscuro, #536175 (5,7:1 sobre celeste).
 
 Los colores de estado (`exito`, `aviso`, `peligro`, `info`) son solo para la web app y siempre van con texto.
 
-La web app tiene **tema claro** (fondo crema, tarjetas blancas, tinta negra) y **tema oscuro** (fondo negro, tinta amarilla). Los tokens semánticos (`fondo`, `superficie`, `texto`, `tinta`…) cambian solos entre temas.
+La web app tiene **tema claro** (fondo crema, tarjetas blancas, tinta azul) y **tema oscuro** (fondo azul noche #0B1E31, tinta menta). Los tokens semánticos (`fondo`, `superficie`, `texto`, `tinta`, `accion`, `seleccion`…) cambian solos entre temas.
+
+<details>
+<summary>Paleta anterior (amarillo y negro, hasta el 17/11/2026)</summary>
+
+| Token | Hex |
+|---|---|
+| `amarillo-mellis` | #FFD000 |
+| `negro` | #111111 |
+| `crema` | #FFFBEA |
+| `amarillo-claro` | #FFF3B0 |
+| `amarillo-profundo` | #F2B705 |
+| `amarillo-texto` | #7A5C00 |
+
+</details>
 
 ## 4. Tipografía
 

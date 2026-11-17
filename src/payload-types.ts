@@ -161,6 +161,18 @@ export interface Turno {
   precioEstimado?: number | null;
   origen: 'web' | 'panel';
   notasCliente?: string | null;
+  /**
+   * Sugerencia sin confirmar: raza, pelaje, hidratación, nudos y tratamiento.
+   */
+  escaneo?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -472,6 +484,7 @@ export interface TurnosSelect<T extends boolean = true> {
   precioEstimado?: T;
   origen?: T;
   notasCliente?: T;
+  escaneo?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -1,40 +1,47 @@
 @import 'tailwindcss';
 
 /*
-  Pet Mellis: tokens de marca (branding-pet-mellis.md §11).
+  Pet Mellis: tokens de marca (branding-pet-mellis.md §11, paleta oficial del 17/11/2026).
   Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
+  Contraste AA verificado: coral con texto azul 5,3:1 (nunca blanco sobre coral: 2,8:1);
+  el menta #14B8A6 no se usa como texto sobre claro (2,5:1): para eso está menta-texto.
 */
 
 :root {
   /* Paleta de marca */
-  --amarillo-mellis: #ffd000;
-  --amarillo-claro: #fff3b0;
-  --amarillo-profundo: #f2b705;
-  --amarillo-texto: #7a5c00;
-  --negro: #111111;
+  --azul-calma: #0f2942; /* primario: headers, títulos, texto, bordes */
+  --verde-menta: #14b8a6; /* secundario: íconos, éxito, bloques */
+  --menta-texto: #0f766e; /* menta oscuro para texto chico sobre claro (5,4:1) */
+  --celeste: #e2f8f5; /* tarjetas destacadas, chips y filas elegidas */
+  --crema-suave: #fffdf9; /* fondo de página */
+  --naranja-coral: #f97316; /* acento: CTAs clave, «Reservar» */
+  --coral-hover: #fb923c; /* hover del CTA (sube el contraste: 6,5:1) */
+  --pizarra: #64748b; /* texto secundario de marca */
   --blanco: #ffffff;
-  --crema: #fffbea;
 
   /* Semánticos (cambian con el tema) */
-  --fondo: #fffbea;
+  --fondo: var(--crema-suave);
   --superficie: #ffffff;
-  --superficie-alt: #fff3b0;
-  --texto: #111111;
-  --texto-suave: #5c5c5c;
-  --tinta: #111111;
-  --linea: #e6dfc4;
-  --accion: var(--amarillo-mellis);
-  --sobre-accion: var(--negro);
+  --superficie-alt: var(--celeste);
+  --texto: var(--azul-calma);
+  /* Pizarra un punto más oscuro: sobre celeste #64748b da 4,3:1 y no llega a AA */
+  --texto-suave: #536175;
+  --tinta: var(--azul-calma);
+  --linea: #cfe6e2;
+  --accion: var(--naranja-coral);
+  --sobre-accion: var(--azul-calma);
+  --seleccion: var(--verde-menta);
+  --sobre-seleccion: var(--azul-calma);
 
   /* Estados */
-  --exito: #1f6b45;
-  --exito-fondo: #dcefe2;
-  --aviso: #7a5c00;
-  --aviso-fondo: #fff3b0;
+  --exito: #0f766e;
+  --exito-fondo: #d5f5ef;
+  --aviso: #9a3412;
+  --aviso-fondo: #ffedd5;
   --peligro: #b42318;
   --peligro-fondo: #fde4e1;
-  --info: #1f4f7a;
-  --info-fondo: #dde9f3;
+  --info: #1e4e8c;
+  --info-fondo: #e0ecf8;
 
   /* Forma */
   --radio-sm: 6px;
@@ -46,28 +53,28 @@
   --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
   --trazo-icono: 1.75px;
 
-  /* Patrón de puntos del papel (línea al 12 %) */
-  --trama: color-mix(in srgb, var(--tinta) 12%, transparent);
+  /* Patrón de puntos del papel (tinta al 10 %) */
+  --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
 
   color-scheme: light;
 }
 
 [data-theme='oscuro'] {
-  --fondo: #111111;
-  --superficie: #1c1c1c;
-  --superficie-alt: #2a2a2a;
+  --fondo: #0b1e31;
+  --superficie: #10283f;
+  --superficie-alt: #173552;
   --texto: #ffffff;
-  --texto-suave: #c4c4c4;
-  --tinta: #ffd000;
-  --linea: #3a3a3a;
-  --exito: #7fd3a3;
-  --exito-fondo: #12301f;
-  --aviso: #ffd000;
-  --aviso-fondo: #332a00;
+  --texto-suave: #b9c6d4;
+  --tinta: #14b8a6;
+  --linea: #23415f;
+  --exito: #5eead4;
+  --exito-fondo: #0f3a3a;
+  --aviso: #fdba74;
+  --aviso-fondo: #3b2210;
   --peligro: #ff8a80;
   --peligro-fondo: #3a1512;
-  --info: #8cc2f0;
-  --info-fondo: #142636;
+  --info: #93c5fd;
+  --info-fondo: #142a44;
   --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
   /* Los var() de :root ya se resolvieron con la tinta clara: hay que redefinirlos */
   --sombra-ticket: 4px 4px 0 0 var(--tinta);
@@ -85,13 +92,15 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-amarillo: var(--amarillo-mellis);
-  --color-amarillo-claro: var(--amarillo-claro);
-  --color-amarillo-profundo: var(--amarillo-profundo);
-  --color-amarillo-texto: var(--amarillo-texto);
-  --color-negro: var(--negro);
+  --color-azul: var(--azul-calma);
+  --color-menta: var(--verde-menta);
+  --color-menta-texto: var(--menta-texto);
+  --color-celeste: var(--celeste);
+  --color-crema: var(--crema-suave);
+  --color-coral: var(--naranja-coral);
+  --color-coral-hover: var(--coral-hover);
+  --color-pizarra: var(--pizarra);
   --color-blanco: var(--blanco);
-  --color-crema: var(--crema);
 
   --color-fondo: var(--fondo);
   --color-superficie: var(--superficie);
@@ -102,6 +111,8 @@
   --color-linea: var(--linea);
   --color-accion: var(--accion);
   --color-sobre-accion: var(--sobre-accion);
+  --color-seleccion: var(--seleccion);
+  --color-sobre-seleccion: var(--sobre-seleccion);
 
   --color-exito: var(--exito);
   --color-exito-fondo: var(--exito-fondo);
@@ -176,8 +187,8 @@
   }
 
   ::selection {
-    background: var(--amarillo-claro);
-    color: var(--negro);
+    background: var(--celeste);
+    color: var(--azul-calma);
   }
 }
 
@@ -197,11 +208,49 @@
   }
 }
 
+/* IA Scan & Care: línea que barre la foto mientras se analiza */
+@keyframes barrido {
+  0% {
+    top: 0%;
+  }
+  50% {
+    top: calc(100% - 3px);
+  }
+  100% {
+    top: 0%;
+  }
+}
+
+@layer components {
+  .escaneo-linea {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--verde-menta);
+    box-shadow: 0 0 14px 4px color-mix(in srgb, var(--verde-menta) 55%, transparent);
+    animation: barrido 2.2s ease-in-out infinite;
+  }
+
+  .escaneo-grilla {
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--verde-menta) 22%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--verde-menta) 22%, transparent) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
+  }
+
+  /* Sin barrido: la línea queda quieta en el medio */
+  .escaneo-linea {
+    animation: none !important;
+    top: 50%;
   }
 }

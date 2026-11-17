@@ -10,7 +10,7 @@ import { whatsappLink } from '@/lib/whatsapp'
 function Periodo({ r, id }: { r: ResumenPeriodo; id: string }) {
   return (
     <Ticket as="section" aria-labelledby={id} className="flex flex-col gap-4">
-      <h2 id={id} className="rotulo text-amarillo-texto">
+      <h2 id={id} className="rotulo text-menta-texto">
         {r.periodo.etiqueta}
       </h2>
       <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-4">
@@ -87,7 +87,7 @@ export function InformesVista({ r, base, exportar }: Props) {
                     aria-hidden="true"
                   >
                     <span
-                      className="block h-full bg-accion"
+                      className="block h-full bg-menta"
                       style={{ width: `${(s.cantidad / maximo) * 100}%` }}
                     />
                   </span>

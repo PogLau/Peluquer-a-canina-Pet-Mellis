@@ -130,6 +130,7 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         precioEstimado: quote.total,
         origen: t.origen,
         notasCliente: t.notasCliente,
+        escaneo: t.escaneo ?? null,
       },
     })
   }

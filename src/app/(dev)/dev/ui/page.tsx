@@ -18,13 +18,15 @@ import {
 import { InteractiveDemo } from './InteractiveDemo'
 
 const colorTokens = [
-  ['amarillo', 'bg-amarillo'],
-  ['amarillo-claro', 'bg-amarillo-claro'],
-  ['amarillo-profundo', 'bg-amarillo-profundo'],
-  ['amarillo-texto', 'bg-amarillo-texto'],
-  ['negro', 'bg-negro'],
+  ['azul calma', 'bg-azul'],
+  ['verde menta', 'bg-menta'],
+  ['menta texto', 'bg-menta-texto'],
+  ['celeste', 'bg-celeste'],
+  ['crema suave', 'bg-crema'],
+  ['naranja coral', 'bg-coral'],
+  ['coral hover', 'bg-coral-hover'],
+  ['pizarra', 'bg-pizarra'],
   ['blanco', 'bg-blanco'],
-  ['crema', 'bg-crema'],
   ['linea', 'bg-linea'],
 ] as const
 
@@ -48,7 +50,7 @@ export default function DevUiPage() {
         <div className="flex flex-wrap items-center gap-6">
           <Isotipo height={64} title="Pet Mellis" />
           <Imagotipo />
-          <span className="rounded-md bg-negro p-4">
+          <span className="rounded-md bg-azul p-4">
             <Imagotipo tone="dark" />
           </span>
         </div>

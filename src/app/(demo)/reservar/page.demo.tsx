@@ -12,6 +12,7 @@ import { mascotasDelCliente } from '@/demo/selectores'
 import { useEstado } from '@/demo/store'
 import { freeSlots } from '@/lib/agenda'
 import { estadoDesdeParams } from '@/lib/cotizacion'
+import { escaneoDesdeParams } from '@/lib/ia/cuidado'
 import { whatsappLink } from '@/lib/whatsapp'
 
 function Reserva() {
@@ -25,6 +26,7 @@ function Reserva() {
       tutor={tutor?.nombre ?? null}
       mascotas={mascotasDelCliente(s)}
       preset={estadoDesdeParams(new URLSearchParams(params.toString()))}
+      escaneo={escaneoDesdeParams(new URLSearchParams(params.toString()))}
       whatsappLocal={whatsappLink(WHATSAPP_SALON, 'Hola, quería consultar por un turno.')}
       reservar={reservarTurno}
     />

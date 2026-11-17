@@ -3,7 +3,8 @@
   En la interfaz usar siempre los tokens de globals.css.
 */
 export const brandColors = {
-  negro: '#111111',
-  amarillo: '#ffd000',
-  crema: '#fffbea',
+  azul: '#0F2942',
+  menta: '#14B8A6',
+  coral: '#F97316',
+  crema: '#FFFDF9',
 } as const

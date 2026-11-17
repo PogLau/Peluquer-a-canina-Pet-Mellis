@@ -19,7 +19,7 @@ function Puntaje({ valor }: { valor: number | null }) {
             key={n}
             className={cn(
               'h-3 w-2 rounded-[2px] border border-tinta',
-              n <= valor ? (valor <= 2 ? 'bg-aviso' : 'bg-accion') : 'bg-transparent',
+              n <= valor ? (valor <= 2 ? 'bg-aviso' : 'bg-menta') : 'bg-transparent',
             )}
           />
         ))}

@@ -20,7 +20,7 @@ function Volver() {
   return (
     <Link
       href="/panel/clientes"
-      className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-amarillo-texto"
+      className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-menta-texto"
     >
       <Icon name="volver" size={18} /> Clientes
     </Link>

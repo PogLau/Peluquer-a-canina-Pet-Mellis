@@ -34,8 +34,8 @@ describe('ejemplos de la demo', () => {
     }
   })
 
-  it('el ejemplo de Toby + Baño y Corte + oídos da $15.200, con el recargo en una línea aparte', () => {
-    const toby = ejemplosMascota.find((e) => e.id === 'toby')!
+  it('el ejemplo del caniche + Baño y Corte + oídos da $15.200 (caso de Toby), con el recargo en una línea aparte', () => {
+    const toby = ejemplosMascota.find((e) => e.id === 'caniche')!
     const estado = aplicarSugerencia({ ...estadoInicial('bano-corte'), extraIds: ['oidos'] }, toby.sugerencia)
     const quote = buildQuote(estado, catalog, pricingConfig)
     expect(quote.total).toBe(15200)
@@ -43,10 +43,10 @@ describe('ejemplos de la demo', () => {
   })
 
   it('aplicar una sugerencia conserva los servicios y extras elegidos', () => {
-    const luna = ejemplosMascota.find((e) => e.id === 'luna')!
+    const luna = ejemplosMascota.find((e) => e.id === 'terrier')!
     const antes = { ...estadoInicial('unas'), extraIds: ['perfume'] }
     const despues = aplicarSugerencia(antes, luna.sugerencia)
-    expect(despues).toMatchObject({ tamano: 'grande', manto: 'largo', servicioIds: ['unas'], extraIds: ['perfume'] })
+    expect(despues).toMatchObject({ tamano: 'mediano', manto: 'rizado', servicioIds: ['unas'], extraIds: ['perfume'] })
   })
 })
 

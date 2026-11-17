@@ -1,7 +1,7 @@
 # CLAUDE.md — Pet Mellis (web app de peluquería canina)
 
 > Contexto del proyecto para Claude Code. Este archivo va en la raíz del repositorio. Claude Code lo lee al iniciar cada sesión.
-> Última actualización: 16/11/2026.
+> Última actualización: 17/11/2026.
 
 ---
 
@@ -176,26 +176,29 @@ Estilo: fondo crema con trama de puntos, tarjetas «ticket» blancas (borde de t
 
 ### 7.1 Tokens de color
 
-| Token | Claro | Uso |
-|---|---|---|
-| `amarillo-mellis` | #ffd000 | Color de marca: botones principales, bloques, destacados |
-| `amarillo-claro` | #fff3b0 | Avisos, filas y chips seleccionados |
-| `amarillo-profundo` | #f2b705 | Hover del botón amarillo |
-| `amarillo-texto` | #7a5c00 | Único amarillo para texto chico sobre blanco o crema (6,3:1) |
-| `negro` | #111111 | Tinta: bordes, sombras, texto, header |
-| `blanco` | #ffffff | Tarjetas, texto sobre negro |
-| `crema` / `fondo` | #fffbea | Fondo de página (evitar blanco puro en fondos grandes) |
-| `superficie` | #ffffff | Tickets, modales, campos |
-| `superficie-alt` | #fff3b0 | Barras, encabezados de tabla, deshabilitado |
-| `texto` / `texto-suave` | #111111 / #5c5c5c | Texto principal / secundario (6,5:1) |
-| `tinta` | #111111 | Borde de 2 px, sombra dura y anillo de foco |
-| `linea` | #e6dfc4 | Separadores decorativos (no para controles) |
-| `exito` · `aviso` · `peligro` · `info` | ver manual | Estados de turno, cada uno con su `*-fondo` |
+Paleta oficial desde el 17/11/2026 (reemplaza al amarillo y negro; ver `branding-pet-mellis.md` §3).
 
-Hay tema oscuro (`[data-theme="oscuro"]`: fondo negro, tinta amarilla); los tokens semánticos cambian solos.
+| Token (utilidad) | Claro | Uso |
+|---|---|---|
+| `azul-calma` (`azul`) | #0f2942 | Primario: header, títulos, texto, bordes y sombra |
+| `verde-menta` (`menta`) | #14b8a6 | Secundario: íconos, éxito, chips elegidos (`seleccion`), bloques |
+| `menta-texto` | #0f766e | Menta para texto chico sobre claro (5,4:1) |
+| `celeste` | #e2f8f5 | Tarjetas destacadas, avisos suaves, filas elegidas |
+| `crema-suave` (`crema`) / `fondo` | #fffdf9 | Fondo de página |
+| `naranja-coral` (`coral`) / `accion` | #f97316 | CTA clave: «Reservar turno», «Reservar con este plan», guardar |
+| `coral-hover` | #fb923c | Hover del CTA |
+| `pizarra` | #64748b | Texto secundario de marca (fuera de la app) |
+| `superficie` / `superficie-alt` | #ffffff / #e2f8f5 | Tickets, modales y campos / barras, encabezados, deshabilitado |
+| `texto` / `texto-suave` | #0f2942 / #536175 | Texto principal / secundario (pizarra oscurecido: 5,7:1 sobre celeste) |
+| `tinta` | #0f2942 | Borde de 2 px, sombra dura y anillo de foco |
+| `linea` | #cfe6e2 | Separadores decorativos (no para controles) |
+| `exito` · `aviso` · `peligro` · `info` | ver `globals.css` | Estados de turno, cada uno con su `*-fondo` |
+
+Hay tema oscuro (`[data-theme="oscuro"]`: fondo azul noche, tinta menta); los tokens semánticos cambian solos.
 
 **Reglas de color:**
-- Botón principal: fondo amarillo con texto negro (12,8:1). **Prohibido** texto blanco sobre amarillo y amarillo #ffd000 como texto sobre claro.
+- Botón principal: fondo coral con texto azul (5,3:1). **Prohibido** texto blanco sobre coral (2,8:1) y menta #14b8a6 como texto sobre claro (2,5:1): para eso está `menta-texto`.
+- El coral es solo para la acción principal de cada vista. Lo elegido (chips, pasos, etiquetas) va en menta (`bg-seleccion`).
 - Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje debajo con lo que falta.
 - Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`.
 
@@ -373,6 +376,7 @@ Trabajar **por fases**, de a una, con un commit al final de cada una. Antes de c
 - [x] **Fase 5. Resto del panel:** Clientes (alta y edición con sus perros y el enlace personal), Servicios y precios (editables, se ven al instante en el cotizador) e Informes con CSV (`/panel/informes-csv/<tipo>`, punto y coma y BOM para Excel). Lógica en `lib/panel/clientes.ts`, `precios.ts`, `informes.ts` y `lib/informes.ts`, probada en `tests/gestion-*.test.ts`.
 - [x] **Fase 6. Pulido para la demo:** responsive (360 px, 768 px, 1280 px), accesibilidad (contraste, foco, labels), estados vacíos y de error, y recorrer el guion de la sección 10 completo. Hecho el 17/11/2026: pantallas de carga, error y no encontrado; sin desborde a 360/768/1280 px; revisión de etiquetas, nombres, ids y contraste AA; `pnpm build` limpio; guion de la §10 recorrido entero sobre el build de producción.
 - [x] **Fase 7 (opcional, adelantada):** «Sugerir con foto (beta)» con Gemini del lado del servidor y ejemplos de demo rotulados. Ver `docs/ia-lectura-mascota.md`. Falta probar con una clave real.
+- [x] **Fase 8. Paleta oficial e IA Scan & Care** (17/11/2026): paleta azul calma, menta y coral (§7). En el cotizador, «IA Scan & Care» escanea una foto de ejemplo (fichas preparadas a mano y rotuladas) o una propia (con Gemini; sin IA, el tutor marca lo que ve) y arma la ficha de ingreso: raza, tamaño, pelaje (`corto`/`largo`/`rizado`/`mixto`), hidratación, nudos y tratamiento ideal (regla fija en `lib/ia/cuidado.ts`), con su precio. El escaneo viaja con la reserva (`turnos.escaneo`, migración `20261117_150000_escaneo_turno`) y la peluquera lo ve en Solicitudes, Hoy y Registrar atención (precarga la nota interna). Componentes en `components/cliente/escaneo/` y `components/panel/EscaneoIngreso.tsx`; tests en `tests/escaneo.test.ts`. Fotos en `public/fotos/` (créditos en `docs/fotos.md`).
 
 ### Definición de «terminado» para cada pantalla
 - Usa solo tokens y componentes de `ui/`.

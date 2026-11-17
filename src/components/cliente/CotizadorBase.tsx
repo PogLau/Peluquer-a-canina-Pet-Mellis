@@ -4,9 +4,15 @@ import { useMemo, useState } from 'react'
 
 import { ChipGroup, Ticket, ToggleChip } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
-import { aplicarSugerencia, alternar, estadoInicial, type EstadoCotizacion } from '@/lib/cotizacion'
+import {
+  aplicarPlan,
+  aplicarSugerencia,
+  alternar,
+  estadoInicial,
+  type EstadoCotizacion,
+} from '@/lib/cotizacion'
 import { formatMoney } from '@/lib/format'
-import type { ResultadoSugerencia, Sugerencia } from '@/lib/ia/sugerencia'
+import { escaneoDeSugerencia, type ResultadoSugerencia, type Sugerencia } from '@/lib/ia/sugerencia'
 import {
   buildQuote,
   coatLabels,
@@ -18,9 +24,9 @@ import {
   sizes,
 } from '@/lib/pricing'
 
+import { IaScanCare } from './escaneo/IaScanCare'
 import { ResumenPresupuesto } from './ResumenPresupuesto'
 import { SelectableService } from './SelectableService'
-import { SugerirConFoto } from './SugerirConFoto'
 
 type Props = {
   catalog: Catalog
@@ -42,10 +48,15 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
     setEstado((e) => aplicarSugerencia(e, s))
   }
 
+  function onUsarPlan(s: Sugerencia) {
+    setSugerencia(s)
+    setEstado((e) => aplicarPlan(e, s, catalog))
+  }
+
   // Marca «sugerido» mientras el valor elegido coincida con la sugerencia
   const sugerido = (campo: 'tamano' | 'manto' | 'nudos') =>
     sugerencia && sugerencia[campo] === estado[campo]
-      ? `Sugerido por ${sugerencia.origen === 'ejemplo' ? 'el ejemplo' : 'la foto'}. Podés cambiarlo.`
+      ? 'Sugerido por el escaneo. Podés cambiarlo.'
       : undefined
 
   const hintTamano =
@@ -56,11 +67,13 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
       <div className="flex flex-col gap-8">
-        <SugerirConFoto
+        <IaScanCare
+          catalog={catalog}
+          estado={estado}
           iaActiva={iaActiva}
           analizar={analizar}
-          sugerencia={sugerencia}
           onSugerencia={onSugerencia}
+          onUsarPlan={onUsarPlan}
         />
 
         <Ticket as="section" aria-labelledby="titulo-perro" className="flex flex-col gap-6">
@@ -147,7 +160,11 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
         )}
       </div>
 
-      <ResumenPresupuesto quote={quote} estado={estado} />
+      <ResumenPresupuesto
+        quote={quote}
+        estado={estado}
+        escaneo={sugerencia ? escaneoDeSugerencia(sugerencia) : null}
+      />
     </div>
   )
 }

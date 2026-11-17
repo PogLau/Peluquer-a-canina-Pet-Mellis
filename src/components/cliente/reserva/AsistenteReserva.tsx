@@ -14,6 +14,7 @@ import {
 import type { ErroresReserva, MascotaDelTutor, ReservaInput } from '@/lib/cliente/reserva'
 import type { EstadoCotizacion } from '@/lib/cotizacion'
 import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
+import { origenLabels, resumenEscaneo, type EscaneoTurno } from '@/lib/ia/cuidado'
 import { buildQuote } from '@/lib/pricing'
 
 import { PasoConfirmar } from './PasoConfirmar'
@@ -34,6 +35,8 @@ type Props = {
     resumen: { mascota: string; servicios: string[] },
   ) => Promise<RespuestaReserva>
   misTurnosHref?: string
+  /** Ficha de IA Scan & Care que viene del cotizador: se guarda con el turno para la peluquera. */
+  escaneo?: EscaneoTurno | null
 }
 
 export type RespuestaReserva =
@@ -67,11 +70,17 @@ export function AsistenteReserva({
   whatsappLocal,
   reservar: reservarTurno,
   misTurnosHref = '/mis-turnos',
+  escaneo = null,
 }: Props) {
   const popular = catalog.servicios.find((s) => s.popular)?.id
-  const [estado, setEstado] = useState<EstadoReserva>(() =>
-    initialBooking(preset, mascotas, popular),
-  )
+  const [estado, setEstado] = useState<EstadoReserva>(() => {
+    const inicial = initialBooking(preset, mascotas, popular)
+    // La raza que vio el escaneo precarga la del perro nuevo (se puede cambiar)
+    if (escaneo && !inicial.nueva.raza && escaneo.raza !== 'Sin especificar') {
+      return { ...inicial, nueva: { ...inicial.nueva, raza: escaneo.raza } }
+    }
+    return inicial
+  })
   const [paso, setPaso] = useState(0)
   const [error, setError] = useState<string | null>(null)
   const [errorNotas, setErrorNotas] = useState<string | undefined>()
@@ -123,6 +132,7 @@ export function AsistenteReserva({
           nudos: estado.nudos,
           fechaHora: estado.fechaHora ?? '',
           notas: estado.notas,
+          escaneo,
         },
         {
           mascota: nombreMascota,
@@ -180,6 +190,11 @@ export function AsistenteReserva({
   return (
     <div className="flex flex-col gap-6">
       <Stepper steps={pasosReserva} current={paso} />
+      {escaneo && (
+        <Notice tone="info" title="Reservás con la ficha de IA Scan & Care">
+          {resumenEscaneo(escaneo)}. ({origenLabels[escaneo.origen]}.) La peluquera la ve con tu pedido.
+        </Notice>
+      )}
       <Ticket className="flex flex-col gap-6">
         <h2 ref={titulo} tabIndex={-1} className="text-2xl outline-none">
           {pasosReserva[paso].toLowerCase()}

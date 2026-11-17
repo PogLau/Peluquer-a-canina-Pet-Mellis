@@ -58,7 +58,7 @@ export default async function MascotaPage({ params }: Props) {
     <>
       <Link
         href="/panel/mascotas"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-amarillo-texto"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-menta-texto"
       >
         <Icon name="volver" size={18} /> Mascotas
       </Link>
@@ -133,7 +133,7 @@ export default async function MascotaPage({ params }: Props) {
 
         <Ticket as="section" aria-labelledby="ficha" className="flex flex-col gap-5">
           <div>
-            <p className="rotulo text-amarillo-texto">Cada visita mejora la siguiente</p>
+            <p className="rotulo text-menta-texto">Cada visita mejora la siguiente</p>
             <h2 id="ficha" className="text-2xl">
               ficha evolutiva
             </h2>

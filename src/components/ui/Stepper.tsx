@@ -25,7 +25,7 @@ export function Stepper({ steps, current }: Props) {
               aria-current={active ? 'step' : undefined}
               className={cn(
                 'flex min-h-10 flex-1 items-center justify-center gap-1.5 rounded-sm border-2 px-2 text-center text-xs font-extrabold sm:text-sm',
-                active && 'border-tinta bg-accion text-sobre-accion',
+                active && 'border-tinta bg-seleccion text-sobre-seleccion',
                 done && 'border-tinta bg-superficie text-texto',
                 !active && !done && 'border-linea bg-superficie text-texto-suave',
               )}

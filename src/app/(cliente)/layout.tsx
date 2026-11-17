@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: brandColors.negro,
+  themeColor: brandColors.azul,
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -29,16 +29,16 @@ export default function ClienteLayout({ children }: { children: ReactNode }) {
       <body className="min-h-dvh">
         <a
           href="#contenido"
-          className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-extrabold text-negro focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-50 rounded-sm bg-menta px-4 py-2 font-extrabold text-azul focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Saltar al contenido
         </a>
-        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-negro">
+        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-azul">
           <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-4">
             <Link
               href="/"
               aria-label="Pet Mellis, inicio"
-              className="rounded-sm focus-visible:outline-amarillo"
+              className="rounded-sm focus-visible:outline-menta"
             >
               <Imagotipo tone="dark" />
             </Link>

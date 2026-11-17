@@ -5,6 +5,7 @@ import { LinkButton, StatusBadge, TagChip, Ticket, type ButtonVariant } from '@/
 import { nextStatus, type AppointmentStatus } from '@/lib/estados'
 import { formatMoney, formatTime } from '@/lib/format'
 import type { TurnoPanel } from '@/lib/panel/turnos'
+import { EscaneoIngreso } from './EscaneoIngreso'
 
 export type AccionTurno = {
   id: number
@@ -75,6 +76,10 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
               </span>
             ) : null}
           </p>
+
+          {turno.escaneo && turno.estado !== 'finalizado' && (
+            <EscaneoIngreso escaneo={turno.escaneo} compacto />
+          )}
 
           {(turno.mascota.alertas.length > 0 || turno.mascota.cuidadosEspeciales) && (
             <div className="flex flex-col gap-2" aria-label="Alertas de la ficha">

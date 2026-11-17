@@ -102,6 +102,53 @@ describe('reservar sin login', () => {
     expect(r.ok).toBe(false)
   })
 
+  it('IA Scan & Care: el escaneo se guarda con el turno y el panel lo lee; uno adulterado se descarta', async () => {
+    const { toTurnoPanel } = await import('@/lib/panel/turnos')
+    const escaneo = {
+      raza: 'Yorkshire Terrier',
+      textura: 'largo',
+      hidratacion: 'baja',
+      nudos: 'leves',
+      tratamiento: 'hidratacion-profunda',
+      origen: 'ejemplo',
+    } as const
+    const dias = await reserva.availableDays(payload)
+    const pedir = (whatsapp: string, iso: string, e: unknown) =>
+      reserva.createBooking(
+        payload,
+        {
+          ...base,
+          tutorNombre: 'Escaneo',
+          whatsapp,
+          mascota: { nombre: 'Yoyo', raza: 'Yorkshire', tamano: 'chico', manto: 'largo' },
+          fechaHora: iso,
+          escaneo: e as typeof escaneo,
+        },
+        null,
+      )
+
+    const ok = await pedir('1155550010', dias[0].horas[1].iso, escaneo)
+    expect(ok.ok).toBe(true)
+    if (!ok.ok) return
+    const turno = await payload.findByID({ collection: 'turnos', id: ok.turnoId, depth: 2 })
+    expect(toTurnoPanel(turno).escaneo).toEqual(escaneo)
+
+    const malo = await pedir('1155550011', dias[0].horas[2].iso, { ...escaneo, tratamiento: '<script>' })
+    expect(malo.ok).toBe(true)
+    if (!malo.ok) return
+    const turnoMalo = await payload.findByID({ collection: 'turnos', id: malo.turnoId, depth: 0 })
+    expect(turnoMalo.escaneo ?? null).toBeNull()
+
+    // La solicitud de Bella del seed viene de IA Scan & Care
+    const bella = await payload.find({
+      collection: 'turnos',
+      where: { estado: { equals: 'solicitado' }, 'mascota.nombre': { equals: 'Bella' } },
+      depth: 2,
+      limit: 1,
+    })
+    expect(toTurnoPanel(bella.docs[0]).escaneo?.tratamiento).toBe('hidratacion-profunda')
+  })
+
   it('con un WhatsApp que ya existe no se crea otro tutor ni se entrega su enlace', async () => {
     const sofia = await tutorDe('Toby')
     const r = await reserva.createBooking(

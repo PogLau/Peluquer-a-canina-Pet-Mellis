@@ -39,11 +39,11 @@ function BarraDemo({ panel }: { panel: boolean }) {
   const pestana = (activa: boolean) =>
     cn(
       'inline-flex min-h-9 items-center rounded-sm px-3 text-sm font-extrabold',
-      activa ? 'bg-negro text-amarillo' : 'text-negro underline-offset-4 hover:underline',
+      activa ? 'bg-azul text-menta' : 'text-azul underline-offset-4 hover:underline',
     )
   return (
-    <div className="border-b-2 border-tinta bg-amarillo">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-negro">
+    <div className="border-b-2 border-tinta bg-menta">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-azul">
         <p className="text-sm">
           <span className="rotulo mr-2">Demo</span>
           Datos ficticios, guardados solo en este navegador.
@@ -93,12 +93,12 @@ function BarraDemo({ panel }: { panel: boolean }) {
 function MarcoCliente({ children }: { children: ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-negro">
+      <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-azul">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link
             href="/"
             aria-label="Pet Mellis, inicio"
-            className="rounded-sm focus-visible:outline-amarillo"
+            className="rounded-sm focus-visible:outline-menta"
           >
             <Imagotipo tone="dark" />
           </Link>
@@ -122,12 +122,12 @@ function MarcoPanel({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="md:grid md:min-h-dvh md:grid-cols-[248px_1fr]">
-        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-negro md:h-dvh md:border-b-0 md:border-r-2">
+        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-azul md:h-dvh md:border-b-0 md:border-r-2">
           <div className="flex min-h-16 items-center justify-between gap-3 px-4 md:h-full md:flex-col md:items-stretch md:justify-start md:gap-8 md:py-6">
             <Link
               href="/panel"
               aria-label="Pet Mellis, panel"
-              className="rounded-sm focus-visible:outline-amarillo"
+              className="rounded-sm focus-visible:outline-menta"
             >
               <Imagotipo tone="dark" tagline="panel del salón" />
             </Link>
@@ -163,7 +163,7 @@ export function DemoShell({ children }: { children: ReactNode }) {
     <>
       <a
         href="#contenido"
-        className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-extrabold text-negro focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-sm bg-menta px-4 py-2 font-extrabold text-azul focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido
       </a>

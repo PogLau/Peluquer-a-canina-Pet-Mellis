@@ -1,5 +1,7 @@
 import { coats, knots, sizes } from '../pricing'
 
+import { hidrataciones, texturas } from './cuidado'
+
 import { parseSugerencia, type ResultadoSugerencia } from './sugerencia'
 
 /*
@@ -19,6 +21,8 @@ const PROMPT = `Sos asistente de una peluquería canina. Mirá la foto y devolv�
 - raza: raza probable en español (o "Mestizo").
 - tamano: chico (hasta 10 kg), mediano (10 a 25 kg) o grande (más de 25 kg), según la raza. Una foto no tiene escala: la confianza del tamaño casi siempre es "baja" o "media".
 - manto: corto, largo o rizado.
+- textura: corto, largo, rizado o mixto (largo y rizado a la vez).
+- hidratacion: buena (pelo con brillo), media (algo opaco) o baja (seco, opaco, quebradizo), según lo que se ve.
 - nudos: sin, leves, moderados o severos, según lo que se vea del pelo.
 - observaciones: una o dos frases cortas sobre el pelo (dónde hay nudos, estado del manto). Sin diagnósticos de salud.
 - confianza: alta, media o baja para tamano, manto y nudos.`
@@ -30,6 +34,8 @@ const schema = {
     raza: { type: 'STRING' },
     tamano: { type: 'STRING', enum: [...sizes] },
     manto: { type: 'STRING', enum: [...coats] },
+    textura: { type: 'STRING', enum: [...texturas] },
+    hidratacion: { type: 'STRING', enum: [...hidrataciones] },
     nudos: { type: 'STRING', enum: [...knots] },
     observaciones: { type: 'STRING' },
     confianza: {

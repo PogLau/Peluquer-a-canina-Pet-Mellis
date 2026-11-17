@@ -16,7 +16,7 @@ export function TagChip({ children, kind = 'info', selected = false, onToggle }:
   const classes = cn(
     'inline-flex min-h-9 items-center gap-1.5 rounded-pill border-2 px-3 text-sm font-extrabold',
     selected
-      ? 'border-tinta bg-accion text-sobre-accion'
+      ? 'border-tinta bg-seleccion text-sobre-seleccion'
       : kind === 'alerta'
         ? 'border-aviso bg-aviso-fondo text-aviso'
         : 'border-tinta bg-superficie text-texto',

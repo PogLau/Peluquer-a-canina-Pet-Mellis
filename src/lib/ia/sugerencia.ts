@@ -1,5 +1,17 @@
 import { coats, knots, sizes, type Coat, type Knots, type Size } from '../pricing'
 
+import {
+  hidrataciones,
+  mantoDeTextura,
+  texturas,
+  tratamientoSugerido,
+  type EscaneoTurno,
+  type Hidratacion,
+  type OrigenEscaneo,
+  type Textura,
+  type Tratamiento,
+} from './cuidado'
+
 /*
   Sugerencia de datos de la mascota a partir de una foto.
   La IA (o un ejemplo de demo) solo SUGIERE tamaño, manto y nudos: el precio lo calcula
@@ -14,10 +26,15 @@ export type Sugerencia = {
   manto: Coat
   nudos: Knots
   observaciones: string
+  /** Lo que se ve del pelaje. El manto (para el precio) sale de acá. */
+  textura: Textura
+  hidratacion: Hidratacion
+  /** Sale de tratamientoSugerido(): regla fija, no lo inventa la IA. */
+  tratamiento: Tratamiento
   /** Por dato. El tamaño casi siempre es «baja»: una foto no tiene escala. */
   confianza: { tamano: Confianza; manto: Confianza; nudos: Confianza }
-  /** `ejemplo`: resultado precargado de la demo. `ia`: análisis real de la foto. */
-  origen: 'ejemplo' | 'ia'
+  /** `ejemplo`: precargado de la demo. `ia`: análisis real. `manual`: lo cargó el tutor. */
+  origen: OrigenEscaneo
 }
 
 export type ResultadoSugerencia =
@@ -48,18 +65,37 @@ export function parseSugerencia(raw: unknown): Omit<Sugerencia, 'origen'> | { es
   const raza = text(r.raza, 60)
   const observaciones = text(r.observaciones, 240) ?? ''
   const c = (r.confianza ?? {}) as Record<string, unknown>
-  if (!raza || !isOneOf(sizes, r.tamano) || !isOneOf(coats, r.manto) || !isOneOf(knots, r.nudos)) return null
+  // La textura manda; si no vino, se usa el manto (respuestas viejas o incompletas)
+  const textura: Textura | null = isOneOf(texturas, r.textura) ? r.textura : isOneOf(coats, r.manto) ? r.manto : null
+  if (!raza || !isOneOf(sizes, r.tamano) || !textura || !isOneOf(knots, r.nudos)) return null
+  const hidratacion: Hidratacion = isOneOf(hidrataciones, r.hidratacion) ? r.hidratacion : 'media'
+  const manto: Coat = mantoDeTextura(textura)
 
   return {
     raza,
     tamano: r.tamano,
-    manto: r.manto,
+    manto,
     nudos: r.nudos,
     observaciones,
+    textura,
+    hidratacion,
+    tratamiento: tratamientoSugerido({ nudos: r.nudos, hidratacion, textura }),
     confianza: {
       tamano: isOneOf(confianzas, c.tamano) ? c.tamano : 'baja',
       manto: isOneOf(confianzas, c.manto) ? c.manto : 'media',
       nudos: isOneOf(confianzas, c.nudos) ? c.nudos : 'media',
     },
+  }
+}
+
+/** Lo que se guarda en el turno al reservar con un escaneo. */
+export function escaneoDeSugerencia(s: Sugerencia): EscaneoTurno {
+  return {
+    raza: s.raza,
+    textura: s.textura,
+    hidratacion: s.hidratacion,
+    nudos: s.nudos,
+    tratamiento: s.tratamiento,
+    origen: s.origen,
   }
 }

@@ -1,58 +1,147 @@
-import type { Sugerencia } from './sugerencia'
+import type { Knots, Size } from '../pricing'
+
+import { mantoDeTextura, tratamientoSugerido, type Hidratacion, type Textura } from './cuidado'
+import type { Confianza, Sugerencia } from './sugerencia'
 
 /*
-  Ejemplos de la demo. NO son análisis de imágenes: son resultados precargados
-  y la interfaz lo dice. Sirven para mostrar el flujo sin clave de IA.
+  Ejemplos de IA Scan & Care. NO son análisis de imágenes: cada foto de referencia tiene un
+  resultado preparado a mano y la interfaz lo dice («Ejemplo de demo»). Sirven para mostrar el
+  flujo completo sin clave de IA, también en la demo estática.
+  Las fotos están en public/fotos (créditos en docs/fotos.md).
 */
 
 export type EjemploMascota = {
   id: string
   nombre: string
+  /** Ruta dentro de /public (sin basePath: la arma el componente). */
+  foto: string
+  alt: string
   descripcion: string
   sugerencia: Sugerencia
 }
 
+function ejemplo(datos: {
+  raza: string
+  tamano: Size
+  textura: Textura
+  nudos: Knots
+  hidratacion: Hidratacion
+  observaciones: string
+  confianza?: Partial<Sugerencia['confianza']>
+}): Sugerencia {
+  const confianza: Record<'tamano' | 'manto' | 'nudos', Confianza> = {
+    tamano: 'media',
+    manto: 'alta',
+    nudos: 'media',
+    ...datos.confianza,
+  }
+  return {
+    raza: datos.raza,
+    tamano: datos.tamano,
+    manto: mantoDeTextura(datos.textura),
+    nudos: datos.nudos,
+    observaciones: datos.observaciones,
+    textura: datos.textura,
+    hidratacion: datos.hidratacion,
+    tratamiento: tratamientoSugerido(datos),
+    confianza,
+    origen: 'ejemplo',
+  }
+}
+
 export const ejemplosMascota: readonly EjemploMascota[] = [
   {
-    id: 'toby',
-    nombre: 'Toby',
-    descripcion: 'Caniche Toy de 4 kg, pelo rizado y enredado',
-    sugerencia: {
-      raza: 'Caniche Toy',
+    id: 'caniche',
+    nombre: 'Caniche',
+    foto: '/fotos/caniche-mix.webp',
+    alt: 'Perro tipo caniche gris y negro, de pelo rizado, con la lengua afuera',
+    descripcion: 'Rizado, con nudos en orejas y pecho',
+    sugerencia: ejemplo({
+      raza: 'Caniche Toy (mestizo)',
       tamano: 'chico',
-      manto: 'rizado',
+      textura: 'rizado',
       nudos: 'moderados',
-      observaciones: 'Nudos detrás de las orejas y en las patas. Manto rizado.',
-      confianza: { tamano: 'media', manto: 'alta', nudos: 'media' },
-      origen: 'ejemplo',
-    },
+      hidratacion: 'media',
+      observaciones: 'Nudos detrás de las orejas y en el pecho. Rizo cerrado que se apelmaza.',
+    }),
   },
   {
-    id: 'luna',
-    nombre: 'Luna',
-    descripcion: 'Golden Retriever de 30 kg, pelo largo',
-    sugerencia: {
-      raza: 'Golden Retriever',
-      tamano: 'grande',
-      manto: 'largo',
+    id: 'yorkshire',
+    nombre: 'Yorkshire',
+    foto: '/fotos/yorkshire-largo.webp',
+    alt: 'Yorkshire terrier de manto largo, acostado sobre una manta blanca',
+    descripcion: 'Manto largo, puntas secas',
+    sugerencia: ejemplo({
+      raza: 'Yorkshire Terrier',
+      tamano: 'chico',
+      textura: 'largo',
       nudos: 'leves',
-      observaciones: 'Algunos nudos leves en la cola y detrás de las patas. Manto largo con subpelo.',
-      confianza: { tamano: 'media', manto: 'alta', nudos: 'media' },
-      origen: 'ejemplo',
-    },
+      hidratacion: 'baja',
+      observaciones: 'Manto largo y fino con puntas abiertas. Nudos leves detrás de las orejas.',
+    }),
   },
   {
-    id: 'coco',
-    nombre: 'Coco',
-    descripcion: 'Shih Tzu de 6 kg, pelo largo y prolijo',
-    sugerencia: {
+    id: 'shih-tzu',
+    nombre: 'Shih Tzu',
+    foto: '/fotos/shih-tzu.webp',
+    alt: 'Shih Tzu blanco y marrón sentado, con el pelo largo y prolijo',
+    descripcion: 'Largo y prolijo, pide corte',
+    sugerencia: ejemplo({
       raza: 'Shih Tzu',
       tamano: 'chico',
-      manto: 'largo',
+      textura: 'largo',
       nudos: 'sin',
-      observaciones: 'Manto largo y cepillado, sin nudos visibles.',
-      confianza: { tamano: 'media', manto: 'alta', nudos: 'alta' },
-      origen: 'ejemplo',
-    },
+      hidratacion: 'buena',
+      observaciones: 'Pelo largo, suelto y con brillo. Le tapa los ojos: conviene el corte de raza.',
+      confianza: { nudos: 'alta' },
+    }),
+  },
+  {
+    id: 'maltes',
+    nombre: 'Maltés',
+    foto: '/fotos/maltes-panuelo.webp',
+    alt: 'Perro blanco tipo maltés con pañuelo de jean, sobre fondo negro',
+    descripcion: 'Mixto, ondulado y largo',
+    sugerencia: ejemplo({
+      raza: 'Maltés (mestizo)',
+      tamano: 'chico',
+      textura: 'mixto',
+      nudos: 'leves',
+      hidratacion: 'media',
+      observaciones: 'Pelo ondulado en el cuerpo y largo en las orejas. Algún nudo en las patas.',
+      confianza: { manto: 'media' },
+    }),
+  },
+  {
+    id: 'terrier',
+    nombre: 'Terrier',
+    foto: '/fotos/terrier-clinica.webp',
+    alt: 'Perro terrier mestizo de pelo gris, largo y desordenado, con correa naranja',
+    descripcion: 'Mixto, muy enredado',
+    sugerencia: ejemplo({
+      raza: 'Mestizo terrier',
+      tamano: 'mediano',
+      textura: 'mixto',
+      nudos: 'severos',
+      hidratacion: 'baja',
+      observaciones: 'Nudos grandes en el lomo y las patas. Pelo seco y apelmazado.',
+      confianza: { tamano: 'baja', manto: 'media' },
+    }),
+  },
+  {
+    id: 'cachorro',
+    nombre: 'Shih Tzu con moño',
+    foto: '/fotos/shih-tzu-mono.webp',
+    alt: 'Shih Tzu con corte corto y moño rojo, sobre fondo negro',
+    descripcion: 'Corte corto, recién arreglado',
+    sugerencia: ejemplo({
+      raza: 'Shih Tzu',
+      tamano: 'chico',
+      textura: 'corto',
+      nudos: 'sin',
+      hidratacion: 'buena',
+      observaciones: 'Corte corto bien mantenido, pelo suave y sin nudos.',
+      confianza: { nudos: 'alta' },
+    }),
   },
 ]

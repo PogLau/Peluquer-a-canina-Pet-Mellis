@@ -6,6 +6,7 @@ import {
 import type { Catalog } from '@/lib/catalogo'
 import type { AppointmentStatus } from '@/lib/estados'
 import type { Puntajes } from '@/lib/ficha'
+import type { EscaneoTurno } from '@/lib/ia/cuidado'
 import {
   buildQuote,
   type Coat,
@@ -23,7 +24,8 @@ import { arDate } from '@/seed/fechas'
   Nada sale del dispositivo. Las fechas se arman relativas al día en que se abre la demo.
 */
 
-export const VERSION_DEMO = 1
+// 2: IA Scan & Care (los turnos guardan el escaneo de ingreso)
+export const VERSION_DEMO = 2
 export const WHATSAPP_SALON = '5491151770132'
 
 export type DServicio = Service & { activo: boolean }
@@ -53,6 +55,8 @@ export type DTurno = {
   precioEstimado: number
   origen: 'web' | 'panel'
   notasCliente: string
+  /** IA Scan & Care del pedido. Opcional: estados guardados antes no lo tienen. */
+  escaneo?: EscaneoTurno | null
 }
 export type DAtencion = {
   id: number
@@ -172,6 +176,7 @@ export function initialState(now = new Date()): DemoState {
       precioEstimado: 0,
       origen: t.origen,
       notasCliente: t.notasCliente ?? '',
+      escaneo: t.escaneo ?? null,
     }
     turno.precioEstimado = priceOf(base, turno)
     base.turnos.push(turno)

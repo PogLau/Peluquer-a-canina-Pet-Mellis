@@ -7,6 +7,7 @@ import { reservarTurno } from '../acciones'
 import { Notice, PageHeader } from '@/components/ui'
 import { availableDays, petsOfTutor } from '@/lib/cliente/reserva'
 import { estadoDesdeParams } from '@/lib/cotizacion'
+import { escaneoDesdeParams } from '@/lib/ia/cuidado'
 import { getCatalogo, getDatosLocal } from '@/lib/datos-publicos'
 import { getClienteSession } from '@/lib/enlace-cliente'
 
@@ -54,6 +55,7 @@ export default async function ReservarPage({ searchParams }: Props) {
           tutor={sesion?.tutor.nombre ?? null}
           mascotas={mascotas}
           preset={estadoDesdeParams(params)}
+      escaneo={escaneoDesdeParams(params)}
           whatsappLocal={local.whatsapp}
         />
       ) : (

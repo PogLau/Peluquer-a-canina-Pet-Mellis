@@ -1,6 +1,7 @@
 import type { Payload, Where } from 'payload'
 
 import { dayRangeAR } from '@/lib/dates'
+import { parseEscaneo, type EscaneoTurno } from '@/lib/ia/cuidado'
 import { nextStatus, statusLabel, type AppointmentStatus } from '@/lib/estados'
 import type { Etiqueta, Mascota, Servicio, Turno, Tutore, Usuario } from '@/payload-types'
 
@@ -13,6 +14,8 @@ export type TurnoPanel = {
   origen: 'web' | 'panel'
   precioEstimado: number | null
   notasCliente: string | null
+  /** IA Scan & Care del pedido (sugerencia sin confirmar). */
+  escaneo: EscaneoTurno | null
   servicios: string[]
   mascota: {
     id: number
@@ -43,6 +46,7 @@ export function toTurnoPanel(turno: Turno): TurnoPanel {
     origen: turno.origen,
     precioEstimado: turno.precioEstimado ?? null,
     notasCliente: turno.notasCliente ?? null,
+    escaneo: parseEscaneo(turno.escaneo),
     servicios: (turno.servicios ?? [])
       .map((s) => asObject<Servicio>(s)?.nombre)
       .filter((n): n is string => !!n),

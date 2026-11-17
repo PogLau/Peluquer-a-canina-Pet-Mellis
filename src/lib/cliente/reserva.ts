@@ -2,6 +2,7 @@ import type { Payload } from 'payload'
 
 import { freeSlots, isSlotFree, type DiaLibre, type OpcionesAgenda } from '@/lib/agenda'
 import type { TutorSesion } from '@/lib/enlace-cliente'
+import { parseEscaneo, type EscaneoTurno } from '@/lib/ia/cuidado'
 import { coats, knots, sizes, type Coat, type Knots, type Size } from '@/lib/pricing'
 
 /*
@@ -28,6 +29,8 @@ export type ReservaInput = {
   nudos: string
   fechaHora: string
   notas: string
+  /** IA Scan & Care: viene del cotizador. Se vuelve a validar antes de guardar. */
+  escaneo?: EscaneoTurno | null
 }
 
 export type ErroresReserva = Partial<
@@ -243,6 +246,7 @@ export async function createBooking(
       extras: extras?.docs.map((x) => x.id) ?? [],
       nudos: input.nudos as Knots,
       notasCliente: input.notas.trim() || null,
+      escaneo: parseEscaneo(input.escaneo),
     },
     overrideAccess: true,
   })
