@@ -25,13 +25,31 @@ import { arDate } from '@/seed/fechas'
 */
 
 // 2: IA Scan & Care (los turnos guardan el escaneo de ingreso)
-export const VERSION_DEMO = 5
+// 6: cada cliente tiene su código de enlace personal (privacidad: nadie ve los datos de otro)
+export const VERSION_DEMO = 6
 export const WHATSAPP_SALON = '5491151770132'
 
 export type DServicio = Service & { activo: boolean }
 export type DExtra = Extra & { activo: boolean }
 export type DEtiqueta = { id: number; nombre: string; tipo: 'alerta' | 'info' }
-export type DTutor = { id: number; nombre: string; whatsapp: string; zona: string }
+export type DTutor = {
+  id: number
+  nombre: string
+  whatsapp: string
+  zona: string
+  /** Código secreto del enlace personal (/mi/?t=<código>), como en la app real. */
+  enlaceToken: string
+}
+
+/** 32 caracteres al azar (URL-safe), igual que el código de la app real. */
+export function tokenDemo(): string {
+  const bytes = new Uint8Array(24)
+  globalThis.crypto.getRandomValues(bytes)
+  let bin = ''
+  for (const b of bytes) bin += String.fromCharCode(b)
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
 export type DMascota = {
   id: number
   tutorId: number
@@ -129,7 +147,7 @@ export function initialState(now = new Date()): DemoState {
   const tutores: DTutor[] = []
   const mascotas: DMascota[] = []
   for (const p of PERROS) {
-    const tutor = { id: nuevoId(), ...p.tutor }
+    const tutor = { id: nuevoId(), ...p.tutor, enlaceToken: tokenDemo() }
     tutores.push(tutor)
     mascotas.push({
       id: nuevoId(),
@@ -159,7 +177,7 @@ export function initialState(now = new Date()): DemoState {
     turnos: [],
     atenciones: [],
     // Arranca como un visitante nuevo, sin enlace: así entra un cliente real la primera vez.
-    // Para ver los datos de un cliente de ejemplo, se elige en «Ver como».
+    // Para ver los datos de un cliente de ejemplo, se abre su enlace personal desde el panel.
     clienteId: null,
     ultimoId: 0,
   }

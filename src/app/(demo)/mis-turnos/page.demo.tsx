@@ -5,7 +5,7 @@ import { EmptyState, LinkButton, PageHeader, StatusBadge, Ticket } from '@/compo
 import { cancelarTurno } from '@/demo/acciones'
 import { turnosCliente } from '@/demo/selectores'
 import { useEstado } from '@/demo/store'
-import { VerComo } from '@/demo/VerComo'
+import { OlvidarTelefonoDemo, SinEnlaceDemo } from '@/demo/AccesoDemo'
 import type { TurnoCliente } from '@/lib/cliente/libreta'
 import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
 
@@ -71,14 +71,16 @@ export default function MisTurnosDemo() {
       >
         Para cancelar con menos de 24 horas, escribinos por WhatsApp.
       </PageHeader>
-      <div className="mb-6">
-        <VerComo />
-      </div>
+      {!tutor && (
+        <div className="mb-6">
+          <SinEnlaceDemo />
+        </div>
+      )}
 
       {!tutor ? (
         <EmptyState icon="libreta" title="abrí tu enlace personal">
-          Sin enlace no se ven turnos. Elegí un cliente arriba o reservá un turno: al reservar, la
-          demo te recuerda.
+          Sin enlace no se ven turnos. Reservá un turno: al reservar por primera vez, este teléfono
+          te recuerda.
         </EmptyState>
       ) : (
         <>
@@ -102,6 +104,7 @@ export default function MisTurnosDemo() {
               <Lista turnos={pasados} />
             </section>
           )}
+          <OlvidarTelefonoDemo nombre={tutor.nombre} />
         </>
       )}
     </>

@@ -202,7 +202,9 @@ export async function createBooking(
 
   // Mascota: una de las suyas, la misma por nombre, o una nueva
   let mascotaId: number
-  const propias = await petsOfTutor(payload, tutorId)
+  // Sin enlace personal no se leen ni se modifican los perros ya cargados de ese cliente (alguien
+  // podría escribir el WhatsApp de otra persona): se suma uno nuevo y la peluquera lo revisa.
+  const propias = sesion ? await petsOfTutor(payload, tutorId) : []
   if (input.mascotaId !== null) {
     if (!sesion || !propias.some((m) => m.id === input.mascotaId)) {
       return {

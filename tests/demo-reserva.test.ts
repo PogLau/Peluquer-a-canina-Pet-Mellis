@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { freeSlots } from '@/lib/agenda'
-import { agendaOf, reservar } from '@/demo/operaciones'
+import { agendaOf, reservar, tutorPorToken } from '@/demo/operaciones'
 import { initialState } from '@/demo/estado'
 
 /*
@@ -101,5 +101,44 @@ describe('demo: agenda del panel', () => {
       atenciones: [...s.atenciones, { ...s.atenciones[0], id: 999, turnoId: hoy[0].id }],
     }
     expect(turnosHoy(conRegistro, now)[0].atencionRegistrada).toBe(true)
+  })
+})
+
+describe('demo: privacidad de cada cliente', () => {
+  it('cada cliente tiene su propio código secreto de enlace', () => {
+    const s = initialState(now)
+    const codigos = s.tutores.map((t) => t.enlaceToken)
+    expect(codigos.every((c) => /^[A-Za-z0-9_-]{32}$/.test(c))).toBe(true)
+    expect(new Set(codigos).size).toBe(codigos.length)
+  })
+
+  it('solo un código válido abre los datos de un cliente (no el número de cliente)', () => {
+    const s = initialState(now)
+    const sofia = s.tutores.find((t) => t.nombre === 'Sofía Romero')!
+    expect(tutorPorToken(s, sofia.enlaceToken)?.id).toBe(sofia.id)
+    expect(tutorPorToken(s, String(sofia.id))).toBeNull()
+    expect(tutorPorToken(s, '')).toBeNull()
+    expect(tutorPorToken(s, 'x'.repeat(32))).toBeNull()
+  })
+
+  it('escribir el WhatsApp de otra persona no da acceso a sus datos ni cambia sus perros', () => {
+    const s = initialState(now)
+    const sofia = s.tutores.find((t) => t.nombre === 'Sofía Romero')!
+    const tobyAntes = s.mascotas.find((m) => m.tutorId === sofia.id && m.nombre === 'Toby')!
+    const { estado, turnoId } = reservar(
+      s,
+      {
+        ...base,
+        tutorNombre: 'Otra persona',
+        whatsapp: sofia.whatsapp,
+        mascota: { nombre: 'Toby', raza: 'Mestizo', tamano: 'gigante', manto: 'corto' },
+        fechaHora: primerHorario(s),
+      },
+      false,
+      now,
+    )
+    expect(estado.clienteId).toBeNull()
+    expect(estado.mascotas.find((m) => m.id === tobyAntes.id)).toEqual(tobyAntes)
+    expect(estado.turnos.find((t) => t.id === turnoId)!.mascotaId).not.toBe(tobyAntes.id)
   })
 })

@@ -14,7 +14,7 @@ import {
 } from '@/lib/panel/precios'
 import type { Coat, Size } from '@/lib/pricing'
 
-import { nextId, priceOf, type DemoState, type DTurno } from './estado'
+import { nextId, priceOf, tokenDemo, type DemoState, type DTurno, type DTutor } from './estado'
 
 /*
   Operaciones de la demo: las mismas reglas que la app real (estados, horarios libres,
@@ -135,6 +135,12 @@ export function editarRecomendacion(s: DemoState, atencionId: number, texto: str
   }
 }
 
+/** Cliente dueño de ese código de enlace, o null. Un código mal formado nunca coincide. */
+export function tutorPorToken(s: DemoState, token: unknown): DTutor | null {
+  if (typeof token !== 'string' || !/^[A-Za-z0-9_-]{32}$/.test(token)) return null
+  return s.tutores.find((t) => t.enlaceToken === token) ?? null
+}
+
 /**
  * Reserva desde la web. `conEnlace`: el visitante está «como» un cliente (en la app real, por su enlace personal).
  * Devuelve también si se creó un cliente nuevo: en ese caso la demo lo deja como cliente actual.
@@ -158,23 +164,33 @@ export function reservar(
 
   let estado = s
   let tutorId: number
+  // Solo se «recuerda» en este teléfono a quien tiene su enlace o es un cliente nuevo: escribir el
+  // WhatsApp de otra persona no da acceso a sus datos (privacidad, igual que en la app real).
+  let recordar = true
   if (sesion) tutorId = sesion.id
   else {
     const whatsapp = normalizeWhatsapp(input.whatsapp)
     const existente = s.tutores.find((t) => t.whatsapp === whatsapp)
-    if (existente) tutorId = existente.id
-    else {
+    if (existente) {
+      tutorId = existente.id
+      recordar = false
+    } else {
       const [conId, id] = nextId(estado)
       estado = {
         ...conId,
-        tutores: [...conId.tutores, { id, nombre: input.tutorNombre.trim(), whatsapp, zona: '' }],
+        tutores: [
+          ...conId.tutores,
+          { id, nombre: input.tutorNombre.trim(), whatsapp, zona: '', enlaceToken: tokenDemo() },
+        ],
       }
       tutorId = id
     }
   }
 
   let mascotaId: number
-  const propias = estado.mascotas.filter((m) => m.tutorId === tutorId)
+  // Sin enlace no se tocan los perros ya cargados de ese cliente: se suma uno nuevo y la peluquera
+  // lo revisa al aceptar la solicitud.
+  const propias = sesion ? estado.mascotas.filter((m) => m.tutorId === tutorId) : []
   if (input.mascotaId !== null) {
     if (!propias.some((m) => m.id === input.mascotaId))
       throw new DemoError('Elegí uno de tus perros.')
@@ -242,7 +258,11 @@ export function reservar(
   nuevo.precioEstimado = priceOf(conId, nuevo)
   // Como en la app real: quien reserva por primera vez queda «recordado» en este teléfono
   return {
-    estado: { ...conId, turnos: [...conId.turnos, nuevo], clienteId: tutorId },
+    estado: {
+      ...conId,
+      turnos: [...conId.turnos, nuevo],
+      clienteId: recordar ? tutorId : s.clienteId,
+    },
     turnoId: id,
     precio: nuevo.precioEstimado,
   }

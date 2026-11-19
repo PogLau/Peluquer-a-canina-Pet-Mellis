@@ -152,8 +152,9 @@ describe('reservar sin login', () => {
     expect(toTurnoPanel(bella.docs[0]).escaneo?.tratamiento).toBe('hidratacion-profunda')
   })
 
-  it('con un WhatsApp que ya existe no se crea otro tutor ni se entrega su enlace', async () => {
+  it('con un WhatsApp que ya existe no se crea otro tutor, no se entrega su enlace ni se tocan sus perros', async () => {
     const sofia = await tutorDe('Toby')
+    const tobyAntes = await payload.findByID({ collection: 'mascotas', id: sofia.mascotaId, depth: 0 })
     const r = await reserva.createBooking(
       payload,
       {
@@ -171,12 +172,13 @@ describe('reservar sin login', () => {
       where: { whatsapp: { equals: sofia.whatsapp } },
     })
     expect(tutores.totalDocs).toBe(1)
-    // Reusa a Toby en vez de duplicarlo
-    const tobys = await payload.count({
-      collection: 'mascotas',
-      where: { tutor: { equals: sofia.id } },
-    })
-    expect(tobys.totalDocs).toBe(1)
+    // Sin enlace no se puede saber si es la misma persona: Toby queda como estaba y el pedido
+    // llega con un perro nuevo, que la peluquera revisa al aceptarlo.
+    const tobyDespues = await payload.findByID({ collection: 'mascotas', id: sofia.mascotaId, depth: 0 })
+    expect(tobyDespues).toMatchObject({ tamano: tobyAntes.tamano, manto: tobyAntes.manto, raza: tobyAntes.raza })
+    if (!r.ok) return
+    const turno = await payload.findByID({ collection: 'turnos', id: r.turnoId, depth: 0 })
+    expect(turno.mascota).not.toBe(sofia.mascotaId)
   })
 
   it('con enlace personal no se puede reservar con el perro de otro tutor', async () => {
@@ -227,7 +229,8 @@ describe('Mis turnos y Mi mascota', () => {
     const { proximos, pasados } = await libreta.listClientAppointments(payload, sofia.id)
     const todos = [...proximos, ...pasados]
     expect(todos.length).toBeGreaterThan(0)
-    expect(todos.every((t) => t.mascota === 'Toby')).toBe(true)
+    // Solo Toby (y el «toby» que llegó por un pedido sin enlace con su WhatsApp)
+    expect(todos.every((t) => t.mascota.toLowerCase() === 'toby')).toBe(true)
   })
 
   it('la libreta muestra las visitas sin la nota interna', async () => {
@@ -282,5 +285,26 @@ describe('enlace personal', () => {
     const r = await payload.find({ collection: 'etiquetas', limit: 1, overrideAccess: false })
     expect(r.docs.length).toBe(1) // las etiquetas son públicas…
     await expect(payload.find({ collection: 'tutores', overrideAccess: false })).rejects.toThrow() // …los tutores no
+  })
+
+  it('sin sesión del salón no se leen mascotas, turnos, atenciones ni fotos', async () => {
+    for (const collection of ['mascotas', 'turnos', 'atenciones', 'media'] as const) {
+      await expect(payload.find({ collection, overrideAccess: false })).rejects.toThrow()
+    }
+  })
+
+  it('la libreta de cada tutor trae solo sus perros', async () => {
+    const sofia = await tutorDe('Toby')
+    const mascotas = await libreta.listClientPets(payload, sofia.id)
+    expect(mascotas.length).toBeGreaterThan(0)
+    const propias = await payload.find({
+      collection: 'mascotas',
+      where: { tutor: { equals: sofia.id } },
+      depth: 0,
+      limit: 50,
+    })
+    const ids = new Set(propias.docs.map((m) => m.id))
+    expect(mascotas.every((m) => ids.has(m.id))).toBe(true)
+    expect((await reserva.petsOfTutor(payload, sofia.id)).every((m) => ids.has(m.id))).toBe(true)
   })
 })

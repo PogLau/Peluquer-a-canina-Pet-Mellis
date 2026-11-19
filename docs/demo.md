@@ -10,7 +10,7 @@ Es la forma de mostrar el trabajo sin montar infraestructura: un sitio estático
 |---|---|---|
 | Datos | Ficticios, guardados en el navegador de cada visitante (`localStorage`). Nada se envía a ningún lado | Base de datos (SQLite local, Postgres en producción) |
 | Peluquera | Barra «Ver como peluquera», sin contraseña | Usuario y contraseña (`/panel/ingresar`) |
-| Cliente | «Ver como» un cliente, o su enlace de demo `/mi/?c=<id>` | Enlace personal secreto `/mi/<token>` |
+| Cliente | Su enlace de demo con código secreto `/mi/?t=<código>` (desde su ficha en el panel), o reservando por primera vez. Cada cliente ve solo sus perros y turnos | Enlace personal secreto `/mi/<token>` |
 | Reiniciar | Botón «Reiniciar demo» (solo afecta a ese navegador) | `pnpm seed` |
 | Sugerir con foto | Solo los ejemplos, rotulados como ejemplos | Análisis real con Gemini si hay clave |
 | WhatsApp | Los botones abren `wa.me` con el mensaje armado; nada se manda solo | Igual |

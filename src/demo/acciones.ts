@@ -24,10 +24,14 @@ type Respuesta = { ok: true } | { ok: false; error: string }
 
 const resultado = (error: string | null): Respuesta => (error ? { ok: false, error } : { ok: true })
 
-/** Enlace personal de la demo: abre «Mis turnos» como ese cliente (en la app real es /mi/<token>). */
+/**
+ * Enlace personal de la demo: abre «Mis turnos» de ese cliente con su código secreto
+ * (en la app real es /mi/<código>). Sin el código no se ven los datos de nadie.
+ */
 export function enlaceDemo(tutorId: number): string {
   const base = typeof window === 'undefined' ? '' : window.location.origin
-  return `${base}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/mi/?c=${tutorId}`
+  const token = leerEstado()?.tutores.find((t) => t.id === tutorId)?.enlaceToken ?? ''
+  return `${base}${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/mi/?t=${encodeURIComponent(token)}`
 }
 
 export const accionesSolicitud: AccionesSolicitud = {
@@ -111,11 +115,11 @@ export async function reservarTurno(
   })
   if (error) return { ok: false, error }
   const estado = leerEstado()!
-  const tutor = estado.tutores.find((t) => t.id === estado.clienteId)
+  const tutor = conEnlace ? estado.tutores.find((t) => t.id === estado.clienteId) : undefined
   return {
     ok: true,
     precioEstimado: precio,
-    conEnlace: true,
+    conEnlace: estado.clienteId !== null,
     avisarLink: whatsappLink(
       WHATSAPP_SALON,
       bookingRequestMessage({
@@ -133,7 +137,21 @@ export async function cancelarTurno(id: number): Promise<Respuesta> {
   return resultado(aplicar((s) => op.cancelar(s, id)))
 }
 
-/** «Ver como» un cliente (en la app real, abrir su enlace personal). Null: un visitante sin enlace. */
-export function verComo(tutorId: number | null) {
-  aplicar((s) => ({ ...s, clienteId: tutorId }))
+/**
+ * Abre el enlace personal: solo un código válido identifica al cliente. Devuelve si se pudo.
+ * (Ya no hay forma de elegir «ver como» otro cliente: cada uno ve solo lo suyo.)
+ */
+export function abrirEnlace(token: string): boolean {
+  let ok = false
+  aplicar((s) => {
+    const tutor = op.tutorPorToken(s, token)
+    ok = !!tutor
+    return tutor ? { ...s, clienteId: tutor.id } : s
+  })
+  return ok
+}
+
+/** Para teléfonos compartidos: este navegador deja de recordar al cliente. */
+export function olvidarEsteTelefono() {
+  aplicar((s) => ({ ...s, clienteId: null }))
 }

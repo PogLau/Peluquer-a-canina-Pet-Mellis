@@ -3,7 +3,7 @@
 import { EmptyState, LinkButton, Notice, PageHeader, TagChip, Ticket } from '@/components/ui'
 import { libretaCliente } from '@/demo/selectores'
 import { useEstado } from '@/demo/store'
-import { VerComo } from '@/demo/VerComo'
+import { OlvidarTelefonoDemo, SinEnlaceDemo } from '@/demo/AccesoDemo'
 import { formatLongDate } from '@/lib/format'
 import { coatLabels, sizeLabels, type Coat, type Size } from '@/lib/pricing'
 
@@ -20,9 +20,11 @@ export default function MiMascotaDemo() {
       >
         Cómo le fue en cada visita y qué conviene para la próxima.
       </PageHeader>
-      <div className="mb-6">
-        <VerComo />
-      </div>
+      {!tutor && (
+        <div className="mb-6">
+          <SinEnlaceDemo />
+        </div>
+      )}
 
       {!tutor || mascotas.length === 0 ? (
         <EmptyState
@@ -31,7 +33,7 @@ export default function MiMascotaDemo() {
         >
           {tutor
             ? 'Se cargan cuando reservás tu primer turno.'
-            : 'Elegí un cliente arriba para ver su libreta.'}
+            : 'Con tu enlace personal ves la libreta de tus perros, y solo la de ellos.'}
         </EmptyState>
       ) : (
         <div className="flex flex-col gap-8">
@@ -104,6 +106,7 @@ export default function MiMascotaDemo() {
           ))}
         </div>
       )}
+      {tutor && <OlvidarTelefonoDemo nombre={tutor.nombre} />}
     </>
   )
 }

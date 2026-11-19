@@ -4,16 +4,15 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { Suspense, useEffect } from 'react'
 
 import { Cargando } from '@/components/ui'
-import { verComo } from '@/demo/acciones'
+import { abrirEnlace } from '@/demo/acciones'
 
-/** Enlace personal de la demo (/mi?c=<cliente>). En la app real es /mi/<código secreto>. */
+/** Enlace personal de la demo (/mi?t=<código secreto>), como /mi/<código> en la app real. */
 function AbrirEnlace() {
   const params = useSearchParams()
   const router = useRouter()
   useEffect(() => {
-    const id = Number(params.get('c'))
-    if (Number.isInteger(id) && id > 0) verComo(id)
-    router.replace('/mis-turnos')
+    const ok = abrirEnlace(params.get('t') ?? '')
+    router.replace(ok ? '/mis-turnos' : '/mis-turnos?enlace=invalido')
   }, [params, router])
   return <Cargando tarjetas={1} />
 }
