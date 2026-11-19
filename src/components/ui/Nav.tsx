@@ -15,8 +15,14 @@ export type NavItem = {
   mobile?: boolean
 }
 
-function isActive(pathname: string, href: string, root: string) {
-  return href === root ? pathname === root : pathname === href || pathname.startsWith(`${href}/`)
+export function isActive(pathname: string, href: string, root: string) {
+  // La demo estática usa trailingSlash: «/panel/» tiene que contar como «/panel»
+  const sinBarra = (p: string) => (p.length > 1 ? p.replace(/\/+$/, '') : p)
+  const ruta = sinBarra(pathname)
+  const destino = sinBarra(href)
+  return destino === sinBarra(root)
+    ? ruta === destino
+    : ruta === destino || ruta.startsWith(`${destino}/`)
 }
 
 /** Navegación horizontal para el header (desde 768 px). Vive dentro del header. */

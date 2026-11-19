@@ -68,7 +68,7 @@ export default async function ClientePage({ params, searchParams }: Props) {
       <Volver />
       <PageHeader
         eyebrow="Cliente"
-        title={cliente.nombre.toLowerCase()}
+        title={<span className="normal-case">{cliente.nombre}</span>}
         actions={
           wa && (
             <LinkButton href={wa} external variant="highlight" size="small" icon="whatsapp">

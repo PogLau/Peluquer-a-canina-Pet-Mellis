@@ -34,7 +34,11 @@ export function ReenviarResumen({ atencionId, mascota }: { atencionId: number; m
       <Modal
         open={!!datos}
         onClose={() => setDatos(null)}
-        title={`resumen de ${mascota.toLowerCase()}`}
+        title={
+          <>
+            resumen de <span className="normal-case">{mascota}</span>
+          </>
+        }
       >
         {datos && <EnviarResumen telefono={datos.telefono} mensajeInicial={datos.mensaje} />}
       </Modal>

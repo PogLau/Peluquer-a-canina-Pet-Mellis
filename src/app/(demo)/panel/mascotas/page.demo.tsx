@@ -59,7 +59,7 @@ function Buscador() {
                     className="flex h-full flex-col gap-2 rounded-sm p-1"
                   >
                     <span className="flex items-center justify-between gap-2">
-                      <span className="font-display text-xl lowercase">{m.nombre}</span>
+                      <span className="font-display text-xl">{m.nombre}</span>
                       <Icon name="flecha" size={20} />
                     </span>
                     <span className="text-sm text-texto-suave">

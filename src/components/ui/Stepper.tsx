@@ -14,6 +14,9 @@ export function Stepper({ steps, current }: Props) {
     <nav aria-label="Pasos de la reserva">
       <p className="rotulo mb-2 text-texto-suave">
         Paso {current + 1} de {steps.length}
+        {steps[current + 1] && (
+          <span className="sm:hidden"> · Sigue: {steps[current + 1].toLowerCase()}</span>
+        )}
       </p>
       <ol className="flex gap-1.5">
         {steps.map((step, i) => {

@@ -201,7 +201,7 @@ export function AsistenteReserva({
       )}
       <Ticket className="flex flex-col gap-6">
         <h2 ref={titulo} tabIndex={-1} className="text-2xl outline-none">
-          {pasosReserva[paso].toLowerCase()}
+          {paso === 0 && !tutor ? 'tus datos y tu perro' : pasosReserva[paso].toLowerCase()}
         </h2>
         {paso === 0 && <PasoPerro estado={estado} set={set} tutor={tutor} mascotas={mascotas} />}
         {paso === 1 && (

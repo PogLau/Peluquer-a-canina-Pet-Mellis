@@ -101,7 +101,7 @@ export function SolicitudCard({
     <Ticket as="article" aria-labelledby={`sol-${turno.id}`} className="flex flex-col gap-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id={`sol-${turno.id}`} className="text-xl">
-          {turno.mascota.nombre.toLowerCase()}
+          <span className="normal-case">{turno.mascota.nombre}</span>
         </h2>
         <p className="rotulo text-verde">
           {formatLongDate(fecha)} · {formatTime(fecha)}

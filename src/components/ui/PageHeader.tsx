@@ -11,7 +11,8 @@ export function PageHeader({
   volver = false,
 }: {
   eyebrow?: string
-  title: string
+  /** Texto en minúscula; los nombres propios van en <span className="normal-case">. */
+  title: ReactNode
   children?: ReactNode
   actions?: ReactNode
   /** Muestra «Volver» arriba del título (vuelve a la pantalla anterior o al inicio). */

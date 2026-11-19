@@ -46,7 +46,7 @@ export default function MiMascotaDemo() {
             >
               <div>
                 <h2 id={`nombre-${m.id}`} className="text-2xl">
-                  {m.nombre.toLowerCase()}
+                  <span className="normal-case">{m.nombre}</span>
                 </h2>
                 <p className="text-sm text-texto-suave">
                   {[

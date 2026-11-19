@@ -5,7 +5,7 @@ import { useState, useTransition } from 'react'
 import { Button, LinkButton, Notice, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { ErroresCampos } from '@/lib/panel/clientes'
-import { camposPrecio, type PreciosEditables } from '@/lib/panel/precios'
+import { camposPrecio, parsePesos, type PreciosEditables } from '@/lib/panel/precios'
 import { sizeLabels, sizes } from '@/lib/pricing'
 
 const celda = 'px-2 py-2 align-top'
@@ -25,6 +25,10 @@ function Num({
   error?: string
   sufijo?: string
 }) {
+  // Los pesos se muestran con separador de miles («22.000») salvo mientras se escriben
+  const [editando, setEditando] = useState(false)
+  const pesos = !sufijo && !editando ? parsePesos(value) : null
+  const visible = pesos === null ? value : pesos.toLocaleString('es-AR')
   return (
     <div className="flex min-w-24 flex-col gap-1">
       <span className="flex items-center gap-1">
@@ -37,7 +41,9 @@ function Num({
           aria-label={label}
           aria-invalid={error ? true : undefined}
           inputMode={sufijo ? 'decimal' : 'numeric'}
-          value={value}
+          value={visible}
+          onFocus={() => setEditando(true)}
+          onBlur={() => setEditando(false)}
           onChange={(e) => onChange(e.target.value)}
           className={cn(
             'cifras min-h-10 w-full rounded-sm border-2 border-tinta bg-superficie px-2 text-right text-sm',
@@ -133,6 +139,8 @@ export function TablaPrecios({
         <div className="overflow-x-auto">
           <p className="text-sm text-texto-suave">
             Un precio fijo por tamaño. El cliente lo ve recién cuando elige el tamaño y el servicio.
+            «Suma manto y nudos»: a ese servicio se le aplican el multiplicador por manto y el
+            desenredado de nudos de la sección recargos.
           </p>
           <table className="w-full min-w-[760px] border-collapse text-sm">
             <thead>
@@ -144,7 +152,7 @@ export function TablaPrecios({
                     <span className="block font-normal text-texto-suave">{sizeLabels[size].detail}</span>
                   </th>
                 ))}
-                <th className={th}>Recargo manto</th>
+                <th className={th}>Suma manto y nudos</th>
                 <th className={th}>Popular</th>
                 <th className={th}>Activo</th>
               </tr>
@@ -167,7 +175,7 @@ export function TablaPrecios({
                   ))}
                   <td className={celda}>
                     <Check
-                      label={`${s.nombre}: aplica recargo por manto y nudos`}
+                      label={`${s.nombre}: suma manto y nudos`}
                       checked={s.aplicaRecargoManto}
                       onChange={(v) => update((d) => void (d.servicios[i].aplicaRecargoManto = v))}
                     />
@@ -235,8 +243,11 @@ export function TablaPrecios({
           </h2>
           <fieldset className="flex flex-col gap-2">
             <legend className="mb-1 text-sm font-bold">
-              Multiplicador por manto (servicios con recargo)
+              Multiplicador por manto (servicios que suman manto y nudos)
             </legend>
+            <p className="text-sm text-texto-suave">
+              1 × deja el precio igual. Por ejemplo, 1,2 × cobra un 20 % más a los mantos rizados.
+            </p>
             <div className="grid grid-cols-3 gap-3">
               {(['corto', 'largo', 'rizado'] as const).map((k) => (
                 <label key={k} className="flex flex-col gap-1 text-sm">

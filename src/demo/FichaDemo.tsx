@@ -47,7 +47,11 @@ function Reenviar({
       <Modal
         open={abierto}
         onClose={() => setAbierto(false)}
-        title={`resumen de ${mascota.toLowerCase()}`}
+        title={
+          <>
+            resumen de <span className="normal-case">{mascota}</span>
+          </>
+        }
       >
         {abierto && (
           <EnviarResumen
@@ -100,7 +104,7 @@ export function FichaDemo({ id }: { id: number }) {
       </Link>
       <PageHeader
         eyebrow={`Tutor: ${tutor.nombre}`}
-        title={mascota.nombre.toLowerCase()}
+        title={<span className="normal-case">{mascota.nombre}</span>}
         actions={
           linkTutor && (
             <LinkButton href={linkTutor} external variant="highlight" size="small" icon="whatsapp">

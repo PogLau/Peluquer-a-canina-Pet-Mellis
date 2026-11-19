@@ -7,7 +7,7 @@ import { Icon } from './Icons'
 type Props = {
   open: boolean
   onClose: () => void
-  title: string
+  title: ReactNode
   children: ReactNode
   /** Botones de acción al pie. */
   footer?: ReactNode

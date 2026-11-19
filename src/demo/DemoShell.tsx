@@ -9,6 +9,7 @@ import {
   BottomNav,
   Button,
   Cargando,
+  Icon,
   Imagotipo,
   LinkButton,
   Modal,
@@ -38,25 +39,36 @@ function BarraDemo({ panel }: { panel: boolean }) {
   const [confirmar, setConfirmar] = useState(false)
   const pestana = (activa: boolean) =>
     cn(
-      'inline-flex min-h-9 items-center rounded-sm px-3 text-sm font-bold',
+      'inline-flex min-h-9 items-center rounded-sm px-2.5 text-sm font-bold sm:px-3',
       activa ? 'bg-verde text-amarillo' : 'text-petroleo underline-offset-4 hover:underline',
     )
+  // En el celular entra en un solo renglón: rótulo, Cliente / Peluquera y reiniciar con ícono
   return (
     <div className="border-b-2 border-tinta bg-amarillo">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-petroleo">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-3 px-4 py-1.5 text-petroleo sm:py-2">
         <p className="text-sm">
-          <span className="rotulo mr-2">Demo</span>
-          Datos ficticios, guardados solo en este navegador.
+          <span className="rotulo sm:mr-2">Demo</span>
+          <span className="hidden sm:inline">Datos ficticios, guardados solo en este navegador.</span>
         </p>
-        <nav aria-label="Modo de la demo" className="flex flex-wrap items-center gap-1">
+        <nav aria-label="Modo de la demo" className="flex items-center gap-1">
           <Link href="/" aria-current={!panel ? 'page' : undefined} className={pestana(!panel)}>
-            Ver como cliente
+            <span className="sm:hidden">Cliente</span>
+            <span className="hidden sm:inline">Ver como cliente</span>
           </Link>
           <Link href="/panel" aria-current={panel ? 'page' : undefined} className={pestana(panel)}>
-            Ver como peluquera
+            <span className="sm:hidden">Peluquera</span>
+            <span className="hidden sm:inline">Ver como peluquera</span>
           </Link>
-          <button type="button" onClick={() => setConfirmar(true)} className={pestana(false)}>
-            Reiniciar demo
+          <button
+            type="button"
+            onClick={() => setConfirmar(true)}
+            aria-label="Reiniciar demo"
+            className={cn(pestana(false), 'gap-1.5')}
+          >
+            <Icon name="reiniciar" size={20} />
+            <span aria-hidden="true" className="hidden sm:inline">
+              Reiniciar demo
+            </span>
           </button>
         </nav>
       </div>

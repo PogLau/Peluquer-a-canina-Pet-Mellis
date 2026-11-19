@@ -143,7 +143,7 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
   const escaneando = paso !== null && paso < pasosEscaneo.length
 
   return (
-    <Ticket as="section" id="escaneo" aria-labelledby="titulo-escaneo" highlighted className="flex flex-col gap-5">
+    <Ticket as="section" id="escaneo" aria-labelledby="titulo-escaneo" highlighted className="flex scroll-mt-24 flex-col gap-5">
       <div className="flex flex-wrap items-center gap-2">
         <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-petroleo">
           <Icon name="escaner" />

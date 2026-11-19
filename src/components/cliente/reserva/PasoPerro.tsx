@@ -1,6 +1,8 @@
 'use client'
 
-import { ChipGroup, Icon, LinkButton, TextField } from '@/components/ui'
+import Link from 'next/link'
+
+import { ChipGroup, Icon, TextField } from '@/components/ui'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
 import type { MascotaDelTutor } from '@/lib/cliente/reserva'
 import { coatLabels, coats, sizeLabels, sizes, type Coat, type Size } from '@/lib/pricing'
@@ -30,7 +32,8 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
           Hola, <strong>{tutor.split(' ')[0]}</strong>. Elegí qué perro viene.
         </p>
       ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
+        <fieldset className="grid gap-4 sm:grid-cols-2">
+          <legend className="rotulo mb-3 text-texto-suave">Tus datos</legend>
           <TextField
             label="Tu nombre"
             autoComplete="name"
@@ -47,7 +50,7 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
             onChange={(e) => set({ whatsapp: e.target.value })}
             hint="Te confirmamos el turno por acá."
           />
-        </div>
+        </fieldset>
       )}
 
       {mascotas.length > 0 && (
@@ -68,20 +71,8 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
       )}
 
       {estado.mascotaId === null && (
-        <div className="flex flex-col gap-5">
-          {/* Perro nuevo: opción de volver a escanearlo con IA para conocer tamaño y pelaje */}
-          <div className="flex flex-col gap-3 rounded-md border-2 border-dashed border-linea bg-superficie-alt p-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="flex items-start gap-2 text-sm">
-              <Icon name="escaner" size={20} className="mt-0.5 text-verde" />
-              <span>
-                <strong>¿No sabés su tamaño o tipo de pelaje?</strong> Escanealo con IA y después reservá con
-                los datos cargados.
-              </span>
-            </p>
-            <LinkButton href="/cotizar#escaneo" variant="secondary" size="small" icon="escaner" className="shrink-0">
-              Escanear con IA
-            </LinkButton>
-          </div>
+        <fieldset className="flex flex-col gap-5">
+          {!tutor && <legend className="rotulo mb-3 text-texto-suave">Tu perro</legend>}
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               label="Nombre de tu perro"
@@ -101,6 +92,17 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
               onChange={(e) => setNueva({ raza: e.target.value })}
             />
           </div>
+          {/* Justo antes de tamaño y manto: si no los sabe, puede escanear una foto */}
+          <p className="flex items-start gap-2 text-sm">
+            <Icon name="escaner" size={20} className="mt-0.5 shrink-0 text-verde" />
+            <span>
+              ¿No sabés su tamaño o tipo de pelaje?{' '}
+              <Link href="/cotizar#escaneo" className="font-bold underline underline-offset-4">
+                Escanealo con IA
+              </Link>{' '}
+              y volvé a reservar con los datos cargados.
+            </span>
+          </p>
           <ChipGroup
             legend="Tamaño"
             name="tamano"
@@ -119,7 +121,7 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
             value={estado.nueva.manto}
             onChange={(v) => setNueva({ manto: v as Coat })}
           />
-        </div>
+        </fieldset>
       )}
     </div>
   )

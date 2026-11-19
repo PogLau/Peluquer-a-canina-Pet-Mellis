@@ -140,6 +140,7 @@ const trazos = {
   ),
   mas: <path d="M12 5v14M5 12h14" />,
   cerrar: <path d="M6 6l12 12M18 6 6 18" />,
+  reiniciar: <path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v4h4" />,
   salir: (
     <>
       <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" />

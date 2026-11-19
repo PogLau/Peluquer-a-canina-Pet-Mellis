@@ -22,6 +22,7 @@ import {
   sizes,
 } from '@/lib/pricing'
 
+import { EscaneoPlegado } from './escaneo/EscaneoPlegado'
 import { IaScanCare } from './escaneo/IaScanCare'
 import { ResumenPresupuesto } from './ResumenPresupuesto'
 import { SelectableService } from './SelectableService'
@@ -68,14 +69,16 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
       <div className="flex min-w-0 flex-col gap-8">
-        <IaScanCare
-          catalog={catalog}
-          estado={estado}
-          iaActiva={iaActiva}
-          analizar={analizar}
-          onSugerencia={onSugerencia}
-          onUsarPlan={onUsarPlan}
-        />
+        <EscaneoPlegado>
+          <IaScanCare
+            catalog={catalog}
+            estado={estado}
+            iaActiva={iaActiva}
+            analizar={analizar}
+            onSugerencia={onSugerencia}
+            onUsarPlan={onUsarPlan}
+          />
+        </EscaneoPlegado>
 
         <Ticket as="section" aria-labelledby="titulo-perro" className="flex flex-col gap-6">
           <h2 id="titulo-perro" className="text-xl">

@@ -36,7 +36,11 @@ export default async function RegistrarPage({ params }: { params: Promise<{ turn
       </Link>
       <PageHeader
         eyebrow={`${formatTime(new Date(turno.fechaHora))} · ${turno.tutor.nombre}`}
-        title={`atención de ${turno.mascota.nombre.toLowerCase()}`}
+        title={
+          <>
+            atención de <span className="normal-case">{turno.mascota.nombre}</span>
+          </>
+        }
       >
         {turno.servicios.join(' + ')}
       </PageHeader>
