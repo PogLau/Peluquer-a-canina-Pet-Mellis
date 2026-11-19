@@ -1,47 +1,52 @@
 @import 'tailwindcss';
 
 /*
-  Pet Mellis: tokens de marca (branding-pet-mellis.md §11, paleta oficial del 17/11/2026).
+  Pet Mellis: tokens de marca (pet-mellis-contexto-maestro.md §2.3 y §2.4, paleta oficial vigente).
   Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
-  Contraste AA verificado: coral con texto azul 5,3:1 (nunca blanco sobre coral: 2,8:1);
-  el menta #14B8A6 no se usa como texto sobre claro (2,5:1): para eso está menta-texto.
+  Reglas del manual: CTA principal verde profundo con texto marfil; amarillo y terracota siempre
+  con texto grafito; nunca amarillo como texto sobre fondos claros ni marfil chico sobre terracota.
+  Los tonos «-claro», «-hover» y «-texto» son derivados de la paleta para fondos suaves, estados
+  y texto chico con contraste AA (ver tests/contraste.test.ts).
 */
 
 :root {
-  /* Paleta de marca */
-  --azul-calma: #0f2942; /* primario: headers, títulos, texto, bordes */
-  --verde-menta: #14b8a6; /* secundario: íconos, éxito, bloques */
-  --menta-texto: #0f766e; /* menta oscuro para texto chico sobre claro (5,4:1) */
-  --celeste: #e2f8f5; /* tarjetas destacadas, chips y filas elegidas */
-  --crema-suave: #fffdf9; /* fondo de página */
-  --naranja-coral: #f97316; /* acento: CTAs clave, «Reservar» */
-  --coral-hover: #fb923c; /* hover del CTA (sube el contraste: 6,5:1) */
-  --pizarra: #64748b; /* texto secundario de marca */
-  --blanco: #ffffff;
+  /* Paleta oficial */
+  --grafito: #2c2c2c; /* texto / neutro */
+  --marfil: #faf6ef; /* fondo */
+  --amarillo: #f5c518; /* primario: destacados, CTA secundario, selección */
+  --verde: #0d3d2b; /* secundario: navegación, CTA principal, estados positivos */
+  --terracota: #d97a54; /* acento: ilustraciones, etiquetas especiales */
+
+  /* Derivados */
+  --verde-hover: #165c42;
+  --verde-claro: #dcebe1;
+  --amarillo-hover: #e0b30c;
+  --amarillo-claro: #fcf0c4;
+  --terracota-claro: #f7e3d8;
+  --terracota-texto: #9a4426; /* terracota oscuro para texto chico sobre claro */
 
   /* Semánticos (cambian con el tema) */
-  --fondo: var(--crema-suave);
-  --superficie: #ffffff;
-  --superficie-alt: var(--celeste);
-  --texto: var(--azul-calma);
-  /* Pizarra un punto más oscuro: sobre celeste #64748b da 4,3:1 y no llega a AA */
-  --texto-suave: #536175;
-  --tinta: var(--azul-calma);
-  --linea: #cfe6e2;
-  --accion: var(--naranja-coral);
-  --sobre-accion: var(--azul-calma);
-  --seleccion: var(--verde-menta);
-  --sobre-seleccion: var(--azul-calma);
+  --fondo: var(--marfil);
+  --superficie: #fffdf9;
+  --superficie-alt: #f2ebde;
+  --texto: var(--grafito);
+  --texto-suave: #5e584f;
+  --tinta: var(--grafito);
+  --linea: #e2d9c7;
+  --accion: var(--verde);
+  --sobre-accion: var(--marfil);
+  --seleccion: var(--amarillo);
+  --sobre-seleccion: var(--grafito);
 
   /* Estados */
-  --exito: #0f766e;
-  --exito-fondo: #d5f5ef;
-  --aviso: #9a3412;
-  --aviso-fondo: #ffedd5;
+  --exito: var(--verde);
+  --exito-fondo: var(--verde-claro);
+  --aviso: #6b4f00;
+  --aviso-fondo: var(--amarillo-claro);
   --peligro: #b42318;
   --peligro-fondo: #fde4e1;
-  --info: #1e4e8c;
-  --info-fondo: #e0ecf8;
+  --info: var(--terracota-texto);
+  --info-fondo: var(--terracota-claro);
 
   /* Forma */
   --radio-sm: 6px;
@@ -60,21 +65,23 @@
 }
 
 [data-theme='oscuro'] {
-  --fondo: #0b1e31;
-  --superficie: #10283f;
-  --superficie-alt: #173552;
-  --texto: #ffffff;
-  --texto-suave: #b9c6d4;
-  --tinta: #14b8a6;
-  --linea: #23415f;
-  --exito: #5eead4;
-  --exito-fondo: #0f3a3a;
-  --aviso: #fdba74;
-  --aviso-fondo: #3b2210;
+  --fondo: #0a2c1f;
+  --superficie: #0f3627;
+  --superficie-alt: #164532;
+  --texto: var(--marfil);
+  --texto-suave: #cfc8ba;
+  --tinta: var(--amarillo);
+  --linea: #245640;
+  --accion: var(--amarillo);
+  --sobre-accion: var(--grafito);
+  --exito: #9fd8b5;
+  --exito-fondo: #12402e;
+  --aviso: var(--amarillo);
+  --aviso-fondo: #3a3008;
   --peligro: #ff8a80;
   --peligro-fondo: #3a1512;
-  --info: #93c5fd;
-  --info-fondo: #142a44;
+  --info: #f0b496;
+  --info-fondo: #3d2418;
   --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
   /* Los var() de :root ya se resolvieron con la tinta clara: hay que redefinirlos */
   --sombra-ticket: 4px 4px 0 0 var(--tinta);
@@ -92,15 +99,17 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-azul: var(--azul-calma);
-  --color-menta: var(--verde-menta);
-  --color-menta-texto: var(--menta-texto);
-  --color-celeste: var(--celeste);
-  --color-crema: var(--crema-suave);
-  --color-coral: var(--naranja-coral);
-  --color-coral-hover: var(--coral-hover);
-  --color-pizarra: var(--pizarra);
-  --color-blanco: var(--blanco);
+  --color-grafito: var(--grafito);
+  --color-marfil: var(--marfil);
+  --color-amarillo: var(--amarillo);
+  --color-amarillo-claro: var(--amarillo-claro);
+  --color-amarillo-hover: var(--amarillo-hover);
+  --color-verde: var(--verde);
+  --color-verde-claro: var(--verde-claro);
+  --color-verde-hover: var(--verde-hover);
+  --color-terracota: var(--terracota);
+  --color-terracota-claro: var(--terracota-claro);
+  --color-terracota-texto: var(--terracota-texto);
 
   --color-fondo: var(--fondo);
   --color-superficie: var(--superficie);
@@ -123,10 +132,10 @@
   --color-info: var(--info);
   --color-info-fondo: var(--info-fondo);
 
-  /* Oddval primero cuando se agregue con next/font/local (ver src/app/fonts.ts) */
-  --font-display: var(--font-sora), ui-rounded, system-ui, sans-serif;
-  --font-sans: var(--font-nunito), ui-rounded, 'Segoe UI', system-ui, sans-serif;
-  --font-mono: var(--font-space-mono), ui-monospace, Consolas, monospace;
+  /* Familia única oficial: Manuale (títulos 700, texto 400) */
+  --font-display: var(--font-manuale), Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-manuale), Georgia, 'Times New Roman', serif;
+  --font-mono: var(--font-manuale), Georgia, serif;
 
   --radius-sm: var(--radio-sm);
   --radius-md: var(--radio-md);
@@ -136,23 +145,23 @@
   --shadow-ticket: var(--sombra-ticket);
   --shadow-ticket-presionada: var(--sombra-ticket-presionada);
 
-  /* Escala tipográfica de marca. Nada por debajo de 12 px. */
-  --text-xs: 12px;
-  --text-xs--line-height: 16px;
+  /* Escala modular 1.333 sobre 16 px (manual §2.4). Nada por debajo de 12 px. */
+  --text-xs: 12px; /* small */
+  --text-xs--line-height: 18px;
   --text-sm: 14px;
   --text-sm--line-height: 21px;
-  --text-base: 16px;
-  --text-base--line-height: 25px;
+  --text-base: 16px; /* body */
+  --text-base--line-height: 24px;
   --text-lg: 18px;
-  --text-lg--line-height: 28px;
-  --text-xl: 20px;
-  --text-xl--line-height: 26px;
-  --text-2xl: 28px;
-  --text-2xl--line-height: 32px;
-  --text-3xl: 40px;
-  --text-3xl--line-height: 44px;
-  --text-4xl: 56px;
-  --text-4xl--line-height: 1;
+  --text-lg--line-height: 27px;
+  --text-xl: 21.33px; /* H5 */
+  --text-xl--line-height: 28px;
+  --text-2xl: 28.43px; /* H4 */
+  --text-2xl--line-height: 34px;
+  --text-3xl: clamp(28.43px, 7vw, 37.9px); /* H3, se achica en el celular */
+  --text-3xl--line-height: 1.15;
+  --text-4xl: clamp(37.9px, 9vw, 50.56px); /* H2 */
+  --text-4xl--line-height: 1.05;
 }
 
 @layer base {
@@ -167,7 +176,7 @@
     color: var(--texto);
     font-family: var(--font-sans);
     font-size: 16px;
-    line-height: 25px;
+    line-height: 24px;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -175,8 +184,8 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     text-transform: lowercase;
   }
 
@@ -187,20 +196,19 @@
   }
 
   ::selection {
-    background: var(--celeste);
-    color: var(--azul-calma);
+    background: var(--amarillo-claro);
+    color: var(--grafito);
   }
 }
 
 @layer components {
-  /* Rótulo de datos: Space Mono 12 px en mayúscula */
+  /* Rótulo de datos: Manuale Bold 12 px (estados, fechas, datos del ticket) */
   .rotulo {
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 16px;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .cifras {
@@ -227,15 +235,15 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--verde-menta);
-    box-shadow: 0 0 14px 4px color-mix(in srgb, var(--verde-menta) 55%, transparent);
+    background: var(--amarillo);
+    box-shadow: 0 0 14px 4px color-mix(in srgb, var(--amarillo) 55%, transparent);
     animation: barrido 2.2s ease-in-out infinite;
   }
 
   .escaneo-grilla {
     background-image:
-      linear-gradient(color-mix(in srgb, var(--verde-menta) 22%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--verde-menta) 22%, transparent) 1px, transparent 1px);
+      linear-gradient(color-mix(in srgb, var(--amarillo) 22%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--amarillo) 22%, transparent) 1px, transparent 1px);
     background-size: 28px 28px;
   }
 }

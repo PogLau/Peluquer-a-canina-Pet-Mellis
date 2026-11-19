@@ -19,7 +19,7 @@ function Puntaje({ valor }: { valor: number | null }) {
             key={n}
             className={cn(
               'h-3 w-2 rounded-[2px] border border-tinta',
-              n <= valor ? (valor <= 2 ? 'bg-aviso' : 'bg-menta') : 'bg-transparent',
+              n <= valor ? (valor <= 2 ? 'bg-aviso' : 'bg-amarillo') : 'bg-transparent',
             )}
           />
         ))}
@@ -67,7 +67,7 @@ export function FichaEvolutiva({ ficha }: { ficha: Ficha }) {
         <tbody>
           {ficha.filas.map((fila) => (
             <tr key={fila.aspecto} className="border-t-2 border-linea align-top">
-              <th scope="row" className="px-3 py-3 font-extrabold">
+              <th scope="row" className="px-3 py-3 font-bold">
                 {fila.label}
                 {fila.tendencia && (
                   <span

@@ -6,12 +6,12 @@ import { cn } from '@/lib/cn'
 import { Icon, type IconName } from './Icons'
 
 /**
- * - `primary`: coral con texto azul (5,3:1). Una sola acción principal por pantalla.
- * - `secondary`: superficie con texto.
- * - `dark`: azul con texto blanco. Para WhatsApp y acciones sobre fondos de color.
+ * - `primary`: verde profundo con texto marfil (CTA principal). Una sola por pantalla.
+ * - `secondary`: superficie con texto grafito.
+ * - `highlight`: amarillo con texto grafito. CTA secundarios, WhatsApp y acciones sobre fondo verde.
  * - `ghost`: sin borde, para acciones terciarias.
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'dark' | 'ghost'
+export type ButtonVariant = 'primary' | 'secondary' | 'highlight' | 'ghost'
 
 type Base = {
   variant?: ButtonVariant
@@ -26,9 +26,9 @@ const ticket =
   'border-2 border-tinta shadow-ticket active:translate-x-[3px] active:translate-y-[3px] active:shadow-ticket-presionada'
 
 const variants: Record<ButtonVariant, string> = {
-  primary: cn(ticket, 'bg-accion text-sobre-accion hover:bg-coral-hover'),
+  primary: cn(ticket, 'bg-accion text-sobre-accion hover:bg-verde-hover'),
   secondary: cn(ticket, 'bg-superficie text-texto hover:bg-superficie-alt'),
-  dark: cn(ticket, 'bg-azul text-blanco hover:bg-azul/85'),
+  highlight: cn(ticket, 'bg-amarillo text-grafito hover:bg-amarillo-hover'),
   ghost: 'border-2 border-transparent bg-transparent text-texto underline-offset-4 hover:underline',
 }
 
@@ -38,7 +38,7 @@ export function buttonClasses({
   fullWidth = false,
 }: Pick<Base, 'variant' | 'size' | 'fullWidth'>) {
   return cn(
-    'inline-flex select-none items-center justify-center gap-2 rounded-md font-sans font-extrabold transition-[transform,box-shadow,background-color] duration-100',
+    'inline-flex select-none items-center justify-center gap-2 rounded-md font-sans font-bold transition-[transform,box-shadow,background-color] duration-100',
     // Acciones: mínimo 14 px
     size === 'normal' ? 'min-h-12 px-5 text-base' : 'min-h-10 px-4 text-sm',
     variants[variant],

@@ -106,7 +106,7 @@ export function FormularioAtencion({
     >
       {turno.escaneo && <EscaneoIngreso escaneo={turno.escaneo} />}
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-lg font-extrabold">Qué se hizo</legend>
+        <legend className="mb-2 text-lg font-bold">Qué se hizo</legend>
         <div className="flex flex-wrap gap-2">
           {datos.servicios.map((s) => (
             <ToggleChip
@@ -134,7 +134,7 @@ export function FormularioAtencion({
       </div>
 
       <fieldset className="flex flex-col gap-4">
-        <legend className="mb-1 text-lg font-extrabold">Cómo se portó</legend>
+        <legend className="mb-1 text-lg font-bold">Cómo se portó</legend>
         <p className="text-sm text-texto-suave">
           1 = le costó mucho · 5 = muy bien. Lo que no se hizo, dejalo sin marcar.
         </p>
@@ -154,7 +154,7 @@ export function FormularioAtencion({
       </fieldset>
 
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-lg font-extrabold">Etiquetas</legend>
+        <legend className="mb-2 text-lg font-bold">Etiquetas</legend>
         <div className="flex flex-wrap gap-2">
           {datos.etiquetas.map((e) => (
             <TagChip

@@ -14,7 +14,7 @@ type Props = {
 /** Etiqueta rápida de la Ficha Evolutiva. */
 export function TagChip({ children, kind = 'info', selected = false, onToggle }: Props) {
   const classes = cn(
-    'inline-flex min-h-9 items-center gap-1.5 rounded-pill border-2 px-3 text-sm font-extrabold',
+    'inline-flex min-h-9 items-center gap-1.5 rounded-pill border-2 px-3 text-sm font-bold',
     selected
       ? 'border-tinta bg-seleccion text-sobre-seleccion'
       : kind === 'alerta'

@@ -17,7 +17,7 @@ export async function SinEnlace({ invalido = false }: { invalido?: boolean }) {
       </EmptyState>
       <div className="flex flex-wrap justify-center gap-3">
         {local.whatsapp && (
-          <LinkButton href={local.whatsapp} external variant="dark" icon="whatsapp">
+          <LinkButton href={local.whatsapp} external variant="highlight" icon="whatsapp">
             Pedir mi enlace por WhatsApp
           </LinkButton>
         )}

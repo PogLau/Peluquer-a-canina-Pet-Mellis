@@ -87,7 +87,7 @@ export function SolicitudCard({
       <Ticket size="small" className="flex flex-col gap-3">
         <Notice tone="exito" role="status" title={hecho.titulo} />
         {hecho.link && (
-          <LinkButton href={hecho.link} external variant="dark" size="small" icon="whatsapp">
+          <LinkButton href={hecho.link} external variant="highlight" size="small" icon="whatsapp">
             Abrir WhatsApp con el mensaje
           </LinkButton>
         )}
@@ -103,7 +103,7 @@ export function SolicitudCard({
         <h2 id={`sol-${turno.id}`} className="text-xl">
           {turno.mascota.nombre.toLowerCase()}
         </h2>
-        <p className="rotulo text-menta-texto">
+        <p className="rotulo text-verde">
           {formatLongDate(fecha)} · {formatTime(fecha)}
         </p>
       </div>

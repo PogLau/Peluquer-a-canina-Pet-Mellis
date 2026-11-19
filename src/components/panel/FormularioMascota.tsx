@@ -56,7 +56,7 @@ export function FormularioMascota({
           {m.id && (
             <Link
               href={`/panel/mascotas/${m.id}`}
-              className="inline-flex min-h-10 items-center px-2 text-sm font-extrabold underline underline-offset-4"
+              className="inline-flex min-h-10 items-center px-2 text-sm font-bold underline underline-offset-4"
             >
               Ficha
             </Link>

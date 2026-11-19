@@ -170,49 +170,60 @@ src/
 
 ## 7. Sistema de diseño
 
-> **Fuente de verdad: `branding-pet-mellis.md`** (manual de marca, §11). Esta sección reemplaza la paleta verde y naranja del prototipo. Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`, `font-display`...). La paleta por defecto de Tailwind está desactivada.
+> **Fuente de verdad: `pet-mellis-contexto-maestro.md` §2.3 (paleta) y §2.4 (tipografía).** Reemplaza a las paletas anteriores (amarillo y negro de `branding-pet-mellis.md`; azul, menta y coral). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`, `font-display`...). La paleta por defecto de Tailwind está desactivada.
 
-Estilo: fondo crema con trama de puntos, tarjetas «ticket» blancas (borde de tinta de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+Estilo: fondo marfil con trama de puntos, tarjetas «ticket» (borde grafito de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
 ### 7.1 Tokens de color
 
-Paleta oficial desde el 17/11/2026 (reemplaza al amarillo y negro; ver `branding-pet-mellis.md` §3).
+Paleta oficial (18/11/2026):
 
-| Token (utilidad) | Claro | Uso |
+| Token (utilidad) | Hex | Uso |
 |---|---|---|
-| `azul-calma` (`azul`) | #0f2942 | Primario: header, títulos, texto, bordes y sombra |
-| `verde-menta` (`menta`) | #14b8a6 | Secundario: íconos, éxito, chips elegidos (`seleccion`), bloques |
-| `menta-texto` | #0f766e | Menta para texto chico sobre claro (5,4:1) |
-| `celeste` | #e2f8f5 | Tarjetas destacadas, avisos suaves, filas elegidas |
-| `crema-suave` (`crema`) / `fondo` | #fffdf9 | Fondo de página |
-| `naranja-coral` (`coral`) / `accion` | #f97316 | CTA clave: «Reservar turno», «Reservar con este plan», guardar |
-| `coral-hover` | #fb923c | Hover del CTA |
-| `pizarra` | #64748b | Texto secundario de marca (fuera de la app) |
-| `superficie` / `superficie-alt` | #ffffff / #e2f8f5 | Tickets, modales y campos / barras, encabezados, deshabilitado |
-| `texto` / `texto-suave` | #0f2942 / #536175 | Texto principal / secundario (pizarra oscurecido: 5,7:1 sobre celeste) |
-| `tinta` | #0f2942 | Borde de 2 px, sombra dura y anillo de foco |
-| `linea` | #cfe6e2 | Separadores decorativos (no para controles) |
+| `grafito` | #2c2c2c | Texto principal, bordes, sombra dura, anillo de foco (`texto`, `tinta`) |
+| `marfil` | #faf6ef | Fondo de página (`fondo`) y texto sobre verde |
+| `amarillo` | #f5c518 | Selección (chips, pasos, pestaña activa: `seleccion`), CTA secundario (`Button variant="highlight"`), destacados. Siempre con texto grafito |
+| `verde` (verde profundo) | #0d3d2b | Header, navegación, **CTA principal** (`accion`, texto marfil), rótulos y enlaces, estado de éxito |
+| `terracota` | #d97a54 | Acento: ilustraciones y etiquetas especiales, con texto grafito |
+
+Derivados (tintes y tonos para fondos suaves, hover y texto chico, todos verificados AA):
+
+| Token | Hex | Uso |
+|---|---|---|
+| `amarillo-claro` | #fcf0c4 | Tarjetas resaltadas (`Ticket highlighted`), placas de íconos, fondo de avisos |
+| `verde-claro` | #dcebe1 | Fondo del estado de éxito |
+| `terracota-claro` / `terracota-texto` | #f7e3d8 / #9a4426 | Estado «en atención» y texto terracota chico |
+| `verde-hover` / `amarillo-hover` | #165c42 / #e0b30c | Hover de los botones |
+| `superficie` / `superficie-alt` | #fffdf9 / #f2ebde | Tickets, modales y campos / barras, filas, deshabilitado |
+| `texto-suave` | #5e584f | Texto secundario |
+| `linea` | #e2d9c7 | Separadores decorativos (no para controles) |
 | `exito` · `aviso` · `peligro` · `info` | ver `globals.css` | Estados de turno, cada uno con su `*-fondo` |
 
-Hay tema oscuro (`[data-theme="oscuro"]`: fondo azul noche, tinta menta); los tokens semánticos cambian solos.
+Hay tema oscuro (`[data-theme="oscuro"]`: fondo verde noche, tinta amarilla); los tokens semánticos cambian solos.
 
-**Reglas de color:**
-- Botón principal: fondo coral con texto azul (5,3:1). **Prohibido** texto blanco sobre coral (2,8:1) y menta #14b8a6 como texto sobre claro (2,5:1): para eso está `menta-texto`.
-- El coral es solo para la acción principal de cada vista. Lo elegido (chips, pasos, etiquetas) va en menta (`bg-seleccion`).
+**Reglas de color (del manual):**
+- CTA principal: verde profundo con texto marfil. Botones amarillos o terracota: texto **grafito**.
+- **Prohibido** amarillo como texto sobre fondos claros y texto marfil chico sobre terracota.
+- Lo elegido (chips, pasos, etiquetas, pestaña activa) va en amarillo (`bg-seleccion`).
+- Sobre el header o bloques verdes, el botón principal pasa a `variant="highlight"` (amarillo), para que no se pierda.
 - Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje debajo con lo que falta.
-- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`.
+- Los estados se acompañan con palabras o íconos, no solo color.
+- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`; el contraste de cada par lo verifica `tests/contraste.test.ts`.
 
 ### 7.2 Tipografía
 
-| Rol | Fuente | Pesos | Tamaños |
-|---|---|---|---|
-| Títulos, logo y precios (`font-display`) | Oddval SemiBold → **Sora** (Google Fonts) mientras no esté el archivo | 600, 700 | 56 / 40 / 28 / 20 px, en minúscula |
-| Cuerpo y botones (`font-sans`) | Nunito | 400, 700, 800 | 16 px el cuerpo; botones 16 px (mínimo 14) |
-| Etiquetas y datos (`font-mono`, clase `.rotulo`) | Space Mono | 400, 700 | 12 px, en mayúscula |
+Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan Sora, Nunito, Space Mono, Fredoka, Poppins ni Inter.
 
-- Cargar las fuentes con `next/font` (`src/app/fonts.ts`), no con `@import`.
+| Rol | Peso | Tamaño (escala 1.333 sobre 16 px) |
+|---|---|---|
+| Títulos (`font-display`, h1–h3) | 700 Bold | `text-4xl` 50,6 px (H2) · `text-3xl` 37,9 px (H3) · `text-2xl` 28,4 px (H4) · `text-xl` 21,3 px (H5), en minúscula; los dos más grandes se achican con `clamp()` en el celular |
+| Cuerpo y botones (`font-sans`) | 400 Regular / 700 Bold | 16 px el cuerpo, interlineado 1,5; botones 16 px (mínimo 14) |
+| Rótulos y datos (`.rotulo`) | 700 Bold | 12 px (small) |
+
+- Cargar la fuente con `next/font` (`src/app/fonts.ts`), no con `@import`.
 - **Mínimo de 12 px** para cualquier texto y de **14 px** para acciones. Prohibido `text-[9px]` y `text-[10px]`.
 - Íconos de interfaz: SVG de 24 × 24 con trazo de 1,75 px en `currentColor` (`components/ui/Icons.tsx`). **Sin emojis.**
+- **Logo:** el manual define un isotipo nuevo (una «M» con dos perros), pero todavía no hay archivo. Hasta tenerlo, se usan los mellis de siempre recoloreados con la paleta oficial (`components/ui/Logo.tsx`, `app/icon.svg`).
 
 ### 7.3 Componentes compartidos (`components/ui/`)
 - `Ticket` (normal y chico)

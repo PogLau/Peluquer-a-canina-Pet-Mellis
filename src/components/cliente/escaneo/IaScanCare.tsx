@@ -145,13 +145,13 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
   return (
     <Ticket as="section" id="escaneo" aria-labelledby="titulo-escaneo" highlighted className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-menta text-azul">
+        <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-grafito">
           <Icon name="escaner" />
         </span>
         <h2 id="titulo-escaneo" className="text-2xl">
           ia scan &amp; care
         </h2>
-        <span className="rotulo rounded-pill bg-azul px-2.5 py-1 text-blanco">Beta</span>
+        <span className="rotulo rounded-pill bg-verde px-2.5 py-1 text-marfil">Beta</span>
       </div>
       <p className="max-w-2xl">
         Elegí una foto y armamos la ficha de ingreso: raza, tamaño, tipo de pelaje, hidratación y
@@ -208,7 +208,7 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
             <ul className="flex flex-col gap-2 text-sm">
               {['Elegí una foto', 'Mirá cómo la escaneamos', 'Reservá con el plan sugerido'].map((t, i) => (
                 <li key={t} className="flex items-center gap-2">
-                  <span className="cifras grid size-7 place-items-center rounded-pill border-2 border-tinta bg-superficie font-extrabold">
+                  <span className="cifras grid size-7 place-items-center rounded-pill border-2 border-tinta bg-superficie font-bold">
                     {i + 1}
                   </span>
                   {t}
@@ -239,7 +239,7 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={rutaPublica(e.foto)} alt="" loading="lazy" className="aspect-square w-full object-cover" />
                   <span className="flex flex-col px-2 py-1.5">
-                    <span className="text-sm font-extrabold">{e.nombre}</span>
+                    <span className="text-sm font-bold">{e.nombre}</span>
                     <span className="text-xs">{e.descripcion}</span>
                   </span>
                 </button>
@@ -253,7 +253,7 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
         <label
           htmlFor={inputId}
           className={cn(
-            'inline-flex min-h-12 w-fit cursor-pointer items-center gap-2 rounded-md border-2 border-tinta bg-superficie px-5 text-base font-extrabold text-texto shadow-ticket hover:bg-superficie-alt',
+            'inline-flex min-h-12 w-fit cursor-pointer items-center gap-2 rounded-md border-2 border-tinta bg-superficie px-5 text-base font-bold text-texto shadow-ticket hover:bg-superficie-alt',
             'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-tinta',
             escaneando && 'pointer-events-none opacity-60',
           )}

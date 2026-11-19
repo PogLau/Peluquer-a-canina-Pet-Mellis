@@ -8,7 +8,7 @@ export function OlvidarTelefono({ nombre }: { nombre: string }) {
       className="mt-10 border-t-2 border-linea pt-4 text-sm text-texto-suave"
     >
       Estás viendo los datos de {nombre}.{' '}
-      <button type="submit" className="font-extrabold text-texto underline underline-offset-4">
+      <button type="submit" className="font-bold text-texto underline underline-offset-4">
         No soy {nombre.split(' ')[0]}: olvidar este teléfono
       </button>
     </form>

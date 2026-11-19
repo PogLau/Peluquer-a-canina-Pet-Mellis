@@ -33,7 +33,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]"
       >
         <div className="flex flex-col gap-5">
-          <p className="rotulo text-menta-texto">Peluquería canina · Merlo</p>
+          <p className="rotulo text-verde">Peluquería canina · Merlo</p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
             cada visita mejora la siguiente
           </h1>
@@ -58,7 +58,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
             alt="Peluquera con guantes preparando a un Yorkshire terrier sobre la mesa de trabajo"
             className="aspect-[4/3] w-full rounded-md border-2 border-tinta object-cover shadow-ticket"
           />
-          <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border-2 border-tinta bg-celeste p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
+          <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border-2 border-tinta bg-amarillo-claro p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
             Toby le teme al secador, Max no se deja cortar las uñas. Cada historia queda en su{' '}
             <strong>Ficha Evolutiva</strong>.
           </figcaption>
@@ -67,10 +67,10 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
 
       <section
         aria-labelledby="titulo-escaneo"
-        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-azul p-5 text-blanco shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
+        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-verde p-5 text-marfil shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
       >
         <div className="flex flex-col gap-4">
-          <p className="rotulo flex items-center gap-2 text-menta">
+          <p className="rotulo flex items-center gap-2 text-amarillo">
             <Icon name="escaner" size={18} /> Nuevo · beta
           </p>
           <h2 id="titulo-escaneo" className="text-3xl">
@@ -82,7 +82,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
             paso.
           </p>
           <div>
-            <LinkButton href="/cotizar#escaneo" iconEnd="flecha">
+            <LinkButton href="/cotizar#escaneo" variant="highlight" iconEnd="flecha">
               Probar el escaneo
             </LinkButton>
           </div>
@@ -95,7 +95,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
                 src={rutaPublica(e.foto)}
                 alt={e.alt}
                 loading="lazy"
-                className="aspect-[3/4] w-full rounded-md border-2 border-menta object-cover"
+                className="aspect-[3/4] w-full rounded-md border-2 border-amarillo object-cover"
               />
               <span className="text-xs font-bold">{e.nombre}</span>
             </li>
@@ -189,7 +189,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
             </div>
           </div>
           {whatsapp && (
-            <LinkButton href={whatsapp} external variant="dark" size="small" icon="whatsapp">
+            <LinkButton href={whatsapp} external variant="highlight" size="small" icon="whatsapp">
               Escribinos
             </LinkButton>
           )}

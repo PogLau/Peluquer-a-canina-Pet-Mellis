@@ -72,7 +72,7 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
 
       <p className="flex items-baseline justify-between gap-3 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
         <span className="font-bold">Total estimado</span>
-        <span className="cifras font-display text-2xl font-semibold">
+        <span className="cifras font-display text-2xl font-bold">
           {formatMoney(quote.total)}
         </span>
       </p>

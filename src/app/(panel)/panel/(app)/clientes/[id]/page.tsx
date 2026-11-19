@@ -20,7 +20,7 @@ function Volver() {
   return (
     <Link
       href="/panel/clientes"
-      className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-menta-texto"
+      className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde"
     >
       <Icon name="volver" size={18} /> Clientes
     </Link>
@@ -71,7 +71,7 @@ export default async function ClientePage({ params, searchParams }: Props) {
         title={cliente.nombre.toLowerCase()}
         actions={
           wa && (
-            <LinkButton href={wa} external variant="dark" size="small" icon="whatsapp">
+            <LinkButton href={wa} external variant="highlight" size="small" icon="whatsapp">
               Escribirle
             </LinkButton>
           )

@@ -30,7 +30,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
       ref={ref}
       aria-labelledby={titleId}
       onClose={onClose}
-      className="m-auto w-[calc(100%-32px)] max-w-lg rounded-md border-2 border-tinta bg-superficie p-0 text-texto shadow-ticket backdrop:bg-azul/50"
+      className="m-auto w-[calc(100%-32px)] max-w-lg rounded-md border-2 border-tinta bg-superficie p-0 text-texto shadow-ticket backdrop:bg-grafito/50"
     >
       <div className="flex items-start justify-between gap-4 border-b-2 border-tinta px-5 py-4">
         <h2 id={titleId} className="text-xl">

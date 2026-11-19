@@ -173,7 +173,7 @@ export function AsistenteReserva({
         </Notice>
         <div className="flex flex-wrap gap-3">
           {listo.avisarLink && (
-            <LinkButton href={listo.avisarLink} external variant="dark" icon="whatsapp">
+            <LinkButton href={listo.avisarLink} external variant="highlight" icon="whatsapp">
               Avisar por WhatsApp
             </LinkButton>
           )}

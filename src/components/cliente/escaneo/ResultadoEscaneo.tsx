@@ -73,7 +73,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
               {[1, 2, 3].map((n) => (
                 <span
                   key={n}
-                  className={`h-3 w-6 rounded-pill border-2 border-tinta ${n <= nivel ? (nivel === 1 ? 'bg-coral' : 'bg-menta') : 'bg-transparent'}`}
+                  className={`h-3 w-6 rounded-pill border-2 border-tinta ${n <= nivel ? (nivel === 1 ? 'bg-terracota' : 'bg-amarillo') : 'bg-transparent'}`}
                 />
               ))}
             </span>
@@ -85,8 +85,8 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
       {s.observaciones && <p className="text-sm text-texto-suave">{s.observaciones}</p>}
 
       <div className="flex flex-col gap-3 rounded-md border-2 border-tinta bg-superficie p-4">
-        <p className="rotulo text-menta-texto">Tratamiento ideal</p>
-        <p className="flex items-center gap-2 font-display text-xl font-semibold lowercase">
+        <p className="rotulo text-verde">Tratamiento ideal</p>
+        <p className="flex items-center gap-2 font-display text-xl font-bold lowercase">
           <Icon name={s.tratamiento === 'corte-raza' ? 'tijera' : s.tratamiento === 'spa-desenredado' ? 'cepillo' : 'gota'} />
           {info.nombre}
         </p>

@@ -58,7 +58,7 @@ export default async function MascotaPage({ params }: Props) {
     <>
       <Link
         href="/panel/mascotas"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-menta-texto"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde"
       >
         <Icon name="volver" size={18} /> Mascotas
       </Link>
@@ -67,7 +67,7 @@ export default async function MascotaPage({ params }: Props) {
         title={mascota.nombre.toLowerCase()}
         actions={
           linkTutor && (
-            <LinkButton href={linkTutor} external variant="dark" size="small" icon="whatsapp">
+            <LinkButton href={linkTutor} external variant="highlight" size="small" icon="whatsapp">
               Escribirle a {tutor.nombre.split(' ')[0]}
             </LinkButton>
           )
@@ -133,7 +133,7 @@ export default async function MascotaPage({ params }: Props) {
 
         <Ticket as="section" aria-labelledby="ficha" className="flex flex-col gap-5">
           <div>
-            <p className="rotulo text-menta-texto">Cada visita mejora la siguiente</p>
+            <p className="rotulo text-verde">Cada visita mejora la siguiente</p>
             <h2 id="ficha" className="text-2xl">
               ficha evolutiva
             </h2>

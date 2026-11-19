@@ -46,7 +46,7 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div className="flex items-center gap-3 sm:w-24 sm:flex-col sm:items-start">
-          <p className="cifras font-display text-2xl font-semibold">
+          <p className="cifras font-display text-2xl font-bold">
             {formatTime(new Date(turno.fechaHora))}
           </p>
           <StatusBadge status={turno.estado} />

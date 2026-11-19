@@ -25,12 +25,12 @@ export function SelectableService({ id, name, description, duration, price, sele
       className={cn(
         'flex h-full w-full flex-col gap-3 rounded-md border-2 border-tinta p-4 text-left text-texto transition-[background-color,box-shadow,transform] duration-100',
         selected
-          ? 'translate-x-[3px] translate-y-[3px] bg-celeste shadow-ticket-presionada'
+          ? 'translate-x-[3px] translate-y-[3px] bg-amarillo-claro shadow-ticket-presionada'
           : 'bg-superficie shadow-ticket hover:bg-superficie-alt',
       )}
     >
       <span className="flex items-start justify-between gap-3">
-        <span className="grid size-12 place-items-center rounded-lg border-2 border-tinta bg-celeste text-azul">
+        <span className="grid size-12 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-grafito">
           <Icon name={serviceIcons[id] ?? 'pata'} size={24} />
         </span>
         <span
@@ -43,7 +43,7 @@ export function SelectableService({ id, name, description, duration, price, sele
         </span>
       </span>
       <span className="flex flex-col gap-0.5">
-        <span className="font-display text-lg font-semibold lowercase">{name}</span>
+        <span className="font-display text-lg font-bold lowercase">{name}</span>
         <span className="text-sm text-texto-suave">{description}</span>
       </span>
       <span className="mt-auto flex items-end justify-between gap-2 border-t-2 border-dashed border-linea pt-2">

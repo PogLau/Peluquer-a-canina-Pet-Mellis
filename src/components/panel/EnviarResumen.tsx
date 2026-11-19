@@ -37,7 +37,7 @@ export function EnviarResumen({
         <LinkButton
           href={link}
           external
-          variant="dark"
+          variant="highlight"
           icon="whatsapp"
           aria-disabled={!mensaje.trim()}
         >

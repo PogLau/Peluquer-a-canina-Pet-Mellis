@@ -17,7 +17,7 @@ export function EscaneoIngreso({ escaneo: e, compacto = false }: { escaneo: Esca
   return (
     <section
       aria-label="Ficha de ingreso de IA Scan & Care"
-      className="flex flex-col gap-1.5 rounded-md border-2 border-tinta bg-celeste p-3 text-sm text-azul"
+      className="flex flex-col gap-1.5 rounded-md border-2 border-tinta bg-amarillo-claro p-3 text-sm text-grafito"
     >
       <p className="flex flex-wrap items-center gap-2">
         <Icon name="escaner" size={18} />

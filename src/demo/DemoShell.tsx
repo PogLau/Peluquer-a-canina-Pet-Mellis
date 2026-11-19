@@ -38,12 +38,12 @@ function BarraDemo({ panel }: { panel: boolean }) {
   const [confirmar, setConfirmar] = useState(false)
   const pestana = (activa: boolean) =>
     cn(
-      'inline-flex min-h-9 items-center rounded-sm px-3 text-sm font-extrabold',
-      activa ? 'bg-azul text-menta' : 'text-azul underline-offset-4 hover:underline',
+      'inline-flex min-h-9 items-center rounded-sm px-3 text-sm font-bold',
+      activa ? 'bg-verde text-amarillo' : 'text-grafito underline-offset-4 hover:underline',
     )
   return (
-    <div className="border-b-2 border-tinta bg-menta">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-azul">
+    <div className="border-b-2 border-tinta bg-amarillo">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-grafito">
         <p className="text-sm">
           <span className="rotulo mr-2">Demo</span>
           Datos ficticios, guardados solo en este navegador.
@@ -93,18 +93,18 @@ function BarraDemo({ panel }: { panel: boolean }) {
 function MarcoCliente({ children }: { children: ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-azul">
+      <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-verde">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link
             href="/"
             aria-label="Pet Mellis, inicio"
-            className="rounded-sm focus-visible:outline-menta"
+            className="rounded-sm focus-visible:outline-amarillo"
           >
             <Imagotipo tone="dark" />
           </Link>
           <TopNav items={clienteNav} root="/" />
           <div className="hidden lg:block">
-            <LinkButton href="/reservar" size="small">
+            <LinkButton href="/reservar" size="small" variant="highlight">
               Reservar turno
             </LinkButton>
           </div>
@@ -122,19 +122,19 @@ function MarcoPanel({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="md:grid md:min-h-dvh md:grid-cols-[248px_1fr]">
-        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-azul md:h-dvh md:border-b-0 md:border-r-2">
+        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-verde md:h-dvh md:border-b-0 md:border-r-2">
           <div className="flex min-h-16 items-center justify-between gap-3 px-4 md:h-full md:flex-col md:items-stretch md:justify-start md:gap-8 md:py-6">
             <Link
               href="/panel"
               aria-label="Pet Mellis, panel"
-              className="rounded-sm focus-visible:outline-menta"
+              className="rounded-sm focus-visible:outline-amarillo"
             >
               <Imagotipo tone="dark" tagline="panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNavDemo} root="/panel" />
             </div>
-            <p className="hidden px-3 text-sm text-blanco md:mt-auto md:block">
+            <p className="hidden px-3 text-sm text-marfil md:mt-auto md:block">
               En la app real, la peluquera entra con usuario y contraseña.
             </p>
           </div>
@@ -163,7 +163,7 @@ export function DemoShell({ children }: { children: ReactNode }) {
     <>
       <a
         href="#contenido"
-        className="sr-only z-50 rounded-sm bg-menta px-4 py-2 font-extrabold text-azul focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-grafito focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido
       </a>

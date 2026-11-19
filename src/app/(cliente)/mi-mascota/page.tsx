@@ -44,7 +44,7 @@ export default async function MiMascotaPage() {
                 <a
                   key={m.id}
                   href={`#perro-${m.id}`}
-                  className="rounded-pill border-2 border-tinta bg-superficie px-3 py-1.5 text-sm font-extrabold"
+                  className="rounded-pill border-2 border-tinta bg-superficie px-3 py-1.5 text-sm font-bold"
                 >
                   {m.nombre}
                 </a>

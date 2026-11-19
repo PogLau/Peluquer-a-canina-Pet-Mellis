@@ -24,7 +24,7 @@ export function PasoHorario({ estado, set, dias, whatsappLocal }: Props) {
               href={whatsappLocal}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-extrabold underline underline-offset-4"
+              className="font-bold underline underline-offset-4"
             >
               Escribinos por WhatsApp
             </a>{' '}

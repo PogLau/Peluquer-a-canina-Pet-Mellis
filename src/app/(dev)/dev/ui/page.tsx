@@ -18,15 +18,15 @@ import {
 import { InteractiveDemo } from './InteractiveDemo'
 
 const colorTokens = [
-  ['azul calma', 'bg-azul'],
-  ['verde menta', 'bg-menta'],
-  ['menta texto', 'bg-menta-texto'],
-  ['celeste', 'bg-celeste'],
-  ['crema suave', 'bg-crema'],
-  ['naranja coral', 'bg-coral'],
-  ['coral hover', 'bg-coral-hover'],
-  ['pizarra', 'bg-pizarra'],
-  ['blanco', 'bg-blanco'],
+  ['grafito', 'bg-grafito'],
+  ['marfil', 'bg-marfil'],
+  ['amarillo', 'bg-amarillo'],
+  ['verde profundo', 'bg-verde'],
+  ['terracota', 'bg-terracota'],
+  ['amarillo claro', 'bg-amarillo-claro'],
+  ['verde claro', 'bg-verde-claro'],
+  ['terracota claro', 'bg-terracota-claro'],
+  ['superficie alt', 'bg-superficie-alt'],
   ['linea', 'bg-linea'],
 ] as const
 
@@ -50,7 +50,7 @@ export default function DevUiPage() {
         <div className="flex flex-wrap items-center gap-6">
           <Isotipo height={64} title="Pet Mellis" />
           <Imagotipo />
-          <span className="rounded-md bg-azul p-4">
+          <span className="rounded-md bg-verde p-4">
             <Imagotipo tone="dark" />
           </span>
         </div>
@@ -68,21 +68,20 @@ export default function DevUiPage() {
       </Section>
 
       <Section title="tipografía">
-        <p className="font-display text-4xl lowercase">pet mellis</p>
-        <p className="font-display text-3xl lowercase">título 1 · 40 px</p>
-        <p className="font-display text-2xl lowercase">título 2 · 28 px</p>
-        <p className="font-display text-xl lowercase">título 3 · 20 px</p>
-        <p className="text-lg">Cuerpo grande 18 px: bajadas del hero.</p>
-        <p>Cuerpo 16 px: texto corrido en Nunito.</p>
+        <p className="font-display text-4xl font-bold lowercase">pet mellis · H2 50,5 px</p>
+        <p className="font-display text-3xl font-bold lowercase">título · H3 37,9 px</p>
+        <p className="font-display text-2xl font-bold lowercase">sección · H4 28,4 px</p>
+        <p className="font-display text-xl font-bold lowercase">tarjeta · H5 21,3 px</p>
+        <p>Cuerpo 16 px: Manuale Regular 400, interlineado 1,5.</p>
         <p className="text-sm text-texto-suave">Secundario 14 px: ayudas y notas.</p>
-        <p className="rotulo">Etiqueta · Space Mono 12 px</p>
+        <p className="rotulo">Etiqueta · Manuale Bold 12 px</p>
       </Section>
 
       <Section title="botones">
         <div className="flex flex-wrap gap-4">
           <Button>Reservar turno</Button>
           <Button variant="secondary">Cotizar</Button>
-          <Button variant="dark" icon="whatsapp">
+          <Button variant="highlight" icon="whatsapp">
             Avisar por WhatsApp
           </Button>
           <Button variant="ghost">Cancelar</Button>

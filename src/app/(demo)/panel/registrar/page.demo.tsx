@@ -31,7 +31,7 @@ function Registro() {
   if (!datos) {
     return (
       <EmptyState icon="libreta" title="no encontramos ese turno">
-        <Link href="/panel" className="font-extrabold underline">
+        <Link href="/panel" className="font-bold underline">
           Volver a Hoy
         </Link>
       </EmptyState>
@@ -46,7 +46,7 @@ function Registro() {
     <>
       <Link
         href="/panel"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-extrabold text-menta-texto"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde"
       >
         <Icon name="volver" size={18} /> Hoy
       </Link>

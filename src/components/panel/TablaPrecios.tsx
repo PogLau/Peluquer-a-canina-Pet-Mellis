@@ -145,7 +145,7 @@ export function TablaPrecios({
             <tbody>
               {p.servicios.map((s, i) => (
                 <tr key={s.id} className={cn('border-t-2 border-linea', !s.activo && 'opacity-60')}>
-                  <th scope="row" className={cn(celda, 'text-left font-extrabold')}>
+                  <th scope="row" className={cn(celda, 'text-left font-bold')}>
                     {s.nombre}
                   </th>
                   {(['precioChico', 'precioMediano', 'precioGrande'] as const).map((campo) => (

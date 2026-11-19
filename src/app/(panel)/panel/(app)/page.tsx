@@ -47,7 +47,7 @@ export default async function HoyPage() {
             tone="info"
             title={`${solicitudes.length} ${solicitudes.length === 1 ? 'solicitud nueva' : 'solicitudes nuevas'} desde la web`}
           >
-            <Link href="/panel/solicitudes" className="font-extrabold underline underline-offset-4">
+            <Link href="/panel/solicitudes" className="font-bold underline underline-offset-4">
               Revisarlas
             </Link>
           </Notice>

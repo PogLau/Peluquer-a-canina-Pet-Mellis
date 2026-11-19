@@ -6,7 +6,7 @@ type Props<T extends ElementType> = {
   as?: T
   /** `normal`: relleno de 20 px. `small`: 12 px, para filas y listas. */
   size?: 'normal' | 'small'
-  /** Fondo celeste: avisos o fila elegida. */
+  /** Fondo alternativo: avisos o fila elegida. */
   highlighted?: boolean
 } & Omit<ComponentPropsWithoutRef<T>, 'as'>
 
@@ -23,7 +23,7 @@ export function Ticket<T extends ElementType = 'div'>({
     <Component
       className={cn(
         'rounded-md border-2 border-tinta text-texto shadow-ticket',
-        highlighted ? 'bg-superficie-alt' : 'bg-superficie',
+        highlighted ? 'bg-amarillo-claro' : 'bg-superficie',
         size === 'normal' ? 'p-5' : 'p-3',
         className,
       )}

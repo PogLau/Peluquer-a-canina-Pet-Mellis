@@ -31,7 +31,7 @@ export function PasoConfirmar({ estado, set, tutor, mascota, quote, error }: Pro
       <ul className="flex flex-col divide-y-2 divide-linea rounded-sm border-2 border-tinta bg-superficie">
         {quote.lineas.map((l) => (
           <li key={`${l.tipo}-${l.id}`} className="flex justify-between gap-3 px-4 py-2.5 text-sm">
-            <span className={l.tipo === 'recargo' ? 'font-bold text-menta-texto' : undefined}>
+            <span className={l.tipo === 'recargo' ? 'font-bold text-verde' : undefined}>
               {l.nombre}
             </span>
             <span className="cifras">{formatMoney(l.monto)}</span>
@@ -39,7 +39,7 @@ export function PasoConfirmar({ estado, set, tutor, mascota, quote, error }: Pro
         ))}
         <li className="flex items-baseline justify-between gap-3 bg-superficie-alt px-4 py-3">
           <span className="font-bold">Total estimado</span>
-          <span className="cifras font-display text-2xl font-semibold">
+          <span className="cifras font-display text-2xl font-bold">
             {formatMoney(quote.total)}
           </span>
         </li>
