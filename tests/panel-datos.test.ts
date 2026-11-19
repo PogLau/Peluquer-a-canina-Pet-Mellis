@@ -113,6 +113,9 @@ describe('Registrar atención', () => {
     const datos = (await atenciones.getRegisterData(payload, peluquera, toby.id))!
     expect(datos.recomendacionSugerida).not.toBe('')
 
+    // Antes de registrar, la agenda avisa que a Toby le falta la atención
+    expect(toby.atencionRegistrada).toBe(false)
+
     const r = await atenciones.registerVisit(payload, peluquera, {
       turnoId: toby.id,
       servicios: datos.serviciosTurno,
@@ -131,6 +134,8 @@ describe('Registrar atención', () => {
 
     const turno = await turnos.getAppointment(payload, peluquera, toby.id)
     expect(turno?.estado).toBe('listo')
+    const enAgenda = (await turnos.listTodayAppointments(payload, peluquera)).find((t) => t.id === toby.id)
+    expect(enAgenda?.atencionRegistrada).toBe(true)
 
     const repetida = await atenciones.registerVisit(payload, peluquera, {
       ...datos,

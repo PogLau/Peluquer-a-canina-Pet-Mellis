@@ -13,14 +13,14 @@ function Periodo({ r, id }: { r: ResumenPeriodo; id: string }) {
       <h2 id={id} className="rotulo text-verde">
         {r.periodo.etiqueta}
       </h2>
-      <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-6 gap-y-4">
+      <dl className="flex flex-wrap gap-x-6 gap-y-4">
         <div>
           <dt className="text-sm text-texto-suave">Turnos</dt>
           <dd className="cifras font-display text-4xl font-bold">{r.total}</dd>
         </div>
         <div>
           <dt className="text-sm text-texto-suave">Ingresos estimados</dt>
-          <dd className="cifras break-words font-display text-2xl font-bold">
+          <dd className="cifras whitespace-nowrap font-display text-2xl font-bold">
             {formatMoney(r.ingresos)}
           </dd>
         </div>

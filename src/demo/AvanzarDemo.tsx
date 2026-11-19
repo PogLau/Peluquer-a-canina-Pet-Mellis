@@ -1,9 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-
+import { BotonAvanzar } from '@/components/panel/BotonAvanzar'
 import type { AccionTurno, RutasPanel } from '@/components/panel/TurnoCard'
-import { Button } from '@/components/ui'
 
 import { avanzarTurno } from './acciones'
 
@@ -14,26 +12,13 @@ export const rutasDemo: RutasPanel = {
 }
 
 /** Un toque para pasar el turno al estado siguiente (versión de la demo de AvanzarTurno). */
-export function AvanzarDemo({ id, estado, accion, variant }: AccionTurno) {
-  const [error, setError] = useState<string | null>(null)
+export function AvanzarDemo({ id, estado, accion, variant, sinRegistro }: AccionTurno) {
   return (
-    <div className="flex flex-col gap-1.5">
-      <Button
-        variant={variant}
-        size="small"
-        icon="check"
-        onClick={async () => {
-          const r = await avanzarTurno(id, estado)
-          setError(r.ok ? null : r.error)
-        }}
-      >
-        {accion}
-      </Button>
-      {error && (
-        <p role="alert" className="text-sm font-bold text-peligro">
-          {error}
-        </p>
-      )}
-    </div>
+    <BotonAvanzar
+      accion={accion}
+      variant={variant}
+      sinRegistro={sinRegistro}
+      avanzar={() => avanzarTurno(id, estado)}
+    />
   )
 }

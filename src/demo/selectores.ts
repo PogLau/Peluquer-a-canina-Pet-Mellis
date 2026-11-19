@@ -54,6 +54,7 @@ export function toTurnoPanel(s: DemoState, t: DTurno): TurnoPanel {
       nombre: tutor?.nombre ?? 'Tutor',
       whatsapp: tutor?.whatsapp ?? '',
     },
+    atencionRegistrada: s.atenciones.some((a) => a.turnoId === t.id),
   }
 }
 

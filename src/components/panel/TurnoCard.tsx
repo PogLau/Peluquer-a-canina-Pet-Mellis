@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import type { ReactNode } from 'react'
 
-import { LinkButton, StatusBadge, TagChip, Ticket, type ButtonVariant } from '@/components/ui'
+import { Icon, LinkButton, StatusBadge, TagChip, Ticket, type ButtonVariant } from '@/components/ui'
 import { nextStatus, type AppointmentStatus } from '@/lib/estados'
 import { formatMoney, formatTime } from '@/lib/format'
 import type { TurnoPanel } from '@/lib/panel/turnos'
+import type { SinRegistro } from './BotonAvanzar'
 import { EscaneoIngreso } from './EscaneoIngreso'
 
 export type AccionTurno = {
@@ -12,6 +13,8 @@ export type AccionTurno = {
   estado: AppointmentStatus
   accion: string
   variant: ButtonVariant
+  /** Presente si el turno pasaría a «listo» o «finalizado» sin su atención registrada. */
+  sinRegistro?: SinRegistro
 }
 
 export type RutasPanel = {
@@ -37,6 +40,10 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
   const next = nextStatus(turno.estado)
   const enAtencion = turno.estado === 'en_atencion'
   const terminado = turno.estado === 'finalizado'
+  // Atendido (o por cerrarse) sin la visita guardada en la Ficha Evolutiva
+  const faltaRegistro =
+    !turno.atencionRegistrada && (enAtencion || turno.estado === 'listo' || terminado)
+  const nombre = turno.mascota.nombre
 
   return (
     <Ticket
@@ -97,11 +104,19 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
               )}
             </div>
           )}
+          {faltaRegistro && (
+            <p className="flex items-center gap-1.5 text-sm font-bold text-aviso">
+              <Icon name="alerta" size={16} />
+              {terminado
+                ? `Finalizado sin atención registrada: la ficha de ${nombre} no tiene esta visita.`
+                : 'Falta registrar la atención.'}
+            </p>
+          )}
         </div>
 
         {!terminado && (
           <div className="flex flex-wrap gap-2 sm:w-48 sm:flex-col sm:items-stretch">
-            {enAtencion && (
+            {(enAtencion || turno.estado === 'listo') && !turno.atencionRegistrada && (
               <LinkButton href={rutas.registrar(turno.id)} size="small" icon="libreta">
                 Registrar atención
               </LinkButton>
@@ -111,7 +126,11 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
                 id: turno.id,
                 estado: turno.estado,
                 accion: next.accion,
-                variant: enAtencion ? 'secondary' : 'primary',
+                variant: faltaRegistro ? 'secondary' : 'primary',
+                sinRegistro:
+                  faltaRegistro && (next.estado === 'listo' || next.estado === 'finalizado')
+                    ? { nombre, registrarHref: rutas.registrar(turno.id) }
+                    : undefined,
               })}
           </div>
         )}

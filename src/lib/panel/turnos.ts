@@ -25,6 +25,8 @@ export type TurnoPanel = {
     alertas: string[]
   }
   tutor: { id: number; nombre: string; whatsapp: string }
+  /** Si ya hay una atención guardada para este turno (Ficha Evolutiva al día). */
+  atencionRegistrada: boolean
 }
 
 export class PanelError extends Error {}
@@ -33,7 +35,7 @@ function asObject<T>(value: unknown): T | null {
   return value && typeof value === 'object' ? (value as T) : null
 }
 
-export function toTurnoPanel(turno: Turno): TurnoPanel {
+export function toTurnoPanel(turno: Turno, atencionRegistrada = false): TurnoPanel {
   const mascota = asObject<Mascota>(turno.mascota)
   const tutor = asObject<Tutore>(turno.tutor)
   const etiquetas = (mascota?.etiquetas ?? [])
@@ -62,6 +64,7 @@ export function toTurnoPanel(turno: Turno): TurnoPanel {
       nombre: tutor?.nombre ?? 'Tutor',
       whatsapp: tutor?.whatsapp ?? '',
     },
+    atencionRegistrada,
   }
 }
 
@@ -76,7 +79,23 @@ async function findTurnos(payload: Payload, user: Usuario, where: Where): Promis
     overrideAccess: false,
     user,
   })
-  return result.docs.map(toTurnoPanel)
+  // Qué turnos ya tienen su atención guardada (para avisar antes de finalizar uno sin registro)
+  const ids = result.docs.map((t) => t.id)
+  const atenciones = ids.length
+    ? await payload.find({
+        collection: 'atenciones',
+        where: { turno: { in: ids } },
+        depth: 0,
+        pagination: false,
+        select: { turno: true },
+        overrideAccess: false,
+        user,
+      })
+    : { docs: [] }
+  const registrados = new Set(
+    atenciones.docs.map((a) => (typeof a.turno === 'object' ? a.turno?.id : a.turno)),
+  )
+  return result.docs.map((t) => toTurnoPanel(t, registrados.has(t.id)))
 }
 
 /** Agenda de hoy en Buenos Aires, sin los cancelados ni las solicitudes sin confirmar. */

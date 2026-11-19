@@ -88,3 +88,18 @@ describe('demo: «otro perro» con el nombre de uno propio', () => {
     expect(turno.precioEstimado).toBe(83000)
   })
 })
+
+describe('demo: agenda del panel', () => {
+  it('marca qué turnos de hoy ya tienen la atención registrada', async () => {
+    const { turnosHoy } = await import('@/demo/selectores')
+    const s = initialState(now)
+    const hoy = turnosHoy(s, now)
+    expect(hoy.length).toBeGreaterThan(0)
+    expect(hoy.every((t) => t.atencionRegistrada === false)).toBe(true)
+    const conRegistro = {
+      ...s,
+      atenciones: [...s.atenciones, { ...s.atenciones[0], id: 999, turnoId: hoy[0].id }],
+    }
+    expect(turnosHoy(conRegistro, now)[0].atencionRegistrada).toBe(true)
+  })
+})
