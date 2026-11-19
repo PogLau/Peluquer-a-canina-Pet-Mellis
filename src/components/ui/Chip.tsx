@@ -105,7 +105,7 @@ export function ToggleChip({ pressed, onPressedChange, children, icon }: ToggleC
       aria-pressed={pressed}
       onClick={() => onPressedChange(!pressed)}
       className={cn(
-        'inline-flex min-h-10 items-center gap-2 rounded-sm border-2 border-tinta px-3.5 text-sm font-bold transition-colors',
+        'inline-flex min-h-10 max-w-full items-center gap-2 rounded-sm border-2 border-tinta px-3.5 py-1.5 text-left text-sm font-bold transition-colors',
         pressed
           ? 'bg-seleccion text-sobre-seleccion'
           : 'bg-superficie text-texto hover:bg-superficie-alt',

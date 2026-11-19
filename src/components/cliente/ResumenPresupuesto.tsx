@@ -1,11 +1,13 @@
 import { LinkButton, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import { reservarHref, type EstadoCotizacion } from '@/lib/cotizacion'
-import { formatMoney } from '@/lib/format'
+import { formatRange } from '@/lib/format'
 import type { EscaneoTurno } from '@/lib/ia/cuidado'
 import { coatLabels, knotsLabels, sizeLabels, type Quote } from '@/lib/pricing'
 
-/** Ticket del presupuesto: una línea por servicio y extra, el recargo por nudos aparte y el total. */
+import { NotaPrecios, TotalRango } from './Precios'
+
+/** Ticket del presupuesto: una línea por servicio y extra, el desenredado de nudos aparte y el total como rango. */
 export function ResumenPresupuesto({
   quote,
   estado,
@@ -36,16 +38,14 @@ export function ResumenPresupuesto({
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex items-baseline justify-between gap-3 text-sm">
               <span className={cn(l.tipo === 'recargo' && 'font-bold text-verde')}>{l.nombre}</span>
-              <span className="cifras font-bold">{formatMoney(l.monto)}</span>
+              <span className="cifras whitespace-nowrap font-bold">{formatRange(l.monto, l.montoHasta)}</span>
             </li>
           ))}
         </ul>
       )}
 
-      <p className="flex items-baseline justify-between gap-3" aria-live="polite">
-        <span className="rotulo">Total estimado</span>
-        <span className="cifras font-display text-2xl font-bold">{formatMoney(quote.total)}</span>
-      </p>
+      <TotalRango quote={quote} />
+      <NotaPrecios />
 
       {vacio ? (
         <>

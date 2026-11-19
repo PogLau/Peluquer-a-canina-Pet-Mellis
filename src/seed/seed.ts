@@ -56,6 +56,11 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         precioChico: s.precios.chico,
         precioMediano: s.precios.mediano,
         precioGrande: s.precios.grande,
+        precioGigante: s.precios.gigante,
+        precioChicoHasta: s.preciosHasta?.chico,
+        precioMedianoHasta: s.preciosHasta?.mediano,
+        precioGrandeHasta: s.preciosHasta?.grande,
+        precioGiganteHasta: s.preciosHasta?.gigante,
         aplicaRecargoManto: s.aplicaRecargoManto,
         popular: s.popular ?? false,
         orden,
@@ -68,7 +73,14 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
   for (const [orden, e] of extras.entries()) {
     const doc = await payload.create({
       collection: 'extras',
-      data: { nombre: e.nombre, slug: e.id, precio: e.precio, orden },
+      data: {
+        nombre: e.nombre,
+        slug: e.id,
+        tipo: e.tipo ?? 'fijo',
+        precio: e.precio,
+        precioHasta: e.precioHasta,
+        orden,
+      },
     })
     extraIds.set(e.id, doc.id)
   }
@@ -147,7 +159,7 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         mascota: toby.id,
         servicios: [servicioIds.get('bano-corte')!],
         nudos: 'moderados',
-        precioEstimado: 13700,
+        precioEstimado: 50000,
         origen: 'panel',
       },
     })
@@ -158,7 +170,7 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         mascota: toby.id,
         turno: turno.id,
         serviciosRealizados: [servicioIds.get('bano-corte')!],
-        precioFinal: 13700,
+        precioFinal: 52000,
         puntajes: a.puntajes,
         etiquetas: a.etiquetas.map((n) => etiquetaIds.get(n)!),
         notaInterna: a.notaInterna,

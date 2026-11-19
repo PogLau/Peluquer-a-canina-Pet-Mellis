@@ -46,22 +46,27 @@ describe('IA Scan & Care: reglas del tratamiento', () => {
 describe('IA Scan & Care: plan y precio', () => {
   it('cada tratamiento encuentra sus servicios en el catálogo', () => {
     expect(planDelCatalogo('corte-raza', catalog)).toEqual({ servicioIds: ['bano-corte'], extraIds: [] })
-    expect(planDelCatalogo('spa-desenredado', catalog)).toEqual({ servicioIds: ['bano-cepillado'], extraIds: ['oidos'] })
+    expect(planDelCatalogo('spa-desenredado', catalog)).toEqual({ servicioIds: ['bano-higienico'], extraIds: [] })
+    expect(planDelCatalogo('hidratacion-profunda', catalog)).toEqual({
+      servicioIds: ['bano-higienico'],
+      extraIds: ['medicado'],
+    })
   })
 
   it('si la peluquera renombró los servicios, se respeta lo elegido', () => {
     const renombrados = { servicios: servicios.map((s) => ({ ...s, nombre: `Otro ${s.nombre}` })), extras }
     const yorkie = ejemplosMascota.find((e) => e.id === 'yorkshire')!.sugerencia
-    const estado = { ...estadoInicial('unas'), extraIds: ['dental'] }
-    expect(aplicarPlan(estado, yorkie, renombrados)).toMatchObject({ servicioIds: ['unas'], extraIds: ['dental'] })
+    const estado = { ...estadoInicial('unas'), extraIds: ['traslado'] }
+    expect(aplicarPlan(estado, yorkie, renombrados)).toMatchObject({ servicioIds: ['unas'], extraIds: ['traslado'] })
   })
 
   it('el plan del caniche (spa de desenredado) suma el recargo por nudos una sola vez', () => {
     const caniche = ejemplosMascota.find((e) => e.id === 'caniche')!.sugerencia
     const plan = aplicarPlan(estadoInicial('bano-corte'), caniche, catalog)
     const quote = buildQuote(plan, catalog, pricingConfig)
-    // Baño y Cepillado chico rizado: 5.500 × 1,20 = 6.600; + oídos 1.500; + nudos moderados 3.500
-    expect(quote.total).toBe(6600 + 1500 + 3500)
+    // Baño higiénico simple, chico: $18.000 a $25.000; + desenredado de nudos moderados $18.000
+    expect(quote.total).toBe(18000 + 18000)
+    expect(quote.totalHasta).toBe(25000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 })

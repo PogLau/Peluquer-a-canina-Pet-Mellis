@@ -11,7 +11,7 @@ import {
   estadoInicial,
   type EstadoCotizacion,
 } from '@/lib/cotizacion'
-import { formatMoney } from '@/lib/format'
+import { formatExtraPrice, formatRange } from '@/lib/format'
 import { escaneoDeSugerencia, type ResultadoSugerencia, type Sugerencia } from '@/lib/ia/sugerencia'
 import {
   buildQuote,
@@ -19,7 +19,7 @@ import {
   coats,
   knots,
   knotsLabels,
-  servicePrice,
+  servicePriceRange,
   sizeLabels,
   sizes,
 } from '@/lib/pricing'
@@ -66,7 +66,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:items-start">
-      <div className="flex flex-col gap-8">
+      <div className="flex min-w-0 flex-col gap-8">
         <IaScanCare
           catalog={catalog}
           estado={estado}
@@ -108,7 +108,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
             hint={
               sugerido('nudos') ??
               (estado.nudos !== 'sin'
-                ? 'El recargo por nudos se suma una sola vez en el resumen.'
+                ? `El desenredado de nudos (${formatRange(catalog.config.recargosNudos.leves, catalog.config.recargosNudos.severos)} según dificultad) se suma una sola vez en el resumen.`
                 : undefined)
             }
             options={knots.map((k) => ({ value: k, label: knotsLabels[k] }))}
@@ -120,18 +120,19 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
             servicios
           </h2>
           <p className="text-sm text-texto-suave">
-            Precio para un perro {sizeLabels[estado.tamano].label.toLowerCase()} de manto{' '}
-            {coatLabels[estado.manto].toLowerCase()}. No incluye el recargo por nudos.
+            Precios orientativos para un perro {sizeLabels[estado.tamano].label.toLowerCase()} de
+            manto {coatLabels[estado.manto].toLowerCase()}. No incluyen el desenredado de nudos.
           </p>
           <ul className="grid gap-4 sm:grid-cols-2">
             {catalog.servicios.map((s) => (
-              <li key={s.id}>
+              <li key={s.id} className="min-w-0">
                 <SelectableService
                   id={s.id}
                   name={s.nombre}
                   description={s.descripcion}
                   duration={s.duracion}
-                  price={servicePrice(s, estado.tamano, estado.manto, catalog.config)}
+                  price={servicePriceRange(s, estado.tamano, estado.manto, catalog.config).desde}
+                  priceHasta={servicePriceRange(s, estado.tamano, estado.manto, catalog.config).hasta}
                   selected={estado.servicioIds.includes(s.id)}
                   onToggle={() => set({ servicioIds: alternar(estado.servicioIds, s.id) })}
                 />
@@ -152,7 +153,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
                   pressed={estado.extraIds.includes(e.id)}
                   onPressedChange={() => set({ extraIds: alternar(estado.extraIds, e.id) })}
                 >
-                  {e.nombre} · {formatMoney(e.precio)}
+                  {e.nombre} · {formatExtraPrice(e)}
                 </ToggleChip>
               ))}
             </div>

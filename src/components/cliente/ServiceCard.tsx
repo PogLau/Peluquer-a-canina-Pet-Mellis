@@ -2,11 +2,12 @@ import { Icon, Ticket, type IconName } from '@/components/ui'
 import { formatMoney } from '@/lib/format'
 
 export const serviceIcons: Record<string, IconName> = {
+  'bano-higienico': 'bano',
+  'bano-corte-higienico': 'tijera',
   'bano-corte': 'tijera',
-  'bano-cepillado': 'bano',
-  'corte-estetico': 'tijera',
-  unas: 'unas',
   deslanado: 'cepillo',
+  adaptacion: 'pata',
+  unas: 'unas',
 }
 
 type Props = {
@@ -26,7 +27,7 @@ export function ServiceCard({ id, name, description, price, duration, priceLabel
   return (
     <Ticket as="article" className="flex h-full flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
-        <span className="grid size-16 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-grafito">
+        <span className="grid size-16 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-petroleo">
           <Icon name={serviceIcons[id] ?? 'pata'} size={30} />
         </span>
         {popular && <span className="rotulo rounded-pill bg-verde px-2.5 py-1 text-amarillo">Popular</span>}

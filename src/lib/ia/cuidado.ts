@@ -38,25 +38,25 @@ export const tratamientoInfo: Record<
   'spa-desenredado': {
     nombre: 'Spa de desenredado',
     detalle: 'Baño con acondicionador, desenredado a mano y secado suave. Si los nudos están pegados a la piel, se rebaja en vez de tironear.',
-    servicios: ['baño y cepillado'],
-    extras: ['limpieza de oidos'],
+    servicios: ['baño higienico simple'],
+    extras: [],
   },
   'hidratacion-profunda': {
     nombre: 'Baño de hidratación profunda',
-    detalle: 'Baño con mascarilla hidratante para recuperar brillo y suavidad, y cepillado final.',
-    servicios: ['baño y cepillado'],
-    extras: ['perfume hipoalergenico'],
+    detalle: 'Baño dermatológico con mascarilla hidratante para recuperar brillo y suavidad.',
+    servicios: ['baño higienico simple'],
+    extras: ['baño medicado'],
   },
   'corte-raza': {
     nombre: 'Corte de raza',
     detalle: 'Baño completo y corte con el estilo de su raza (o el que pidas).',
-    servicios: ['baño y corte'],
+    servicios: ['baño y corte completo'],
     extras: [],
   },
   mantenimiento: {
     nombre: 'Baño de mantenimiento',
-    detalle: 'El pelaje está en buen estado: un baño con cepillado lo mantiene así.',
-    servicios: ['baño y cepillado'],
+    detalle: 'El pelaje está en buen estado: un baño higiénico lo mantiene así.',
+    servicios: ['baño higienico simple'],
     extras: [],
   },
 }

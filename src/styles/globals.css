@@ -1,52 +1,55 @@
 @import 'tailwindcss';
 
 /*
-  Pet Mellis: tokens de marca (pet-mellis-contexto-maestro.md §2.3 y §2.4, paleta oficial vigente).
+  Pet Mellis: tokens de marca (paleta oficial del 19/11/2026).
   Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
-  Reglas del manual: CTA principal verde profundo con texto marfil; amarillo y terracota siempre
-  con texto grafito; nunca amarillo como texto sobre fondos claros ni marfil chico sobre terracota.
-  Los tonos «-claro», «-hover» y «-texto» son derivados de la paleta para fondos suaves, estados
-  y texto chico con contraste AA (ver tests/contraste.test.ts).
+  - Blanco cálido #FFFDF7: fondo y tarjetas.            - Verde profundo #245B45: marca, header, títulos, CTA principal.
+  - Azul petróleo #173B46: texto, etiquetas y bordes.     - Amarillo cálido #F4D35E: destacados, precios, CTA secundario.
+  - Naranja amable #F28C45: promociones, alertas suaves e íconos destacados.
+  Los tonos «-claro», «-hover» y «-texto» salen de las escalas 50–950 de la marca, para fondos suaves,
+  hover y texto chico con contraste AA (ver tests/contraste.test.ts).
 */
 
 :root {
   /* Paleta oficial */
-  --grafito: #2c2c2c; /* texto / neutro */
-  --marfil: #faf6ef; /* fondo */
-  --amarillo: #f5c518; /* primario: destacados, CTA secundario, selección */
-  --verde: #0d3d2b; /* secundario: navegación, CTA principal, estados positivos */
-  --terracota: #d97a54; /* acento: ilustraciones, etiquetas especiales */
+  --crema: #fffdf7; /* blanco cálido: fondo y tarjetas */
+  --verde: #245b45; /* primario de marca */
+  --petroleo: #173b46; /* texto principal y bordes */
+  --amarillo: #f4d35e; /* destacados y llamadas a la acción secundarias */
+  --naranja: #f28c45; /* acentos y detalles */
 
-  /* Derivados */
-  --verde-hover: #165c42;
-  --verde-claro: #dcebe1;
-  --amarillo-hover: #e0b30c;
-  --amarillo-claro: #fcf0c4;
-  --terracota-claro: #f7e3d8;
-  --terracota-texto: #9a4426; /* terracota oscuro para texto chico sobre claro */
+  /* Derivados (escalas primary / secondary / accent / text) */
+  --verde-hover: #2c6d53; /* primary-700 */
+  --verde-claro: #dbf0e8; /* primary-100 */
+  --amarillo-hover: #f2cb40; /* secondary-400 */
+  --amarillo-claro: #fcf2cf; /* secondary-100 */
+  --naranja-claro: #fae4d1; /* accent-100 */
+  --naranja-texto: #8b480e; /* accent-700: naranja para texto chico sobre claro */
+  --petroleo-claro: #ecf6f9; /* text-50 */
 
   /* Semánticos (cambian con el tema) */
-  --fondo: var(--marfil);
-  --superficie: #fffdf9;
-  --superficie-alt: #f2ebde;
-  --texto: var(--grafito);
-  --texto-suave: #5e584f;
-  --tinta: var(--grafito);
-  --linea: #e2d9c7;
+  --fondo: var(--crema);
+  --superficie: #ffffff;
+  --superficie-alt: var(--petroleo-claro);
+  --texto: var(--petroleo);
+  --titulo: var(--verde); /* títulos principales (h1) */
+  --texto-suave: #256174; /* text-700 */
+  --tinta: var(--petroleo);
+  --linea: #d8ecf3; /* text-100 */
   --accion: var(--verde);
-  --sobre-accion: var(--marfil);
+  --sobre-accion: var(--crema);
   --seleccion: var(--amarillo);
-  --sobre-seleccion: var(--grafito);
+  --sobre-seleccion: var(--petroleo);
 
   /* Estados */
-  --exito: var(--verde);
+  --exito: #1d4937; /* primary-800 */
   --exito-fondo: var(--verde-claro);
-  --aviso: #6b4f00;
+  --aviso: #5f4c07; /* secondary-800 */
   --aviso-fondo: var(--amarillo-claro);
   --peligro: #b42318;
   --peligro-fondo: #fde4e1;
-  --info: var(--terracota-texto);
-  --info-fondo: var(--terracota-claro);
+  --info: var(--naranja-texto);
+  --info-fondo: var(--naranja-claro);
 
   /* Forma */
   --radio-sm: 6px;
@@ -65,23 +68,24 @@
 }
 
 [data-theme='oscuro'] {
-  --fondo: #0a2c1f;
-  --superficie: #0f3627;
-  --superficie-alt: #164532;
-  --texto: var(--marfil);
-  --texto-suave: #cfc8ba;
+  --fondo: #0c2027; /* text-900 */
+  --superficie: #102a33;
+  --superficie-alt: #19414d; /* text-800 */
+  --texto: var(--crema);
+  --titulo: var(--amarillo);
+  --texto-suave: #b2dae6; /* text-200 */
   --tinta: var(--amarillo);
-  --linea: #245640;
+  --linea: #256174;
   --accion: var(--amarillo);
-  --sobre-accion: var(--grafito);
-  --exito: #9fd8b5;
-  --exito-fondo: #12402e;
+  --sobre-accion: var(--petroleo);
+  --exito: #92d3b9;
+  --exito-fondo: #1d4937;
   --aviso: var(--amarillo);
-  --aviso-fondo: #3a3008;
+  --aviso-fondo: #302603;
   --peligro: #ff8a80;
   --peligro-fondo: #3a1512;
-  --info: #f0b496;
-  --info-fondo: #3d2418;
+  --info: #f1ae74;
+  --info-fondo: #2e1805;
   --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
   /* Los var() de :root ya se resolvieron con la tinta clara: hay que redefinirlos */
   --sombra-ticket: 4px 4px 0 0 var(--tinta);
@@ -99,22 +103,24 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-grafito: var(--grafito);
-  --color-marfil: var(--marfil);
-  --color-amarillo: var(--amarillo);
-  --color-amarillo-claro: var(--amarillo-claro);
-  --color-amarillo-hover: var(--amarillo-hover);
+  --color-crema: var(--crema);
   --color-verde: var(--verde);
-  --color-verde-claro: var(--verde-claro);
+  --color-petroleo: var(--petroleo);
+  --color-amarillo: var(--amarillo);
+  --color-naranja: var(--naranja);
   --color-verde-hover: var(--verde-hover);
-  --color-terracota: var(--terracota);
-  --color-terracota-claro: var(--terracota-claro);
-  --color-terracota-texto: var(--terracota-texto);
+  --color-verde-claro: var(--verde-claro);
+  --color-amarillo-hover: var(--amarillo-hover);
+  --color-amarillo-claro: var(--amarillo-claro);
+  --color-naranja-claro: var(--naranja-claro);
+  --color-naranja-texto: var(--naranja-texto);
+  --color-petroleo-claro: var(--petroleo-claro);
 
   --color-fondo: var(--fondo);
   --color-superficie: var(--superficie);
   --color-superficie-alt: var(--superficie-alt);
   --color-texto: var(--texto);
+  --color-titulo: var(--titulo);
   --color-texto-suave: var(--texto-suave);
   --color-tinta: var(--tinta);
   --color-linea: var(--linea);
@@ -189,6 +195,10 @@
     text-transform: lowercase;
   }
 
+  h1 {
+    color: var(--titulo);
+  }
+
   /* Foco visible en todo lo interactivo */
   :focus-visible {
     outline: 2px solid var(--tinta);
@@ -197,7 +207,7 @@
 
   ::selection {
     background: var(--amarillo-claro);
-    color: var(--grafito);
+    color: var(--petroleo);
   }
 }
 

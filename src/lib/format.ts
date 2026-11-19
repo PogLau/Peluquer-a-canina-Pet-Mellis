@@ -43,3 +43,19 @@ const shortDate = new Intl.DateTimeFormat('es-AR', {
 export function formatShortDate(date: Date): string {
   return shortDate.format(date).replace('.', '')
 }
+
+/** «$ 18.000 a $ 25.000», o un solo precio si no hay rango. */
+export function formatRange(desde: number, hasta?: number): string {
+  return hasta !== undefined && hasta > desde
+    ? `${formatMoney(desde)} a ${formatMoney(hasta)}`
+    : formatMoney(desde)
+}
+
+/** Precio de un extra: «$ 7.000 a $ 14.000» o «+15 a 25 %». */
+export function formatExtraPrice(e: { tipo?: 'fijo' | 'porcentaje'; precio: number; precioHasta?: number }): string {
+  if (e.tipo === 'porcentaje') {
+    const hasta = e.precioHasta !== undefined && e.precioHasta > e.precio ? ` a ${e.precioHasta}` : ''
+    return `+${e.precio}${hasta} %`
+  }
+  return formatRange(e.precio, e.precioHasta)
+}

@@ -47,7 +47,7 @@ const base = {
   mascotaId: null,
   mascota: null,
   servicios: ['bano-corte'],
-  extras: ['oidos'],
+  extras: ['antipulgas'],
   nudos: 'moderados',
   notas: '',
 }
@@ -68,7 +68,8 @@ describe('reservar sin login', () => {
     )
     expect(r.ok).toBe(true)
     if (!r.ok) return
-    expect(r.precioEstimado).toBe(15200)
+    // Chico: baño y corte completo $32.000 + antipulgas $7.000 + desenredado moderado $18.000
+    expect(r.precioEstimado).toBe(57000)
     expect(r.tokenNuevo).toMatch(/^[A-Za-z0-9_-]{32}$/)
 
     const turno = await payload.findByID({ collection: 'turnos', id: r.turnoId, depth: 1 })

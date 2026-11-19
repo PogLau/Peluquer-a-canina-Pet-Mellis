@@ -14,7 +14,7 @@ import {
 import type { DatosRegistro } from '@/lib/panel/atenciones'
 import type { Reporte } from '@/lib/panel/informes'
 import type { AtencionPanel } from '@/lib/panel/mascotas'
-import type { PreciosEditables } from '@/lib/panel/precios'
+import { filaDeExtra, preciosDeServicio, type PreciosEditables } from '@/lib/panel/precios'
 import type { TurnoPanel } from '@/lib/panel/turnos'
 
 import type { DemoState, DTurno } from './estado'
@@ -267,9 +267,7 @@ export function preciosEditables(s: DemoState): PreciosEditables {
     servicios: s.servicios.map((x, i) => ({
       id: i + 1,
       nombre: x.nombre,
-      precioChico: String(x.precios.chico),
-      precioMediano: String(x.precios.mediano),
-      precioGrande: String(x.precios.grande),
+      ...preciosDeServicio(x),
       aplicaRecargoManto: x.aplicaRecargoManto,
       popular: x.popular ?? false,
       activo: x.activo,
@@ -277,7 +275,7 @@ export function preciosEditables(s: DemoState): PreciosEditables {
     extras: s.extras.map((x, i) => ({
       id: i + 1,
       nombre: x.nombre,
-      precio: String(x.precio),
+      ...filaDeExtra(x),
       activo: x.activo,
     })),
     multiplicadores: {

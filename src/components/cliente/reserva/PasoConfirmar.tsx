@@ -2,8 +2,10 @@
 
 import { TextareaField } from '@/components/ui'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
-import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
+import { formatLongDate, formatRange, formatTime } from '@/lib/format'
 import type { Quote } from '@/lib/pricing'
+
+import { NotaPrecios, TotalRango } from '../Precios'
 
 type Props = {
   estado: EstadoReserva
@@ -34,14 +36,12 @@ export function PasoConfirmar({ estado, set, tutor, mascota, quote, error }: Pro
             <span className={l.tipo === 'recargo' ? 'font-bold text-verde' : undefined}>
               {l.nombre}
             </span>
-            <span className="cifras">{formatMoney(l.monto)}</span>
+            <span className="cifras whitespace-nowrap">{formatRange(l.monto, l.montoHasta)}</span>
           </li>
         ))}
-        <li className="flex items-baseline justify-between gap-3 bg-superficie-alt px-4 py-3">
-          <span className="font-bold">Total estimado</span>
-          <span className="cifras font-display text-2xl font-bold">
-            {formatMoney(quote.total)}
-          </span>
+        <li className="flex flex-col gap-2 bg-superficie-alt px-4 py-3">
+          <TotalRango quote={quote} />
+          <NotaPrecios />
         </li>
       </ul>
 

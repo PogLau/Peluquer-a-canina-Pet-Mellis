@@ -34,7 +34,7 @@ export function TopNav({ items, root }: { items: readonly NavItem[]; root: strin
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'inline-flex min-h-10 items-center rounded-sm px-3 text-sm font-bold focus-visible:outline-amarillo',
-                  active ? 'bg-amarillo text-grafito' : 'text-marfil hover:bg-marfil/10',
+                  active ? 'bg-amarillo text-petroleo' : 'text-crema hover:bg-crema/10',
                 )}
               >
                 {item.label}
@@ -69,7 +69,7 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex min-h-16 flex-col items-center justify-center gap-1 px-0.5 py-1.5 text-xs font-bold',
-                  active ? 'bg-amarillo text-grafito' : 'text-texto',
+                  active ? 'bg-amarillo text-petroleo' : 'text-texto',
                 )}
               >
                 <Icon name={item.icon} size={22} />
@@ -100,7 +100,7 @@ export function SideNav({ items, root }: { items: readonly NavItem[]; root: stri
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex min-h-11 items-center gap-3 rounded-sm px-3 text-sm font-bold focus-visible:outline-amarillo',
-                  active ? 'bg-amarillo text-grafito' : 'text-marfil hover:bg-marfil/10',
+                  active ? 'bg-amarillo text-petroleo' : 'text-crema hover:bg-crema/10',
                 )}
               >
                 <Icon name={item.icon} size={20} />

@@ -18,14 +18,14 @@ import {
 import { InteractiveDemo } from './InteractiveDemo'
 
 const colorTokens = [
-  ['grafito', 'bg-grafito'],
-  ['marfil', 'bg-marfil'],
-  ['amarillo', 'bg-amarillo'],
+  ['azul petróleo', 'bg-petroleo'],
+  ['blanco cálido', 'bg-crema'],
+  ['amarillo cálido', 'bg-amarillo'],
   ['verde profundo', 'bg-verde'],
-  ['terracota', 'bg-terracota'],
+  ['naranja amable', 'bg-naranja'],
   ['amarillo claro', 'bg-amarillo-claro'],
   ['verde claro', 'bg-verde-claro'],
-  ['terracota claro', 'bg-terracota-claro'],
+  ['naranja claro', 'bg-naranja-claro'],
   ['superficie alt', 'bg-superficie-alt'],
   ['linea', 'bg-linea'],
 ] as const

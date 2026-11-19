@@ -67,8 +67,8 @@ export const Configuracion: GlobalConfig = {
                   type: 'row',
                   fields: [
                     { name: 'corto', type: 'number', label: 'Corto', required: true, defaultValue: 1, min: 1 },
-                    { name: 'largo', type: 'number', label: 'Largo', required: true, defaultValue: 1.15, min: 1 },
-                    { name: 'rizado', type: 'number', label: 'Rizado', required: true, defaultValue: 1.2, min: 1 },
+                    { name: 'largo', type: 'number', label: 'Largo', required: true, defaultValue: 1, min: 1 },
+                    { name: 'rizado', type: 'number', label: 'Rizado', required: true, defaultValue: 1, min: 1 },
                   ],
                 },
               ],
@@ -76,14 +76,14 @@ export const Configuracion: GlobalConfig = {
             {
               name: 'recargosNudos',
               type: 'group',
-              label: 'Recargo por nudos (se suma una sola vez)',
+              label: 'Desenredado de nudos (se suma una sola vez)',
               fields: [
                 {
                   type: 'row',
                   fields: [
-                    { name: 'leves', type: 'number', label: 'Leves', required: true, defaultValue: 1500, min: 0 },
-                    { name: 'moderados', type: 'number', label: 'Moderados', required: true, defaultValue: 3500, min: 0 },
-                    { name: 'severos', type: 'number', label: 'Severos', required: true, defaultValue: 6000, min: 0 },
+                    { name: 'leves', type: 'number', label: 'Leves', required: true, defaultValue: 12000, min: 0 },
+                    { name: 'moderados', type: 'number', label: 'Moderados', required: true, defaultValue: 18000, min: 0 },
+                    { name: 'severos', type: 'number', label: 'Severos', required: true, defaultValue: 25000, min: 0 },
                   ],
                 },
               ],

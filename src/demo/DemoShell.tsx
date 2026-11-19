@@ -39,11 +39,11 @@ function BarraDemo({ panel }: { panel: boolean }) {
   const pestana = (activa: boolean) =>
     cn(
       'inline-flex min-h-9 items-center rounded-sm px-3 text-sm font-bold',
-      activa ? 'bg-verde text-amarillo' : 'text-grafito underline-offset-4 hover:underline',
+      activa ? 'bg-verde text-amarillo' : 'text-petroleo underline-offset-4 hover:underline',
     )
   return (
     <div className="border-b-2 border-tinta bg-amarillo">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-grafito">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-2 px-4 py-2 text-petroleo">
         <p className="text-sm">
           <span className="rotulo mr-2">Demo</span>
           Datos ficticios, guardados solo en este navegador.
@@ -134,7 +134,7 @@ function MarcoPanel({ children }: { children: ReactNode }) {
             <div className="hidden md:block">
               <SideNav items={panelNavDemo} root="/panel" />
             </div>
-            <p className="hidden px-3 text-sm text-marfil md:mt-auto md:block">
+            <p className="hidden px-3 text-sm text-crema md:mt-auto md:block">
               En la app real, la peluquera entra con usuario y contraseña.
             </p>
           </div>
@@ -163,7 +163,7 @@ export function DemoShell({ children }: { children: ReactNode }) {
     <>
       <a
         href="#contenido"
-        className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-grafito focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-petroleo focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido
       </a>

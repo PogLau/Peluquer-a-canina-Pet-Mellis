@@ -41,7 +41,7 @@ export function VisorEscaneo({ src, alt, paso, rotulo }: Props) {
           <span className="absolute bottom-0 right-0 size-7 rounded-br-md border-b-4 border-r-4 border-amarillo" />
         </span>
         {(escaneando || rotulo) && (
-          <span className="rotulo absolute left-3 top-3 ml-9 mt-1 rounded-pill bg-verde px-2.5 py-1 text-marfil">
+          <span className="rotulo absolute left-3 top-3 ml-9 mt-1 rounded-pill bg-verde px-2.5 py-1 text-crema">
             {escaneando ? 'Escaneando…' : rotulo}
           </span>
         )}
@@ -64,7 +64,7 @@ export function VisorEscaneo({ src, alt, paso, rotulo }: Props) {
                   aria-hidden="true"
                   className={cn(
                     'grid size-6 shrink-0 place-items-center rounded-pill border-2',
-                    hecho ? 'border-tinta bg-amarillo text-grafito' : 'border-linea',
+                    hecho ? 'border-tinta bg-amarillo text-petroleo' : 'border-linea',
                     actual && 'border-tinta',
                   )}
                 >

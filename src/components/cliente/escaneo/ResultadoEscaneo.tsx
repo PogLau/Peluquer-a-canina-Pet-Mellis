@@ -3,7 +3,7 @@
 import { Button, Icon, LinkButton } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import { aplicarPlan, reservarHref, type EstadoCotizacion } from '@/lib/cotizacion'
-import { formatMoney } from '@/lib/format'
+import { formatRange } from '@/lib/format'
 import {
   estadoPelaje,
   hidratacionLabels,
@@ -14,6 +14,8 @@ import {
 } from '@/lib/ia/cuidado'
 import { escaneoDeSugerencia, type Sugerencia } from '@/lib/ia/sugerencia'
 import { buildQuote, knotsLabels, sizeLabels } from '@/lib/pricing'
+
+import { NotaPrecios, TotalRango } from '../Precios'
 
 type Props = {
   sugerencia: Sugerencia
@@ -73,7 +75,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
               {[1, 2, 3].map((n) => (
                 <span
                   key={n}
-                  className={`h-3 w-6 rounded-pill border-2 border-tinta ${n <= nivel ? (nivel === 1 ? 'bg-terracota' : 'bg-amarillo') : 'bg-transparent'}`}
+                  className={`h-3 w-6 rounded-pill border-2 border-tinta ${n <= nivel ? (nivel === 1 ? 'bg-naranja' : 'bg-amarillo') : 'bg-transparent'}`}
                 />
               ))}
             </span>
@@ -95,14 +97,12 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex justify-between gap-3">
               <span>{l.nombre}</span>
-              <span className="cifras font-bold">{formatMoney(l.monto)}</span>
+              <span className="cifras whitespace-nowrap font-bold">{formatRange(l.monto, l.montoHasta)}</span>
             </li>
           ))}
         </ul>
-        <p className="flex items-baseline justify-between gap-3">
-          <span className="rotulo">Estimado del plan</span>
-          <span className="cifras font-display text-2xl font-bold">{formatMoney(quote.total)}</span>
-        </p>
+        <TotalRango quote={quote} label="Estimado del plan" />
+        <NotaPrecios />
         <div className="flex flex-wrap gap-3">
           <LinkButton href={reservarHref(plan, escaneoDeSugerencia(s))} iconEnd="flecha">
             Reservar con este plan

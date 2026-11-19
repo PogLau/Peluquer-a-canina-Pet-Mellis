@@ -6,9 +6,9 @@ import { cn } from '@/lib/cn'
 import { Icon, type IconName } from './Icons'
 
 /**
- * - `primary`: verde profundo con texto marfil (CTA principal). Una sola por pantalla.
- * - `secondary`: superficie con texto grafito.
- * - `highlight`: amarillo con texto grafito. CTA secundarios, WhatsApp y acciones sobre fondo verde.
+ * - `primary`: verde profundo con texto blanco cálido (CTA principal). Una sola por pantalla.
+ * - `secondary`: superficie con texto petróleo.
+ * - `highlight`: amarillo con texto petróleo. CTA secundarios, WhatsApp y acciones sobre fondo verde.
  * - `ghost`: sin borde, para acciones terciarias.
  */
 export type ButtonVariant = 'primary' | 'secondary' | 'highlight' | 'ghost'
@@ -28,7 +28,7 @@ const ticket =
 const variants: Record<ButtonVariant, string> = {
   primary: cn(ticket, 'bg-accion text-sobre-accion hover:bg-verde-hover'),
   secondary: cn(ticket, 'bg-superficie text-texto hover:bg-superficie-alt'),
-  highlight: cn(ticket, 'bg-amarillo text-grafito hover:bg-amarillo-hover'),
+  highlight: cn(ticket, 'bg-amarillo text-petroleo hover:bg-amarillo-hover'),
   ghost: 'border-2 border-transparent bg-transparent text-texto underline-offset-4 hover:underline',
 }
 

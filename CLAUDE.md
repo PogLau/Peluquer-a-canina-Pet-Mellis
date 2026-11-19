@@ -170,45 +170,29 @@ src/
 
 ## 7. Sistema de diseño
 
-> **Fuente de verdad: `pet-mellis-contexto-maestro.md` §2.3 (paleta) y §2.4 (tipografía).** Reemplaza a las paletas anteriores (amarillo y negro de `branding-pet-mellis.md`; azul, menta y coral). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`, `font-display`...). La paleta por defecto de Tailwind está desactivada.
+> **Paleta oficial vigente (19/11/2026).** Reemplaza a las anteriores (amarillo y negro; azul, menta y coral; grafito y terracota). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`...). La paleta por defecto de Tailwind está desactivada.
 
-Estilo: fondo marfil con trama de puntos, tarjetas «ticket» (borde grafito de 2 px y sombra dura de 4 px), títulos en minúscula. Tiene que verse **profesional**: todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+Estilo: fondo blanco cálido con trama de puntos, tarjetas «ticket» (borde petróleo de 2 px y sombra dura de 4 px), títulos en minúscula. Todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
 ### 7.1 Tokens de color
 
-Paleta oficial (18/11/2026):
-
 | Token (utilidad) | Hex | Uso |
 |---|---|---|
-| `grafito` | #2c2c2c | Texto principal, bordes, sombra dura, anillo de foco (`texto`, `tinta`) |
-| `marfil` | #faf6ef | Fondo de página (`fondo`) y texto sobre verde |
-| `amarillo` | #f5c518 | Selección (chips, pasos, pestaña activa: `seleccion`), CTA secundario (`Button variant="highlight"`), destacados. Siempre con texto grafito |
-| `verde` (verde profundo) | #0d3d2b | Header, navegación, **CTA principal** (`accion`, texto marfil), rótulos y enlaces, estado de éxito |
-| `terracota` | #d97a54 | Acento: ilustraciones y etiquetas especiales, con texto grafito |
+| `crema` (blanco cálido) | #fffdf7 | Fondo general (`fondo`) y texto sobre verde |
+| `verde` (verde profundo) | #245b45 | Logo, header, **títulos principales** (`titulo`), **CTA principal** (`accion`, texto crema), estados activos |
+| `petroleo` (azul petróleo) | #173b46 | Texto principal, subtítulos, etiquetas, bordes y sombra (`texto`, `tinta`) |
+| `amarillo` (amarillo cálido) | #f4d35e | Selección (chips, pasos, pestaña activa), badges, CTA secundario (`Button variant="highlight"`), siempre con texto petróleo |
+| `naranja` (naranja amable) | #f28c45 | Promociones, alertas suaves e íconos destacados, con texto petróleo |
 
-Derivados (tintes y tonos para fondos suaves, hover y texto chico, todos verificados AA):
+Derivados de las escalas 50–950 de la marca (verificados AA en `tests/contraste.test.ts`): `verde-claro` #dbf0e8, `verde-hover` #2c6d53, `amarillo-claro` #fcf2cf, `amarillo-hover` #f2cb40, `naranja-claro` #fae4d1, `naranja-texto` #8b480e, `petroleo-claro` #ecf6f9 (`superficie-alt`), `texto-suave` #256174, `linea` #d8ecf3. Estados: `exito`, `aviso`, `peligro`, `info` con su `*-fondo`. Tema oscuro en `[data-theme="oscuro"]`.
 
-| Token | Hex | Uso |
-|---|---|---|
-| `amarillo-claro` | #fcf0c4 | Tarjetas resaltadas (`Ticket highlighted`), placas de íconos, fondo de avisos |
-| `verde-claro` | #dcebe1 | Fondo del estado de éxito |
-| `terracota-claro` / `terracota-texto` | #f7e3d8 / #9a4426 | Estado «en atención» y texto terracota chico |
-| `verde-hover` / `amarillo-hover` | #165c42 / #e0b30c | Hover de los botones |
-| `superficie` / `superficie-alt` | #fffdf9 / #f2ebde | Tickets, modales y campos / barras, filas, deshabilitado |
-| `texto-suave` | #5e584f | Texto secundario |
-| `linea` | #e2d9c7 | Separadores decorativos (no para controles) |
-| `exito` · `aviso` · `peligro` · `info` | ver `globals.css` | Estados de turno, cada uno con su `*-fondo` |
-
-Hay tema oscuro (`[data-theme="oscuro"]`: fondo verde noche, tinta amarilla); los tokens semánticos cambian solos.
-
-**Reglas de color (del manual):**
-- CTA principal: verde profundo con texto marfil. Botones amarillos o terracota: texto **grafito**.
-- **Prohibido** amarillo como texto sobre fondos claros y texto marfil chico sobre terracota.
-- Lo elegido (chips, pasos, etiquetas, pestaña activa) va en amarillo (`bg-seleccion`).
-- Sobre el header o bloques verdes, el botón principal pasa a `variant="highlight"` (amarillo), para que no se pierda.
-- Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje debajo con lo que falta.
+**Reglas de color:**
+- CTA principal: verde con texto blanco cálido. Botones amarillos o naranjas: texto petróleo.
+- Nunca amarillo ni naranja como texto chico sobre fondos claros (para eso está `naranja-texto`).
+- Sobre el header o bloques verdes, el botón principal pasa a `variant="highlight"` (amarillo).
+- Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje con lo que falta.
 - Los estados se acompañan con palabras o íconos, no solo color.
-- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: solo tokens. Lo verifica `tests/design-rules.test.ts`; el contraste de cada par lo verifica `tests/contraste.test.ts`.
+- Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: lo verifica `tests/design-rules.test.ts`.
 
 ### 7.2 Tipografía
 
@@ -251,75 +235,33 @@ Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan 
 
 ---
 
-## 8. Reglas de precios (de `pricing.ts` del prototipo)
+## 8. Reglas de precios (tarifario 2027, `src/lib/pricing.ts` y `src/lib/catalogo-demo.ts`)
 
-**Precio de un servicio:**
+Los precios son **orientativos**: cada servicio tiene un rango «desde–hasta» por tamaño y el valor final se confirma al revisar el manto en el local. El cotizador, la reserva y el escaneo muestran el total como rango («desde $X / hasta $Y») y una nota aclaratoria. El precio que se guarda en el turno (`precioEstimado`) es el «desde» y lo calcula el servidor.
+
+**Tamaños:** chico hasta 10 kg · mediano 10–25 kg · grande 25–40 kg · gigante más de 40 kg (`sizeFromWeight`).
+
+| Servicio | Chico | Mediano | Grande | Gigante |
+|---|---|---|---|---|
+| Baño higiénico simple (incluye uñas y oídos) | 18.000–25.000 | 25.000–35.000 | 38.000–50.000 | 50.000–68.000 |
+| Baño y corte higiénico (zona sanitaria, plantares, lagrimales) | 22.000–30.000 | 30.000–42.000 | 45.000–58.000 | 60.000–78.000 |
+| Baño y corte completo (máquina y/o tijera según raza), popular | 32.000–48.000 | 45.000–62.000 | 62.000–80.000 | 82.000–105.000 |
+| Deslanado profundo (doble capa) | 28.000–38.000 | 40.000–55.000 | 58.000–75.000 | 78.000–98.000 |
+| Sesión de adaptación (cachorros hasta 5 meses) | 15.000–20.000 | 18.000–24.000 | 22.000–28.000 | 25.000–32.000 |
+| Corte de uñas y limpieza de oídos (sin baño) | 6.000–10.000 | 6.000–10.000 | 6.000–10.000 | 6.000–10.000 |
+
+**Adicionales:** baño medicado o dermatológico +$8.000 a $15.000 · baño antipulgas / garrapatas +$7.000 a $14.000 · plus por manejo especial o conducta +15 % a 25 % sobre los servicios · traslado a domicilio $6.000 a $15.000.
+
+**Desenredado de nudos** (selector de nudos): leves $12.000 · moderados $18.000 · severos $25.000. Se suma **una sola vez**, en una línea aparte, y solo si hay un servicio con recargo por manto.
+
+**Manto:** el tarifario ya contempla el manto dentro de cada rango, así que el multiplicador quedó en 1 (se puede volver a usar desde el panel).
 
 ```
-precio_servicio = si aplicaRecargoManto:
-                    redondear_a_100( precioBase[tamaño] × multiplicadorManto )
-                  si no:
-                    precioBase[tamaño]
+total_desde = Σ servicios[desde] + Σ extras fijos[desde] + % manejo[desde] sobre servicios + desenredado
+total_hasta = Σ servicios[hasta] + Σ extras fijos[hasta] + % manejo[hasta] sobre servicios + desenredado
 ```
 
-**Total:**
-
-```
-total = Σ precio_servicio + Σ extras + recargoNudos
-```
-
-El recargo por nudos se suma **una sola vez**, y solo si hay al menos un servicio con recargo por manto.
-
-**Multiplicador por manto:**
-
-| Manto | Multiplicador |
-|---|---|
-| Corto | × 1,00 |
-| Largo | × 1,15 |
-| Rizado | × 1,20 |
-
-**Recargo por nudos:**
-
-| Nudos | Recargo |
-|---|---|
-| Sin | $0 |
-| Leves | $1.500 |
-| Moderados | $3.500 |
-| Severos | $6.000 |
-
-**Servicios:**
-
-| Servicio | Chico | Mediano | Grande | Recargo por manto | Duración |
-|---|---|---|---|---|---|
-| Baño y Corte (popular) | 8.500 | 11.500 | 15.000 | Sí | 2 a 3 h |
-| Baño y Cepillado | 5.500 | 7.500 | 10.000 | Sí | 1 a 2 h |
-| Corte Estético | 7.000 | 9.500 | 12.500 | Sí | 1,5 a 2 h |
-| Corte de Uñas | 2.000 | 2.000 | 2.500 | No | 15 a 20 min |
-| Deslanado Profundo | 5.000 | 7.000 | 9.500 | Sí | 1 a 2 h |
-
-**Extras (precio fijo):**
-
-| Extra | Precio |
-|---|---|
-| Limpieza de oídos | $1.500 |
-| Vaciado de glándulas anales | $1.800 |
-| Cepillado dental con enzimático | $1.500 |
-| Baño antipulgas y garrapatas | $3.000 |
-| Perfume hipoalergénico y moño | $1.000 |
-
-**Tamaños:**
-
-| Tamaño | Peso |
-|---|---|
-| Chico | hasta 10 kg |
-| Mediano | 10 a 25 kg |
-| Grande | más de 25 kg |
-
-> Verificar estos valores contra `/reference/figma-make/src/lib/pricing.ts` y confirmarlos con la peluquera antes de la demo. Los precios viven en la base de datos (colecciones `servicios`, `extras` y la configuración global), no fijos en el código.
-
-**Test obligatorio:** chico + rizado + nudos moderados + Baño y Corte + Limpieza de oídos = $10.200 + $1.500 + $3.500 = **$15.200**.
-
----
+**Caso de prueba:** Toby (chico, nudos moderados) + baño y corte completo + antipulgas = **$57.000 a $80.000**.
 
 ## 9. Datos de demo (seed)
 

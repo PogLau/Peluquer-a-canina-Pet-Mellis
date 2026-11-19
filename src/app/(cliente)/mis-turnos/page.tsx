@@ -25,7 +25,7 @@ function Turno({ turno }: { turno: TurnoCliente }) {
       <p className="text-sm text-texto-suave">
         {turno.servicios.join(' + ')}
         {turno.precioEstimado ? (
-          <span className="cifras"> · {formatMoney(turno.precioEstimado)}</span>
+          <span className="cifras"> · desde {formatMoney(turno.precioEstimado)}</span>
         ) : null}
       </p>
       {turno.estado === 'listo' && (

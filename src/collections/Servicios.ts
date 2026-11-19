@@ -7,7 +7,7 @@ export const Servicios: CollectionConfig = {
   labels: { singular: 'Servicio', plural: 'Servicios' },
   admin: {
     useAsTitle: 'nombre',
-    defaultColumns: ['nombre', 'precioChico', 'precioMediano', 'precioGrande', 'activo'],
+    defaultColumns: ['nombre', 'precioChico', 'precioMediano', 'precioGrande', 'precioGigante', 'activo'],
   },
   defaultSort: 'orden',
   // Lectura pública: el cotizador del cliente muestra los precios
@@ -27,9 +27,31 @@ export const Servicios: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'precioChico', type: 'number', label: 'Precio chico', required: true, min: 0 },
-        { name: 'precioMediano', type: 'number', label: 'Precio mediano', required: true, min: 0 },
-        { name: 'precioGrande', type: 'number', label: 'Precio grande', required: true, min: 0 },
+        { name: 'precioChico', type: 'number', label: 'Chico, desde', required: true, min: 0 },
+        { name: 'precioMediano', type: 'number', label: 'Mediano, desde', required: true, min: 0 },
+        { name: 'precioGrande', type: 'number', label: 'Grande, desde', required: true, min: 0 },
+        {
+          name: 'precioGigante',
+          type: 'number',
+          label: 'Gigante, desde',
+          min: 0,
+          admin: { description: 'Si queda vacío, se usa el precio de grande.' },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'precioChicoHasta',
+          type: 'number',
+          label: 'Chico, hasta',
+          min: 0,
+          admin: { description: 'Precios orientativos: el cotizador muestra el rango «desde–hasta».' },
+        },
+        { name: 'precioMedianoHasta', type: 'number', label: 'Mediano, hasta', min: 0 },
+        { name: 'precioGrandeHasta', type: 'number', label: 'Grande, hasta', min: 0 },
+        { name: 'precioGiganteHasta', type: 'number', label: 'Gigante, hasta', min: 0 },
       ],
     },
     {

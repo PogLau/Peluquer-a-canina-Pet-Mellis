@@ -1,5 +1,6 @@
 import type { Payload } from 'payload'
 
+import type { Extra, Service, Size } from '@/lib/pricing'
 import type { Usuario } from '@/payload-types'
 
 import type { ErroresCampos } from './clientes'
@@ -10,18 +11,33 @@ import type { ErroresCampos } from './clientes'
   Los números viajan como texto (lo que escribe la peluquera) y se validan acá.
 */
 
+/** Campos de precio por tamaño: «desde» (obligatorio) y «hasta» (opcional, rango orientativo). */
+export const camposDesde = ['precioChico', 'precioMediano', 'precioGrande', 'precioGigante'] as const
+export const camposHasta = [
+  'precioChicoHasta',
+  'precioMedianoHasta',
+  'precioGrandeHasta',
+  'precioGiganteHasta',
+] as const
+export type CampoPrecio = (typeof camposDesde)[number] | (typeof camposHasta)[number]
+
 export type ServicioPrecio = {
   id: number
   nombre: string
-  precioChico: string
-  precioMediano: string
-  precioGrande: string
   aplicaRecargoManto: boolean
   popular: boolean
   activo: boolean
-}
+} & Record<CampoPrecio, string>
 
-export type ExtraPrecio = { id: number; nombre: string; precio: string; activo: boolean }
+export type ExtraPrecio = {
+  id: number
+  nombre: string
+  /** `porcentaje`: precio y precioHasta son % sobre los servicios. */
+  tipo: 'fijo' | 'porcentaje'
+  precio: string
+  precioHasta: string
+  activo: boolean
+}
 
 export type PreciosEditables = {
   servicios: ServicioPrecio[]
@@ -67,6 +83,7 @@ export async function getPricing(payload: Payload, user: Usuario): Promise<Preci
     payload.findGlobal({ slug: 'configuracion', depth: 0, overrideAccess: false, user }),
   ])
   const s = (n: number | null | undefined, fallback: number) => String(n ?? fallback)
+  const opt = (n: number | null | undefined) => (n === null || n === undefined ? '' : String(n))
   return {
     servicios: servicios.docs.map((x) => ({
       id: x.id,
@@ -74,6 +91,11 @@ export async function getPricing(payload: Payload, user: Usuario): Promise<Preci
       precioChico: String(x.precioChico),
       precioMediano: String(x.precioMediano),
       precioGrande: String(x.precioGrande),
+      precioGigante: String(x.precioGigante ?? x.precioGrande),
+      precioChicoHasta: opt(x.precioChicoHasta),
+      precioMedianoHasta: opt(x.precioMedianoHasta),
+      precioGrandeHasta: opt(x.precioGrandeHasta),
+      precioGiganteHasta: opt(x.precioGiganteHasta),
       aplicaRecargoManto: x.aplicaRecargoManto ?? true,
       popular: x.popular ?? false,
       activo: x.activo ?? true,
@@ -81,18 +103,20 @@ export async function getPricing(payload: Payload, user: Usuario): Promise<Preci
     extras: extras.docs.map((x) => ({
       id: x.id,
       nombre: x.nombre,
+      tipo: x.tipo ?? 'fijo',
       precio: String(x.precio),
+      precioHasta: opt(x.precioHasta),
       activo: x.activo ?? true,
     })),
     multiplicadores: {
       corto: s(config.multiplicadoresManto?.corto, 1),
-      largo: s(config.multiplicadoresManto?.largo, 1.15),
-      rizado: s(config.multiplicadoresManto?.rizado, 1.2),
+      largo: s(config.multiplicadoresManto?.largo, 1),
+      rizado: s(config.multiplicadoresManto?.rizado, 1),
     },
     recargos: {
-      leves: s(config.recargosNudos?.leves, 1500),
-      moderados: s(config.recargosNudos?.moderados, 3500),
-      severos: s(config.recargosNudos?.severos, 6000),
+      leves: s(config.recargosNudos?.leves, 12000),
+      moderados: s(config.recargosNudos?.moderados, 18000),
+      severos: s(config.recargosNudos?.severos, 25000),
     },
   }
 }
@@ -101,13 +125,26 @@ export async function getPricing(payload: Payload, user: Usuario): Promise<Preci
 export function validatePricing(p: PreciosEditables): ErroresCampos {
   const e: ErroresCampos = {}
   const precio = 'Precio en pesos, sin centavos.'
+  const rango = 'Tiene que ser igual o mayor que el «desde», o quedar vacío.'
   p.servicios.forEach((s, i) => {
-    for (const campo of ['precioChico', 'precioMediano', 'precioGrande'] as const) {
-      if (parsePesos(s[campo]) === null) e[`servicios.${i}.${campo}`] = precio
-    }
+    camposDesde.forEach((desde, j) => {
+      if (parsePesos(s[desde]) === null) e[`servicios.${i}.${desde}`] = precio
+      const hasta = camposHasta[j]
+      if (s[hasta].trim() === '') return
+      const h = parsePesos(s[hasta])
+      if (h === null) e[`servicios.${i}.${hasta}`] = precio
+      else if (h < (parsePesos(s[desde]) ?? 0)) e[`servicios.${i}.${hasta}`] = rango
+    })
   })
   p.extras.forEach((x, i) => {
-    if (parsePesos(x.precio) === null) e[`extras.${i}.precio`] = precio
+    const desde = parsePesos(x.precio)
+    if (desde === null) e[`extras.${i}.precio`] = precio
+    else if (x.tipo === 'porcentaje' && desde > 100) e[`extras.${i}.precio`] = 'Porcentaje entre 0 y 100.'
+    if (x.precioHasta.trim() === '') return
+    const h = parsePesos(x.precioHasta)
+    if (h === null) e[`extras.${i}.precioHasta`] = precio
+    else if (h < (desde ?? 0)) e[`extras.${i}.precioHasta`] = rango
+    else if (x.tipo === 'porcentaje' && h > 100) e[`extras.${i}.precioHasta`] = 'Porcentaje entre 0 y 100.'
   })
   for (const k of ['corto', 'largo', 'rizado'] as const) {
     if (parseMultiplier(p.multiplicadores[k]) === null)
@@ -118,6 +155,11 @@ export function validatePricing(p: PreciosEditables): ErroresCampos {
   }
   if (!p.servicios.some((s) => s.activo)) e.servicios = 'Dejá al menos un servicio activo.'
   return e
+}
+
+/** Campo «hasta» vacío → null (sin rango). */
+export function optPesos(value: string): number | null {
+  return value.trim() === '' ? null : parsePesos(value)
 }
 
 export async function savePricing(
@@ -134,6 +176,11 @@ export async function savePricing(
           precioChico: parsePesos(s.precioChico)!,
           precioMediano: parsePesos(s.precioMediano)!,
           precioGrande: parsePesos(s.precioGrande)!,
+          precioGigante: parsePesos(s.precioGigante)!,
+          precioChicoHasta: optPesos(s.precioChicoHasta),
+          precioMedianoHasta: optPesos(s.precioMedianoHasta),
+          precioGrandeHasta: optPesos(s.precioGrandeHasta),
+          precioGiganteHasta: optPesos(s.precioGiganteHasta),
           aplicaRecargoManto: s.aplicaRecargoManto,
           popular: s.popular,
           activo: s.activo,
@@ -146,7 +193,7 @@ export async function savePricing(
       payload.update({
         collection: 'extras',
         id: x.id,
-        data: { precio: parsePesos(x.precio)!, activo: x.activo },
+        data: { precio: parsePesos(x.precio)!, precioHasta: optPesos(x.precioHasta), activo: x.activo },
         overrideAccess: false,
         user,
       }),
@@ -169,4 +216,45 @@ export async function savePricing(
     overrideAccess: false,
     user,
   })
+}
+
+/* ---------- Conversión entre el catálogo (pricing.ts) y la tabla editable (demo estática) ---------- */
+
+const tamanosCampo: ReadonlyArray<[Size, (typeof camposDesde)[number], (typeof camposHasta)[number]]> = [
+  ['chico', 'precioChico', 'precioChicoHasta'],
+  ['mediano', 'precioMediano', 'precioMedianoHasta'],
+  ['grande', 'precioGrande', 'precioGrandeHasta'],
+  ['gigante', 'precioGigante', 'precioGiganteHasta'],
+]
+
+/** Precios de un servicio del catálogo como texto para la tabla editable. */
+export function preciosDeServicio(s: Service): Record<CampoPrecio, string> {
+  const out = {} as Record<CampoPrecio, string>
+  for (const [size, desde, hasta] of tamanosCampo) {
+    out[desde] = String(s.precios[size])
+    const h = s.preciosHasta?.[size]
+    out[hasta] = h === undefined ? '' : String(h)
+  }
+  return out
+}
+
+/** Lee la fila editable (ya validada) y devuelve precios «desde» y «hasta» del catálogo. */
+export function preciosDesdeFila(fila: Record<CampoPrecio, string>): Pick<Service, 'precios' | 'preciosHasta'> {
+  const precios = {} as Service['precios']
+  const preciosHasta: Partial<Record<Size, number>> = {}
+  for (const [size, desde, hasta] of tamanosCampo) {
+    precios[size] = parsePesos(fila[desde])!
+    const h = optPesos(fila[hasta])
+    if (h !== null) preciosHasta[size] = h
+  }
+  return { precios, preciosHasta }
+}
+
+/** Fila editable de un extra del catálogo. */
+export function filaDeExtra(x: Extra): Pick<ExtraPrecio, 'tipo' | 'precio' | 'precioHasta'> {
+  return {
+    tipo: x.tipo ?? 'fijo',
+    precio: String(x.precio),
+    precioHasta: x.precioHasta === undefined ? '' : String(x.precioHasta),
+  }
 }

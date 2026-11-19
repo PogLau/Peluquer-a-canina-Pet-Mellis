@@ -29,7 +29,7 @@ export default function ClienteLayout({ children }: { children: ReactNode }) {
       <body className="min-h-dvh">
         <a
           href="#contenido"
-          className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-grafito focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+          className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-petroleo focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
         >
           Saltar al contenido
         </a>

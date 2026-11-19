@@ -114,7 +114,7 @@ export function SolicitudCard({
         <dd>
           {turno.servicios.join(' + ')}
           {turno.precioEstimado ? (
-            <span className="cifras"> · {formatMoney(turno.precioEstimado)}</span>
+            <span className="cifras"> · desde {formatMoney(turno.precioEstimado)}</span>
           ) : null}
         </dd>
         {turno.notasCliente && (

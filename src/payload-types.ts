@@ -212,7 +212,7 @@ export interface Mascota {
   tutor: number | Tutore;
   foto?: (number | null) | Media;
   raza?: string | null;
-  tamano: 'chico' | 'mediano' | 'grande';
+  tamano: 'chico' | 'mediano' | 'grande' | 'gigante';
   manto: 'corto' | 'largo' | 'rizado';
   pesoKg?: number | null;
   nacimiento?: string | null;
@@ -317,6 +317,17 @@ export interface Servicio {
   precioChico: number;
   precioMediano: number;
   precioGrande: number;
+  /**
+   * Si queda vacío, se usa el precio de grande.
+   */
+  precioGigante?: number | null;
+  /**
+   * Precios orientativos: el cotizador muestra el rango «desde–hasta».
+   */
+  precioChicoHasta?: number | null;
+  precioMedianoHasta?: number | null;
+  precioGrandeHasta?: number | null;
+  precioGiganteHasta?: number | null;
   aplicaRecargoManto?: boolean | null;
   popular?: boolean | null;
   activo?: boolean | null;
@@ -333,7 +344,12 @@ export interface Extra {
   nombre: string;
   slug: string;
   descripcion?: string | null;
+  tipo: 'fijo' | 'porcentaje';
+  /**
+   * En pesos, o en % si el tipo es porcentaje (por ejemplo, 15 a 25).
+   */
   precio: number;
+  precioHasta?: number | null;
   activo?: boolean | null;
   orden?: number | null;
   updatedAt: string;
@@ -559,6 +575,11 @@ export interface ServiciosSelect<T extends boolean = true> {
   precioChico?: T;
   precioMediano?: T;
   precioGrande?: T;
+  precioGigante?: T;
+  precioChicoHasta?: T;
+  precioMedianoHasta?: T;
+  precioGrandeHasta?: T;
+  precioGiganteHasta?: T;
   aplicaRecargoManto?: T;
   popular?: T;
   activo?: T;
@@ -574,7 +595,9 @@ export interface ExtrasSelect<T extends boolean = true> {
   nombre?: T;
   slug?: T;
   descripcion?: T;
+  tipo?: T;
   precio?: T;
+  precioHasta?: T;
   activo?: T;
   orden?: T;
   updatedAt?: T;

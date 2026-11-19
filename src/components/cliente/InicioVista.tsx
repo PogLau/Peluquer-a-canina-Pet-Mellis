@@ -67,7 +67,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
 
       <section
         aria-labelledby="titulo-escaneo"
-        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-verde p-5 text-marfil shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
+        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-verde p-5 text-crema shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
       >
         <div className="flex flex-col gap-4">
           <p className="rotulo flex items-center gap-2 text-amarillo">

@@ -145,13 +145,13 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
   return (
     <Ticket as="section" id="escaneo" aria-labelledby="titulo-escaneo" highlighted className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-grafito">
+        <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-petroleo">
           <Icon name="escaner" />
         </span>
         <h2 id="titulo-escaneo" className="text-2xl">
           ia scan &amp; care
         </h2>
-        <span className="rotulo rounded-pill bg-verde px-2.5 py-1 text-marfil">Beta</span>
+        <span className="rotulo rounded-pill bg-verde px-2.5 py-1 text-crema">Beta</span>
       </div>
       <p className="max-w-2xl">
         Elegí una foto y armamos la ficha de ingreso: raza, tamaño, tipo de pelaje, hidratación y

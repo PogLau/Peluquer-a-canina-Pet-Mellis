@@ -4,16 +4,18 @@ import { ChipGroup, ToggleChip } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
 import { alternar } from '@/lib/cotizacion'
-import { formatMoney } from '@/lib/format'
+import { formatExtraPrice, formatRange } from '@/lib/format'
 import {
   knots,
   knotsLabels,
-  servicePrice,
+  servicePriceRange,
   type Coat,
   type Knots,
   type Quote,
   type Size,
 } from '@/lib/pricing'
+
+import { NotaPrecios, TotalRango } from '../Precios'
 
 type Props = {
   estado: EstadoReserva
@@ -39,7 +41,10 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
             >
               {s.nombre} ·{' '}
               <span className="cifras">
-                {formatMoney(servicePrice(s, tamano, manto, catalog.config))}
+                {(() => {
+                  const r = servicePriceRange(s, tamano, manto, catalog.config)
+                  return formatRange(r.desde, r.hasta)
+                })()}
               </span>
             </ToggleChip>
           ))}
@@ -55,7 +60,7 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
               pressed={estado.extras.includes(x.id)}
               onPressedChange={() => set({ extras: alternar(estado.extras, x.id) })}
             >
-              {x.nombre} · <span className="cifras">{formatMoney(x.precio)}</span>
+              {x.nombre} · <span className="cifras">{formatExtraPrice(x)}</span>
             </ToggleChip>
           ))}
         </div>
@@ -67,15 +72,13 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
         options={knots.map((k) => ({ value: k, label: knotsLabels[k] }))}
         value={estado.nudos}
         onChange={(v) => set({ nudos: v as Knots })}
-        hint="El recargo por nudos se suma una sola vez."
+        hint={`El desenredado de nudos (${formatRange(catalog.config.recargosNudos.leves, catalog.config.recargosNudos.severos)} según dificultad) se suma una sola vez.`}
       />
 
-      <p className="flex items-baseline justify-between gap-3 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
-        <span className="font-bold">Total estimado</span>
-        <span className="cifras font-display text-2xl font-bold">
-          {formatMoney(quote.total)}
-        </span>
-      </p>
+      <div className="flex flex-col gap-2 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
+        <TotalRango quote={quote} />
+        <NotaPrecios />
+      </div>
     </div>
   )
 }

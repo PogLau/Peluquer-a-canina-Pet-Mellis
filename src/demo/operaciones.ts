@@ -6,8 +6,10 @@ import type { Puntajes } from '@/lib/ficha'
 import { parseEscaneo } from '@/lib/ia/cuidado'
 import { validateVisit } from '@/lib/panel/atenciones'
 import {
+  optPesos,
   parseMultiplier,
   parsePesos,
+  preciosDesdeFila,
   validatePricing,
   type PreciosEditables,
 } from '@/lib/panel/precios'
@@ -253,16 +255,19 @@ export function guardarPrecios(s: DemoState, p: PreciosEditables): DemoState {
         activo: n.activo,
         popular: n.popular,
         aplicaRecargoManto: n.aplicaRecargoManto,
-        precios: {
-          chico: parsePesos(n.precioChico)!,
-          mediano: parsePesos(n.precioMediano)!,
-          grande: parsePesos(n.precioGrande)!,
-        },
+        ...preciosDesdeFila(n),
       }
     }),
     extras: s.extras.map((x, i) => {
       const n = p.extras.find((y) => y.id === i + 1)
-      return n ? { ...x, activo: n.activo, precio: parsePesos(n.precio)! } : x
+      return n
+        ? {
+            ...x,
+            activo: n.activo,
+            precio: parsePesos(n.precio)!,
+            precioHasta: optPesos(n.precioHasta) ?? undefined,
+          }
+        : x
     }),
     pricing: {
       multiplicadoresManto: {

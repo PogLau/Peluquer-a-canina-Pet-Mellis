@@ -34,31 +34,32 @@ describe('ejemplos de la demo', () => {
     }
   })
 
-  it('el ejemplo del caniche + Baño y Corte + oídos da $15.200 (caso de Toby), con el recargo en una línea aparte', () => {
+  it('el ejemplo del caniche + baño y corte completo + antipulgas da $57.000 a $80.000, con el desenredado aparte', () => {
     const toby = ejemplosMascota.find((e) => e.id === 'caniche')!
-    const estado = aplicarSugerencia({ ...estadoInicial('bano-corte'), extraIds: ['oidos'] }, toby.sugerencia)
+    const estado = aplicarSugerencia({ ...estadoInicial('bano-corte'), extraIds: ['antipulgas'] }, toby.sugerencia)
     const quote = buildQuote(estado, catalog, pricingConfig)
-    expect(quote.total).toBe(15200)
+    expect(quote.total).toBe(32000 + 7000 + 18000)
+    expect(quote.totalHasta).toBe(48000 + 14000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 
   it('aplicar una sugerencia conserva los servicios y extras elegidos', () => {
     const luna = ejemplosMascota.find((e) => e.id === 'terrier')!
-    const antes = { ...estadoInicial('unas'), extraIds: ['perfume'] }
+    const antes = { ...estadoInicial('unas'), extraIds: ['traslado'] }
     const despues = aplicarSugerencia(antes, luna.sugerencia)
-    expect(despues).toMatchObject({ tamano: 'mediano', manto: 'rizado', servicioIds: ['unas'], extraIds: ['perfume'] })
+    expect(despues).toMatchObject({ tamano: 'mediano', manto: 'rizado', servicioIds: ['unas'], extraIds: ['traslado'] })
   })
 })
 
 describe('enlace a la reserva', () => {
   it('lleva el presupuesto y se puede leer de vuelta', () => {
-    const estado = { tamano: 'chico', manto: 'rizado', nudos: 'moderados', servicioIds: ['bano-corte'], extraIds: ['oidos'] } as const
+    const estado = { tamano: 'chico', manto: 'rizado', nudos: 'moderados', servicioIds: ['bano-corte'], extraIds: ['antipulgas'] } as const
     const url = new URL(reservarHref(estado), 'http://x')
     expect(estadoDesdeParams(url.searchParams)).toEqual(estado)
   })
 
   it('ignora valores inventados en la URL', () => {
-    const p = estadoDesdeParams(new URLSearchParams('tamano=gigante&manto=rizado&servicios=<script>'))
+    const p = estadoDesdeParams(new URLSearchParams('tamano=enorme&manto=rizado&servicios=<script>'))
     expect(p.tamano).toBeUndefined()
     expect(p.manto).toBe('rizado')
     expect(p.servicioIds).toEqual([])

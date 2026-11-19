@@ -38,20 +38,20 @@ describe('seed', () => {
       payload.count({ collection: 'turnos', where: { estado: { equals: 'solicitado' } } }),
       payload.count({ collection: 'atenciones' }),
     ])
-    expect(servicios.totalDocs).toBe(5)
+    expect(servicios.totalDocs).toBe(6)
     expect(mascotas.totalDocs).toBe(5)
     expect(turnos.totalDocs).toBe(2)
     expect(atenciones.totalDocs).toBe(3)
   })
 
-  it('el turno de Toby (chico, rizado, nudos moderados, Baño y Corte + oídos) cuesta $15.200', async () => {
+  it('el turno de Toby (chico, nudos moderados, baño y corte completo + antipulgas) cuesta desde $57.000', async () => {
     const toby = await payload.find({ collection: 'mascotas', where: { nombre: { equals: 'Toby' } }, limit: 1 })
     const turno = await payload.find({
       collection: 'turnos',
       where: { mascota: { equals: toby.docs[0].id }, estado: { equals: 'en_atencion' } },
       limit: 1,
     })
-    expect(turno.docs[0].precioEstimado).toBe(15200)
+    expect(turno.docs[0].precioEstimado).toBe(32000 + 7000 + 18000)
   })
 })
 
@@ -74,9 +74,9 @@ describe('control de acceso', () => {
 
   it('el catálogo y la configuración son públicos (los usa el cotizador)', async () => {
     const servicios = await payload.find({ collection: 'servicios', overrideAccess: false })
-    expect(servicios.docs.length).toBe(5)
+    expect(servicios.docs.length).toBe(6)
     const config = await payload.findGlobal({ slug: 'configuracion', overrideAccess: false })
-    expect(config.recargosNudos?.moderados).toBe(3500)
+    expect(config.recargosNudos?.moderados).toBe(18000)
   })
 
   it('sin sesión no se pueden cambiar precios', async () => {
@@ -150,7 +150,7 @@ describe('precio del turno (Fase 2)', () => {
     const slugId = async (collection: 'servicios' | 'extras', slug: string) =>
       (await payload.find({ collection, where: { slug: { equals: slug } }, depth: 0 })).docs[0].id
 
-    // Toby: chico, rizado. Uñas no lleva recargo por manto, así que los nudos no se cobran.
+    // Toby: chico. Uñas y oídos no lleva recargo por manto, así que los nudos no se cobran.
     const turno = await payload.create({
       collection: 'turnos',
       data: {
@@ -159,20 +159,20 @@ describe('precio del turno (Fase 2)', () => {
         tutor: toby.tutor as number,
         mascota: toby.id,
         servicios: [await slugId('servicios', 'unas')],
-        extras: [await slugId('extras', 'perfume')],
+        extras: [await slugId('extras', 'traslado')],
         nudos: 'severos',
         origen: 'web',
         precioEstimado: 1,
       },
     })
-    expect(turno.precioEstimado).toBe(3000)
+    expect(turno.precioEstimado).toBe(6000 + 6000)
 
-    // Al sumar Baño y Cepillado (5.500 × 1,2 = 6.600) entra el recargo por nudos severos, una sola vez
+    // Al sumar el baño higiénico (desde $18.000) entra el desenredado de nudos severos, una sola vez
     const actualizado = await payload.update({
       collection: 'turnos',
       id: turno.id,
-      data: { servicios: [await slugId('servicios', 'unas'), await slugId('servicios', 'bano-cepillado')] },
+      data: { servicios: [await slugId('servicios', 'unas'), await slugId('servicios', 'bano-higienico')] },
     })
-    expect(actualizado.precioEstimado).toBe(2000 + 6600 + 1000 + 6000)
+    expect(actualizado.precioEstimado).toBe(6000 + 18000 + 6000 + 25000)
   })
 })
