@@ -49,7 +49,7 @@ function Reenviar({
         onClose={() => setAbierto(false)}
         title={
           <>
-            resumen de <span className="normal-case">{mascota}</span>
+            resumen de {mascota}
           </>
         }
       >
@@ -104,7 +104,7 @@ export function FichaDemo({ id }: { id: number }) {
       </Link>
       <PageHeader
         eyebrow={`Tutor: ${tutor.nombre}`}
-        title={<span className="normal-case">{mascota.nombre}</span>}
+        title={mascota.nombre}
         actions={
           linkTutor && (
             <LinkButton href={linkTutor} external variant="highlight" size="small" icon="whatsapp">

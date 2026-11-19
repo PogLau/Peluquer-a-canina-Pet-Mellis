@@ -186,13 +186,15 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  /* Títulos y subtítulos en MAYÚSCULAS, con un poco de aire entre letras para que se lean bien */
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: -0.01em;
-    text-transform: lowercase;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
   }
 
   h1 {
@@ -212,6 +214,12 @@
 }
 
 @layer components {
+  /* Títulos que no son h1–h4 (tarjetas, avisos, nombres en listas): igual que los títulos */
+  .titulo {
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
   /* Rótulo de datos: Manuale Bold 12 px (estados, fechas, datos del ticket) */
   .rotulo {
     font-family: var(--font-mono);
@@ -219,6 +227,7 @@
     line-height: 16px;
     font-weight: 700;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .cifras {

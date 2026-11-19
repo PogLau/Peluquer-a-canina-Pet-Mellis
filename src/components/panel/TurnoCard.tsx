@@ -64,7 +64,7 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
             <h2 id={`turno-${turno.id}`} className="text-xl">
               <Link
                 href={rutas.mascota(turno.mascota.id)}
-                className="normal-case underline-offset-4 hover:underline"
+                className="underline-offset-4 hover:underline"
               >
                 {turno.mascota.nombre}
               </Link>

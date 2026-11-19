@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import { cache } from 'react'
 
 import { loadCatalog, type Catalog } from './catalogo'
+import { UBICACION_SALON } from './brand'
 import { whatsappLink } from './whatsapp'
 
 /*
@@ -36,7 +37,7 @@ const dias: Record<string, string> = {
 }
 
 export const getDatosLocal = cache(async (): Promise<DatosLocal> => {
-  let direccion = 'Merlo, Buenos Aires'
+  let direccion = UBICACION_SALON
   let telefono = process.env.WHATSAPP_LOCAL ?? ''
   let horarios: DatosLocal['horarios'] = []
   try {

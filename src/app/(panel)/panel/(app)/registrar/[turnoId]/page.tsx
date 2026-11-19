@@ -38,7 +38,7 @@ export default async function RegistrarPage({ params }: { params: Promise<{ turn
         eyebrow={`${formatTime(new Date(turno.fechaHora))} · ${turno.tutor.nombre}`}
         title={
           <>
-            atención de <span className="normal-case">{turno.mascota.nombre}</span>
+            atención de {turno.mascota.nombre}
           </>
         }
       >

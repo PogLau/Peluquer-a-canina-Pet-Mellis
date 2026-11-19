@@ -125,7 +125,7 @@ export function InformesVista({ r, base, exportar }: Props) {
                 return (
                   <li key={c.id}>
                     <Ticket size="small" className="flex h-full flex-col gap-2">
-                      <p className="font-display text-xl">{c.nombre}</p>
+                      <p className="titulo font-display text-xl">{c.nombre}</p>
                       <p className="text-sm text-texto-suave">
                         {perros} · última visita {formatLongDate(new Date(c.ultimaVisita!))} (
                         {c.diasSinVenir} días)

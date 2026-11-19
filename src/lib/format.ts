@@ -28,9 +28,19 @@ export function formatLongDate(date: Date): string {
   return longDate.format(date).replace(',', '')
 }
 
-/** «14:30» */
+/** «14:30 hs». Toda hora que ve la gente lleva «hs» al final. */
 export function formatTime(date: Date): string {
-  return time.format(date)
+  return `${time.format(date)} hs`
+}
+
+/** «09:00» → «09:00 hs» (horas que ya vienen como texto: agenda, horarios del local). */
+export function conHs(hora: string): string {
+  return `${hora} hs`
+}
+
+/** Franja horaria: «09:00 a 18:00 hs». */
+export function franjaHoraria(abre: string, cierra: string): string {
+  return `${abre} a ${cierra} hs`
 }
 
 const shortDate = new Intl.DateTimeFormat('es-AR', {

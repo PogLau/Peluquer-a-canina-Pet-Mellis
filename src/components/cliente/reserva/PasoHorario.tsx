@@ -3,6 +3,7 @@
 import { ChipGroup, EmptyState } from '@/components/ui'
 import type { DiaLibre } from '@/lib/agenda'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
+import { conHs } from '@/lib/format'
 
 type Props = {
   estado: EstadoReserva
@@ -55,7 +56,7 @@ export function PasoHorario({ estado, set, dias, whatsappLocal }: Props) {
         <ChipGroup
           legend={`Horario del ${dia.etiqueta}`}
           name="hora"
-          options={dia.horas.map((h) => ({ value: h.iso, label: h.hora }))}
+          options={dia.horas.map((h) => ({ value: h.iso, label: conHs(h.hora) }))}
           value={estado.fechaHora}
           onChange={(fechaHora) => set({ fechaHora })}
         />

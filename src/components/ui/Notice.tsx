@@ -44,7 +44,7 @@ export function EmptyState({ icon = 'pata', title, children }: { icon?: IconName
       <span className="grid size-14 place-items-center rounded-lg border-2 border-tinta bg-amarillo-claro text-petroleo">
         <Icon name={icon} size={28} />
       </span>
-      <p className="font-display text-xl lowercase">{title}</p>
+      <p className="font-display text-xl titulo">{title}</p>
       {children && <div className="max-w-sm text-sm text-texto-suave">{children}</div>}
     </div>
   )

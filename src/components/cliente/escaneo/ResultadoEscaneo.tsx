@@ -88,7 +88,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
 
       <div className="flex flex-col gap-3 rounded-md border-2 border-tinta bg-superficie p-4">
         <p className="rotulo text-verde">Tratamiento ideal</p>
-        <p className="flex items-center gap-2 font-display text-xl font-bold lowercase">
+        <p className="flex items-center gap-2 font-display text-xl font-bold titulo">
           <Icon name={s.tratamiento === 'corte-raza' ? 'tijera' : s.tratamiento === 'spa-desenredado' ? 'cepillo' : 'gota'} />
           {info.nombre}
         </p>

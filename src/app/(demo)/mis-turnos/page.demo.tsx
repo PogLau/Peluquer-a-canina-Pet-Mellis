@@ -15,7 +15,7 @@ function Turno({ turno }: { turno: TurnoCliente }) {
   return (
     <Ticket size="small" className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <p className="font-display text-xl lowercase">{turno.mascota}</p>
+        <p className="font-display text-xl titulo">{turno.mascota}</p>
         <StatusBadge status={turno.estado} />
       </div>
       <p className="font-bold">{cuando}</p>

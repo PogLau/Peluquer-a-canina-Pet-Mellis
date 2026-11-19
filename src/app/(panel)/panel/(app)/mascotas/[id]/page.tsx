@@ -64,7 +64,7 @@ export default async function MascotaPage({ params }: Props) {
       </Link>
       <PageHeader
         eyebrow={`Tutor: ${tutor.nombre}`}
-        title={<span className="normal-case">{mascota.nombre}</span>}
+        title={mascota.nombre}
         actions={
           linkTutor && (
             <LinkButton href={linkTutor} external variant="highlight" size="small" icon="whatsapp">
@@ -153,7 +153,7 @@ export default async function MascotaPage({ params }: Props) {
         {enlace && (
           <Ticket as="section" aria-labelledby="enlace" className="flex flex-col gap-3">
             <h2 id="enlace" className="text-xl">
-              enlace de <span className="normal-case">{tutor.nombre.split(' ')[0]}</span>
+              enlace de {tutor.nombre.split(' ')[0]}
             </h2>
             <EnlaceCliente tutorId={tutor.id} tutor={tutor.nombre.split(' ')[0]} inicial={enlace} />
           </Ticket>

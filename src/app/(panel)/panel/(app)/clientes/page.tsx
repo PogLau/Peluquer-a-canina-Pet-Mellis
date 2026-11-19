@@ -78,7 +78,7 @@ export default async function ClientesPage({
                     className="flex h-full flex-col gap-1.5 rounded-sm p-1"
                   >
                     <span className="flex items-center justify-between gap-2">
-                      <span className="font-display text-xl">{c.nombre}</span>
+                      <span className="titulo font-display text-xl">{c.nombre}</span>
                       <Icon name="flecha" size={20} />
                     </span>
                     <span className="cifras text-sm">{formatPhone(c.whatsapp)}</span>

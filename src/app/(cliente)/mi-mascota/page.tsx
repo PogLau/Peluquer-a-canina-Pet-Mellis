@@ -61,7 +61,7 @@ export default async function MiMascotaPage() {
             >
               <div>
                 <h2 id={`nombre-${m.id}`} className="text-2xl">
-                  <span className="normal-case">{m.nombre}</span>
+                  {m.nombre}
                 </h2>
                 <p className="text-sm text-texto-suave">
                   {[

@@ -40,7 +40,7 @@ export function SelectableService({ id, name, description, duration, selected, o
         </span>
       </span>
       <span className="flex flex-col gap-0.5">
-        <span className="font-display text-lg font-bold lowercase">{name}</span>
+        <span className="font-display text-lg font-bold titulo">{name}</span>
         <span className="text-sm text-texto-suave">{description}</span>
       </span>
       <span className="mt-auto flex items-center gap-1.5 border-t-2 border-dashed border-linea pt-2">

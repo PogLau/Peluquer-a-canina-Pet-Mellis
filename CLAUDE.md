@@ -172,7 +172,7 @@ src/
 
 > **Paleta oficial vigente (19/11/2026).** Reemplaza a las anteriores (amarillo y negro; azul, menta y coral; grafito y terracota). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`...). La paleta por defecto de Tailwind está desactivada.
 
-Estilo: fondo blanco cálido con trama de puntos, tarjetas «ticket» (borde petróleo de 2 px y sombra dura de 4 px), títulos en minúscula. Todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+Estilo: fondo blanco cálido con trama de puntos, tarjetas «ticket» (borde petróleo de 2 px y sombra dura de 4 px), títulos y subtítulos en MAYÚSCULAS (CSS: h1–h4, .titulo y .rotulo, con letter-spacing). Toda hora visible lleva «hs» al final (formatTime, conHs, franjaHoraria en src/lib/format.ts). El salón está en Merlo, Buenos Aires (UBICACION_SALON en src/lib/brand.ts), visible en el inicio y en el pie. Todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
 ### 7.1 Tokens de color
 
@@ -200,7 +200,7 @@ Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan 
 
 | Rol | Peso | Tamaño (escala 1.333 sobre 16 px) |
 |---|---|---|
-| Títulos (`font-display`, h1–h3) | 700 Bold | `text-4xl` 50,6 px (H2) · `text-3xl` 37,9 px (H3) · `text-2xl` 28,4 px (H4) · `text-xl` 21,3 px (H5), en minúscula; los dos más grandes se achican con `clamp()` en el celular |
+| Títulos (`font-display`, h1–h3) | 700 Bold | `text-4xl` 50,6 px (H2) · `text-3xl` 37,9 px (H3) · `text-2xl` 28,4 px (H4) · `text-xl` 21,3 px (H5), en MAYÚSCULAS con letter-spacing 0,03em; los dos más grandes se achican con `clamp()` en el celular |
 | Cuerpo y botones (`font-sans`) | 400 Regular / 700 Bold | 16 px el cuerpo, interlineado 1,5; botones 16 px (mínimo 14) |
 | Rótulos y datos (`.rotulo`) | 700 Bold | 12 px (small) |
 

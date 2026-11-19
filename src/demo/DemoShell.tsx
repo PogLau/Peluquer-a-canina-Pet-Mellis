@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useState, type ReactNode } from 'react'
 
 import { clienteNav } from '@/components/cliente/nav'
+import { PieSalon } from '@/components/cliente/PieSalon'
 import {
   BottomNav,
   Button,
@@ -122,9 +123,10 @@ function MarcoCliente({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
-      <main id="contenido" className="mx-auto w-full max-w-6xl px-4 pb-28 pt-6 md:pb-16 md:pt-10">
+      <main id="contenido" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-6 md:pb-16 md:pt-10">
         {children}
       </main>
+      <PieSalon />
       <BottomNav items={clienteNav} root="/" />
     </>
   )

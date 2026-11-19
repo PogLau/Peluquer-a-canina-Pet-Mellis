@@ -1,6 +1,7 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
 import { Icon, LinkButton, Ticket } from '@/components/ui'
 import { ejemplosMascota } from '@/lib/ia/ejemplos'
+import { franjaHoraria } from '@/lib/format'
 import type { Service } from '@/lib/pricing'
 import { rutaPublica } from '@/lib/ruta-publica'
 
@@ -33,7 +34,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]"
       >
         <div className="flex flex-col gap-5">
-          <p className="rotulo text-verde">Peluquería canina · Merlo</p>
+          <p className="rotulo text-verde">Peluquería canina · Merlo, Buenos Aires</p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
             cada visita mejora la siguiente
           </h1>
@@ -163,7 +164,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         <Ticket className="flex items-start gap-4">
           <Icon name="ubicacion" size={28} />
           <div>
-            <p className="font-display text-xl lowercase">dónde estamos</p>
+            <p className="font-display text-xl titulo">dónde estamos</p>
             <p className="text-texto-suave">{local.direccion}</p>
           </div>
         </Ticket>
@@ -171,12 +172,12 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           <div className="flex items-start gap-4">
             <Icon name="reloj" size={28} />
             <div>
-              <p className="font-display text-xl lowercase">horarios</p>
+              <p className="font-display text-xl titulo">horarios</p>
               {local.horarios.length > 0 ? (
                 <ul className="text-texto-suave">
                   {local.horarios.map((h) => (
                     <li key={h.dia}>
-                      {h.dia}: {h.abre} a {h.cierra} h
+                      {h.dia}: {franjaHoraria(h.abre, h.cierra)}
                     </li>
                   ))}
                 </ul>

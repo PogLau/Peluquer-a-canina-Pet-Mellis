@@ -3,6 +3,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 import { clienteNav } from '@/components/cliente/nav'
+import { PieSalon } from '@/components/cliente/PieSalon'
 import { BottomNav, Imagotipo, LinkButton, TopNav } from '@/components/ui'
 import { brandColors } from '@/lib/brand'
 
@@ -10,9 +11,9 @@ import { fontVariables } from '../fonts'
 import '@/styles/globals.css'
 
 export const metadata: Metadata = {
-  title: { default: 'Pet Mellis · Peluquería canina en Merlo', template: '%s · Pet Mellis' },
+  title: { default: 'Pet Mellis · Peluquería canina en Merlo, Buenos Aires', template: '%s · Pet Mellis' },
   description:
-    'Los Mellis, peluquería canina en Merlo. Cotizá y reservá el turno de tu perro. Cada visita mejora la siguiente.',
+    'Los Mellis, peluquería canina en Merlo, Buenos Aires. Cotizá y reservá el turno de tu perro. Cada visita mejora la siguiente.',
 }
 
 export const viewport: Viewport = {
@@ -51,9 +52,10 @@ export default function ClienteLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
         </header>
-        <main id="contenido" className="mx-auto w-full max-w-6xl px-4 pb-28 pt-6 md:pb-16 md:pt-10">
+        <main id="contenido" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-6 md:pb-16 md:pt-10">
           {children}
         </main>
+        <PieSalon />
         <BottomNav items={clienteNav} root="/" />
       </body>
     </html>

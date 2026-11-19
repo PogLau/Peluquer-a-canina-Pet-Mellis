@@ -189,7 +189,7 @@ describe('enlace personal y cancelación', () => {
       precioEstimado: 15200,
     })
     expect(m).toContain(
-      'Hola, soy Sofía. Pedí un turno desde la web para Toby el martes 17 de noviembre a las 12:00.',
+      'Hola, soy Sofía. Pedí un turno desde la web para Toby el martes 17 de noviembre a las 12:00 hs.',
     )
     expect(m).toMatch(/\$\s?15\.200/)
   })

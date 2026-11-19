@@ -68,10 +68,10 @@ export default function DevUiPage() {
       </Section>
 
       <Section title="tipografía">
-        <p className="font-display text-4xl font-bold lowercase">pet mellis · H2 50,5 px</p>
-        <p className="font-display text-3xl font-bold lowercase">título · H3 37,9 px</p>
-        <p className="font-display text-2xl font-bold lowercase">sección · H4 28,4 px</p>
-        <p className="font-display text-xl font-bold lowercase">tarjeta · H5 21,3 px</p>
+        <p className="font-display text-4xl font-bold titulo">pet mellis · H2 50,5 px</p>
+        <p className="font-display text-3xl font-bold titulo">título · H3 37,9 px</p>
+        <p className="font-display text-2xl font-bold titulo">sección · H4 28,4 px</p>
+        <p className="font-display text-xl font-bold titulo">tarjeta · H5 21,3 px</p>
         <p>Cuerpo 16 px: Manuale Regular 400, interlineado 1,5.</p>
         <p className="text-sm text-texto-suave">Secundario 14 px: ayudas y notas.</p>
         <p className="rotulo">Etiqueta · Manuale Bold 12 px</p>

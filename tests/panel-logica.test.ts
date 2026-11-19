@@ -100,7 +100,7 @@ describe('mensajes de WhatsApp', () => {
     const m = confirmationMessage(turno)
     expect(m).toContain('Hola, Sofía.')
     expect(m).toContain('Toby')
-    expect(m).toContain('viernes 20 de noviembre a las 12:00')
+    expect(m).toContain('viernes 20 de noviembre a las 12:00 hs')
     expect(m).toMatch(/\$\s?15\.200/)
   })
 
@@ -150,5 +150,14 @@ describe('validación de la atención', () => {
       puntajes: { secador: 7 },
     })
     expect(Object.keys(errores).sort()).toEqual(['precioFinal', 'puntajes', 'servicios'])
+  })
+})
+
+describe('horarios con «hs»', () => {
+  it('toda hora visible termina en «hs»', async () => {
+    const { formatTime, conHs, franjaHoraria } = await import('@/lib/format')
+    expect(formatTime(new Date('2026-11-20T13:30:00.000Z'))).toBe('10:30 hs')
+    expect(conHs('09:00')).toBe('09:00 hs')
+    expect(franjaHoraria('09:00', '18:00')).toBe('09:00 a 18:00 hs')
   })
 })

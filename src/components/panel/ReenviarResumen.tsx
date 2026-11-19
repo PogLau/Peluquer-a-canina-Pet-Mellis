@@ -36,7 +36,7 @@ export function ReenviarResumen({ atencionId, mascota }: { atencionId: number; m
         onClose={() => setDatos(null)}
         title={
           <>
-            resumen de <span className="normal-case">{mascota}</span>
+            resumen de {mascota}
           </>
         }
       >
