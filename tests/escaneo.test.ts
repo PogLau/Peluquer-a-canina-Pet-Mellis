@@ -56,13 +56,13 @@ describe('IA Scan & Care: plan y precio', () => {
   it('si la peluquera renombró los servicios, se respeta lo elegido', () => {
     const renombrados = { servicios: servicios.map((s) => ({ ...s, nombre: `Otro ${s.nombre}` })), extras }
     const yorkie = ejemplosMascota.find((e) => e.id === 'yorkshire')!.sugerencia
-    const estado = { ...estadoInicial('unas'), extraIds: ['traslado'] }
+    const estado = { ...estadoInicial(), servicioIds: ['unas'], extraIds: ['traslado'] }
     expect(aplicarPlan(estado, yorkie, renombrados)).toMatchObject({ servicioIds: ['unas'], extraIds: ['traslado'] })
   })
 
   it('el plan del caniche (spa de desenredado) suma el recargo por nudos una sola vez', () => {
     const caniche = ejemplosMascota.find((e) => e.id === 'caniche')!.sugerencia
-    const plan = aplicarPlan(estadoInicial('bano-corte'), caniche, catalog)
+    const plan = aplicarPlan({ ...estadoInicial(), servicioIds: ['bano-corte'] }, caniche, catalog)
     const quote = buildQuote(plan, catalog, pricingConfig)
     // Baño higiénico simple, chico: $18.000 a $25.000; + desenredado de nudos moderados $18.000
     expect(quote.total).toBe(18000 + 18000)

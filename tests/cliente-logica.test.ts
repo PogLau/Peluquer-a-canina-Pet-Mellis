@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { freeSlots, isSlotFree } from '@/lib/agenda'
 import { canClientCancel } from '@/lib/cliente/libreta'
 import { initialBooking, missingInStep } from '@/lib/cliente/pasos'
+import { estadoInicial } from '@/lib/cotizacion'
 import { normalizeWhatsapp } from '@/lib/cliente/reserva'
 import { esTokenValido, generarToken } from '@/lib/enlace-token'
 import { bookingRequestMessage, confirmationMessage, summaryMessage } from '@/lib/mensajes'
@@ -83,6 +84,16 @@ describe('horarios libres', () => {
   })
 })
 
+describe('cotizador', () => {
+  it('una cotización nueva empieza sin servicios ni extras elegidos', () => {
+    expect(estadoInicial()).toMatchObject({ servicioIds: [], extraIds: [] })
+    // Cada cotización nueva arranca limpia: no arrastra lo elegido en otra
+    const usada = { ...estadoInicial(), servicioIds: ['bano-corte'] }
+    expect(usada.servicioIds).toHaveLength(1)
+    expect(estadoInicial().servicioIds).toEqual([])
+  })
+})
+
 describe('asistente de reserva', () => {
   it('trae el presupuesto del cotizador', () => {
     const e = initialBooking(
@@ -98,6 +109,13 @@ describe('asistente de reserva', () => {
     expect(e.nueva).toMatchObject({ tamano: 'chico', manto: 'rizado' })
     expect(e.servicios).toEqual(['bano-corte'])
     expect(e.nudos).toBe('moderados')
+  })
+
+  it('sin presupuesto del cotizador empieza sin ningún servicio elegido', () => {
+    const e = initialBooking({}, [])
+    expect(e.servicios).toEqual([])
+    expect(e.extras).toEqual([])
+    expect(missingInStep(1, e, true)).toBe('Elegí al menos un servicio.')
   })
 
   it('dice qué falta en cada paso', () => {

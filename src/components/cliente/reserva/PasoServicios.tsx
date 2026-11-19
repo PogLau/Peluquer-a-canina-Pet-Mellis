@@ -32,6 +32,11 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
     <div className="flex flex-col gap-6">
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-sm font-bold">Servicios</legend>
+        {estado.servicios.length === 0 && (
+          <p className="mb-1 text-sm text-texto-suave">
+            Todavía no elegiste ningún servicio. Tocá el que quieras.
+          </p>
+        )}
         <div className="flex flex-wrap gap-2">
           {catalog.servicios.map((s) => (
             <ToggleChip

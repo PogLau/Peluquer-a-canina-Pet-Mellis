@@ -7,12 +7,16 @@ import { coats, knots, sizes, type Coat, type Knots, type QuoteInput, type Size 
 
 export type EstadoCotizacion = QuoteInput
 
-export function estadoInicial(servicioPopular?: string): EstadoCotizacion {
+/**
+ * Estado de una cotización nueva. Empieza SIN servicios ni extras: nada se marca solo,
+ * el servicio lo elige la persona (o lo carga el plan del escaneo cuando ella lo pide).
+ */
+export function estadoInicial(): EstadoCotizacion {
   return {
     tamano: 'chico',
     manto: 'corto',
     nudos: 'sin',
-    servicioIds: servicioPopular ? [servicioPopular] : [],
+    servicioIds: [],
     extraIds: [],
   }
 }

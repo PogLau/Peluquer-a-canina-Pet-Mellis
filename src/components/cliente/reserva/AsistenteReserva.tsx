@@ -72,9 +72,9 @@ export function AsistenteReserva({
   misTurnosHref = '/mis-turnos',
   escaneo = null,
 }: Props) {
-  const popular = catalog.servicios.find((s) => s.popular)?.id
   const [estado, setEstado] = useState<EstadoReserva>(() => {
-    const inicial = initialBooking(preset, mascotas, popular)
+    // Sin servicio por defecto: solo trae los que se eligieron en el cotizador
+    const inicial = initialBooking(preset, mascotas)
     // La raza que vio el escaneo precarga la del perro nuevo (se puede cambiar)
     if (escaneo && !inicial.nueva.raza && escaneo.raza !== 'Sin especificar') {
       return { ...inicial, nueva: { ...inicial.nueva, raza: escaneo.raza } }
@@ -236,7 +236,12 @@ export function AsistenteReserva({
               <span />
             )}
             {paso < 3 ? (
-              <Button iconEnd="flecha" disabled={!!falta} onClick={() => ir(paso + 1)}>
+              <Button
+                iconEnd="flecha"
+                disabled={!!falta}
+                aria-describedby={falta ? 'falta-paso' : undefined}
+                onClick={() => ir(paso + 1)}
+              >
                 Siguiente
               </Button>
             ) : (
@@ -246,7 +251,7 @@ export function AsistenteReserva({
             )}
           </div>
           {falta && (
-            <p className="text-right text-sm text-texto-suave" role="status">
+            <p id="falta-paso" className="text-right text-sm text-texto-suave" role="status">
               {falta}
             </p>
           )}

@@ -19,10 +19,13 @@ export type EstadoReserva = {
   notas: string
 }
 
+/**
+ * Estado de una reserva nueva. Los servicios solo vienen del presupuesto que la persona armó en el
+ * cotizador (`preset`); si entra directo a /reservar, empiezan vacíos: nunca se marca uno por defecto.
+ */
 export function initialBooking(
   preset: Partial<EstadoCotizacion>,
   mascotas: ReadonlyArray<{ id: number }>,
-  popular?: string,
 ): EstadoReserva {
   return {
     tutorNombre: '',
@@ -34,7 +37,7 @@ export function initialBooking(
       tamano: preset.tamano ?? 'chico',
       manto: preset.manto ?? 'corto',
     },
-    servicios: preset.servicioIds?.length ? [...preset.servicioIds] : popular ? [popular] : [],
+    servicios: preset.servicioIds?.length ? [...preset.servicioIds] : [],
     extras: preset.extraIds ? [...preset.extraIds] : [],
     nudos: preset.nudos ?? 'sin',
     fecha: null,

@@ -128,13 +128,15 @@ describe('reservar sin login', () => {
         null,
       )
 
-    const ok = await pedir('1155550010', dias[0].horas[1].iso, escaneo)
+    // Horarios libres de todos los días (el primer día es hoy y puede tener pocos según la hora)
+    const horas = dias.flatMap((d) => d.horas)
+    const ok = await pedir('1155550010', horas[1].iso, escaneo)
     expect(ok.ok).toBe(true)
     if (!ok.ok) return
     const turno = await payload.findByID({ collection: 'turnos', id: ok.turnoId, depth: 2 })
     expect(toTurnoPanel(turno).escaneo).toEqual(escaneo)
 
-    const malo = await pedir('1155550011', dias[0].horas[2].iso, { ...escaneo, tratamiento: '<script>' })
+    const malo = await pedir('1155550011', horas[2].iso, { ...escaneo, tratamiento: '<script>' })
     expect(malo.ok).toBe(true)
     if (!malo.ok) return
     const turnoMalo = await payload.findByID({ collection: 'turnos', id: malo.turnoId, depth: 0 })

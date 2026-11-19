@@ -36,8 +36,8 @@ type Props = {
 
 /** Cotizador sin dependencias del servidor: lo usan la app real y la demo estática. */
 export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
-  const popular = catalog.servicios.find((s) => s.popular)?.id
-  const [estado, setEstado] = useState<EstadoCotizacion>(() => estadoInicial(popular))
+  // Empieza sin servicios elegidos: el resumen pide elegir uno antes de mostrar el precio
+  const [estado, setEstado] = useState<EstadoCotizacion>(() => estadoInicial())
   const [sugerencia, setSugerencia] = useState<Sugerencia | null>(null)
 
   const quote = useMemo(() => buildQuote(estado, catalog, catalog.config), [estado, catalog])
@@ -123,6 +123,11 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
             Precios orientativos para un perro {sizeLabels[estado.tamano].label.toLowerCase()} de
             manto {coatLabels[estado.manto].toLowerCase()}. No incluyen el desenredado de nudos.
           </p>
+          {estado.servicioIds.length === 0 && (
+            <p role="status" className="text-sm font-bold text-aviso">
+              Todavía no elegiste ningún servicio. Tocá el que quieras para sumarlo al presupuesto.
+            </p>
+          )}
           <ul className="grid gap-4 sm:grid-cols-2">
             {catalog.servicios.map((s) => (
               <li key={s.id} className="min-w-0">
