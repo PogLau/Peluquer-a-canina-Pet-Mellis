@@ -34,20 +34,19 @@ describe('ejemplos de la demo', () => {
     }
   })
 
-  it('el ejemplo del caniche + baño y corte completo + antipulgas da $57.000 a $80.000, con el desenredado aparte', () => {
+  it('el ejemplo del caniche + baño y corte completo + antipulgas da $69.000, con el desenredado aparte', () => {
     const toby = ejemplosMascota.find((e) => e.id === 'caniche')!
     const estado = aplicarSugerencia({ ...estadoInicial(), servicioIds: ['bano-corte'], extraIds: ['antipulgas'] }, toby.sugerencia)
     const quote = buildQuote(estado, catalog, pricingConfig)
-    expect(quote.total).toBe(32000 + 7000 + 18000)
-    expect(quote.totalHasta).toBe(48000 + 14000 + 18000)
+    expect(quote.total).toBe(40000 + 11000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 
   it('aplicar una sugerencia conserva los servicios y extras elegidos', () => {
-    const luna = ejemplosMascota.find((e) => e.id === 'terrier')!
+    const shihTzu = ejemplosMascota.find((e) => e.id === 'shih-tzu')!
     const antes = { ...estadoInicial(), servicioIds: ['unas'], extraIds: ['traslado'] }
-    const despues = aplicarSugerencia(antes, luna.sugerencia)
-    expect(despues).toMatchObject({ tamano: 'mediano', manto: 'rizado', servicioIds: ['unas'], extraIds: ['traslado'] })
+    const despues = aplicarSugerencia(antes, shihTzu.sugerencia)
+    expect(despues).toMatchObject({ tamano: 'chico', manto: 'largo', servicioIds: ['unas'], extraIds: ['traslado'] })
   })
 })
 

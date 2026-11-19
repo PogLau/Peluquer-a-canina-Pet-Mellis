@@ -72,7 +72,7 @@ export function TurnoCard({ turno, renderAccion, rutas = rutasPanel }: Props) {
             {turno.precioEstimado ? (
               <span className="cifras text-texto-suave">
                 {' '}
-                · desde {formatMoney(turno.precioEstimado)}
+                · {formatMoney(turno.precioEstimado)}
               </span>
             ) : null}
           </p>

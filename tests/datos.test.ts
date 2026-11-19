@@ -44,14 +44,14 @@ describe('seed', () => {
     expect(atenciones.totalDocs).toBe(3)
   })
 
-  it('el turno de Toby (chico, nudos moderados, baño y corte completo + antipulgas) cuesta desde $57.000', async () => {
+  it('el turno de Toby (chico, nudos moderados, baño y corte completo + antipulgas) cuesta $69.000', async () => {
     const toby = await payload.find({ collection: 'mascotas', where: { nombre: { equals: 'Toby' } }, limit: 1 })
     const turno = await payload.find({
       collection: 'turnos',
       where: { mascota: { equals: toby.docs[0].id }, estado: { equals: 'en_atencion' } },
       limit: 1,
     })
-    expect(turno.docs[0].precioEstimado).toBe(32000 + 7000 + 18000)
+    expect(turno.docs[0].precioEstimado).toBe(40000 + 11000 + 18000)
   })
 })
 
@@ -165,14 +165,14 @@ describe('precio del turno (Fase 2)', () => {
         precioEstimado: 1,
       },
     })
-    expect(turno.precioEstimado).toBe(6000 + 6000)
+    expect(turno.precioEstimado).toBe(8000 + 11000)
 
-    // Al sumar el baño higiénico (desde $18.000) entra el desenredado de nudos severos, una sola vez
+    // Al sumar el baño higiénico (chico, $22.000) entra el desenredado de nudos severos, una sola vez
     const actualizado = await payload.update({
       collection: 'turnos',
       id: turno.id,
       data: { servicios: [await slugId('servicios', 'unas'), await slugId('servicios', 'bano-higienico')] },
     })
-    expect(actualizado.precioEstimado).toBe(6000 + 18000 + 6000 + 25000)
+    expect(actualizado.precioEstimado).toBe(8000 + 22000 + 11000 + 25000)
   })
 })

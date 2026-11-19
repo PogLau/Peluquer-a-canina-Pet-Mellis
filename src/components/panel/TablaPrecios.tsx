@@ -5,7 +5,7 @@ import { useState, useTransition } from 'react'
 import { Button, LinkButton, Notice, Ticket } from '@/components/ui'
 import { cn } from '@/lib/cn'
 import type { ErroresCampos } from '@/lib/panel/clientes'
-import { camposDesde, camposHasta, type PreciosEditables } from '@/lib/panel/precios'
+import { camposPrecio, type PreciosEditables } from '@/lib/panel/precios'
 import { sizeLabels, sizes } from '@/lib/pricing'
 
 const celda = 'px-2 py-2 align-top'
@@ -18,24 +18,16 @@ function Num({
   onChange,
   error,
   sufijo,
-  prefijo,
 }: {
   label: string
   value: string
   onChange: (v: string) => void
   error?: string
   sufijo?: string
-  /** Texto antes del campo (por ejemplo «a» para el «hasta»). */
-  prefijo?: string
 }) {
   return (
     <div className="flex min-w-24 flex-col gap-1">
       <span className="flex items-center gap-1">
-        {prefijo && (
-          <span aria-hidden="true" className="text-sm text-texto-suave">
-            {prefijo}
-          </span>
-        )}
         {!sufijo && (
           <span aria-hidden="true" className="text-sm text-texto-suave">
             $
@@ -140,10 +132,9 @@ export function TablaPrecios({
         {errores.servicios && <p className="text-sm font-bold text-peligro">{errores.servicios}</p>}
         <div className="overflow-x-auto">
           <p className="text-sm text-texto-suave">
-            Precios orientativos por tamaño: «desde» y «hasta». Si dejás «hasta» vacío, se muestra un solo
-            precio.
+            Un precio fijo por tamaño. El cliente lo ve recién cuando elige el tamaño y el servicio.
           </p>
-          <table className="w-full min-w-[880px] border-collapse text-sm">
+          <table className="w-full min-w-[760px] border-collapse text-sm">
             <thead>
               <tr className="bg-superficie-alt">
                 <th className={th}>Servicio</th>
@@ -164,29 +155,16 @@ export function TablaPrecios({
                   <th scope="row" className={cn(celda, 'text-left font-bold')}>
                     {s.nombre}
                   </th>
-                  {camposDesde.map((desde, j) => {
-                    const hasta = camposHasta[j]
-                    const tamano = sizeLabels[sizes[j]].label.toLowerCase()
-                    return (
-                      <td key={desde} className={celda}>
-                        <div className="flex flex-col gap-1.5">
-                          <Num
-                            label={`${s.nombre}, ${tamano}, desde`}
-                            value={s[desde]}
-                            onChange={(v) => update((d) => void (d.servicios[i][desde] = v))}
-                            error={errores[`servicios.${i}.${desde}`]}
-                          />
-                          <Num
-                            label={`${s.nombre}, ${tamano}, hasta`}
-                            prefijo="a"
-                            value={s[hasta]}
-                            onChange={(v) => update((d) => void (d.servicios[i][hasta] = v))}
-                            error={errores[`servicios.${i}.${hasta}`]}
-                          />
-                        </div>
-                      </td>
-                    )
-                  })}
+                  {camposPrecio.map((campo, j) => (
+                    <td key={campo} className={celda}>
+                      <Num
+                        label={`${s.nombre}, precio ${sizeLabels[sizes[j]].label.toLowerCase()}`}
+                        value={s[campo]}
+                        onChange={(v) => update((d) => void (d.servicios[i][campo] = v))}
+                        error={errores[`servicios.${i}.${campo}`]}
+                      />
+                    </td>
+                  ))}
                   <td className={celda}>
                     <Check
                       label={`${s.nombre}: aplica recargo por manto y nudos`}
@@ -232,19 +210,11 @@ export function TablaPrecios({
                 <span className="pt-2 font-bold">{x.nombre}</span>
                 <span className="flex items-start gap-2">
                   <Num
-                    label={`${x.nombre}, desde`}
+                    label={`${x.nombre}, precio`}
                     sufijo={x.tipo === 'porcentaje' ? '%' : undefined}
                     value={x.precio}
                     onChange={(v) => update((d) => void (d.extras[i].precio = v))}
                     error={errores[`extras.${i}.precio`]}
-                  />
-                  <Num
-                    label={`${x.nombre}, hasta`}
-                    prefijo="a"
-                    sufijo={x.tipo === 'porcentaje' ? '%' : undefined}
-                    value={x.precioHasta}
-                    onChange={(v) => update((d) => void (d.extras[i].precioHasta = v))}
-                    error={errores[`extras.${i}.precioHasta`]}
                   />
                   <span className="pt-2.5">
                     <Check

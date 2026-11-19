@@ -321,9 +321,6 @@ export interface Servicio {
    * Si queda vacío, se usa el precio de grande.
    */
   precioGigante?: number | null;
-  /**
-   * Precios orientativos: el cotizador muestra el rango «desde–hasta».
-   */
   precioChicoHasta?: number | null;
   precioMedianoHasta?: number | null;
   precioGrandeHasta?: number | null;
@@ -346,7 +343,7 @@ export interface Extra {
   descripcion?: string | null;
   tipo: 'fijo' | 'porcentaje';
   /**
-   * En pesos, o en % si el tipo es porcentaje (por ejemplo, 15 a 25).
+   * En pesos, o en % si el tipo es porcentaje (por ejemplo, 20).
    */
   precio: number;
   precioHasta?: number | null;

@@ -57,10 +57,6 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         precioMediano: s.precios.mediano,
         precioGrande: s.precios.grande,
         precioGigante: s.precios.gigante,
-        precioChicoHasta: s.preciosHasta?.chico,
-        precioMedianoHasta: s.preciosHasta?.mediano,
-        precioGrandeHasta: s.preciosHasta?.grande,
-        precioGiganteHasta: s.preciosHasta?.gigante,
         aplicaRecargoManto: s.aplicaRecargoManto,
         popular: s.popular ?? false,
         orden,
@@ -78,7 +74,6 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
         slug: e.id,
         tipo: e.tipo ?? 'fijo',
         precio: e.precio,
-        precioHasta: e.precioHasta,
         orden,
       },
     })

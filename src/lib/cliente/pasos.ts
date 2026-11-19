@@ -10,7 +10,8 @@ export type EstadoReserva = {
   whatsapp: string
   /** Una mascota que el tutor ya tiene (con enlace personal); null para cargar una nueva. */
   mascotaId: number | null
-  nueva: { nombre: string; raza: string; tamano: Size; manto: Coat }
+  /** `tamano` empieza en null: la persona lo elige (o viene del cotizador). */
+  nueva: { nombre: string; raza: string; tamano: Size | null; manto: Coat }
   servicios: string[]
   extras: string[]
   nudos: Knots
@@ -34,7 +35,7 @@ export function initialBooking(
     nueva: {
       nombre: '',
       raza: '',
-      tamano: preset.tamano ?? 'chico',
+      tamano: preset.tamano ?? null,
       manto: preset.manto ?? 'corto',
     },
     servicios: preset.servicioIds?.length ? [...preset.servicioIds] : [],
@@ -55,6 +56,7 @@ export function missingInStep(paso: number, e: EstadoReserva, conEnlace: boolean
         return 'Falta tu WhatsApp con código de área.'
     }
     if (e.mascotaId === null && !e.nueva.nombre.trim()) return 'Falta el nombre de tu perro.'
+    if (e.mascotaId === null && !e.nueva.tamano) return 'Elegí el tamaño de tu perro.'
     return null
   }
   if (paso === 1) return e.servicios.length ? null : 'Elegí al menos un servicio.'

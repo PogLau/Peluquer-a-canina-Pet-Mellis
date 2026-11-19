@@ -1,7 +1,8 @@
 import type { Extra, PricingConfig, Service } from './pricing'
 
 /*
-  Catálogo de Pet Mellis: tarifario 2027 (precios orientativos «desde–hasta» por tamaño).
+  Catálogo de Pet Mellis: tarifario 2027 con precios fijos por tamaño.
+  Cada precio es el punto medio del rango original del tarifario, redondeado a $1.000.
   Es la base del seed y de la demo estática. En la app real los precios viven en Payload
   y la peluquera los cambia desde el panel.
   Tamaños: chico hasta 10 kg, mediano 10–25 kg, grande 25–40 kg, gigante más de 40 kg.
@@ -14,8 +15,7 @@ export const servicios: Service[] = [
     nombre: 'Baño higiénico simple',
     descripcion: 'Baño, secado, corte de uñas y limpieza de oídos.',
     duracion: '1 a 1,5 h',
-    precios: { chico: 18000, mediano: 25000, grande: 38000, gigante: 50000 },
-    preciosHasta: { chico: 25000, mediano: 35000, grande: 50000, gigante: 68000 },
+    precios: { chico: 22000, mediano: 30000, grande: 44000, gigante: 59000 },
     aplicaRecargoManto: true,
   },
   {
@@ -23,8 +23,7 @@ export const servicios: Service[] = [
     nombre: 'Baño y corte higiénico',
     descripcion: 'Baño con corte de zona sanitaria, plantares y lagrimales.',
     duracion: '1,5 a 2 h',
-    precios: { chico: 22000, mediano: 30000, grande: 45000, gigante: 60000 },
-    preciosHasta: { chico: 30000, mediano: 42000, grande: 58000, gigante: 78000 },
+    precios: { chico: 26000, mediano: 36000, grande: 52000, gigante: 69000 },
     aplicaRecargoManto: true,
   },
   {
@@ -32,8 +31,7 @@ export const servicios: Service[] = [
     nombre: 'Baño y corte completo',
     descripcion: 'Baño y corte con máquina y/o tijera según la raza.',
     duracion: '2 a 3 h',
-    precios: { chico: 32000, mediano: 45000, grande: 62000, gigante: 82000 },
-    preciosHasta: { chico: 48000, mediano: 62000, grande: 80000, gigante: 105000 },
+    precios: { chico: 40000, mediano: 54000, grande: 71000, gigante: 94000 },
     aplicaRecargoManto: true,
     popular: true,
   },
@@ -42,8 +40,7 @@ export const servicios: Service[] = [
     nombre: 'Deslanado profundo',
     descripcion: 'Para razas de doble capa: retira el pelo muerto de la capa interna.',
     duracion: '2 a 3 h',
-    precios: { chico: 28000, mediano: 40000, grande: 58000, gigante: 78000 },
-    preciosHasta: { chico: 38000, mediano: 55000, grande: 75000, gigante: 98000 },
+    precios: { chico: 33000, mediano: 48000, grande: 67000, gigante: 88000 },
     aplicaRecargoManto: true,
   },
   {
@@ -51,8 +48,7 @@ export const servicios: Service[] = [
     nombre: 'Sesión de adaptación',
     descripcion: 'Para cachorros de hasta 5 meses: primer contacto con el baño, el secador y la mesa.',
     duracion: '45 min a 1 h',
-    precios: { chico: 15000, mediano: 18000, grande: 22000, gigante: 25000 },
-    preciosHasta: { chico: 20000, mediano: 24000, grande: 28000, gigante: 32000 },
+    precios: { chico: 18000, mediano: 21000, grande: 25000, gigante: 29000 },
     aplicaRecargoManto: false,
   },
   {
@@ -60,29 +56,26 @@ export const servicios: Service[] = [
     nombre: 'Corte de uñas y limpieza de oídos',
     descripcion: 'Servicio suelto, sin baño.',
     duracion: '20 a 30 min',
-    precios: { chico: 6000, mediano: 6000, grande: 6000, gigante: 6000 },
-    preciosHasta: { chico: 10000, mediano: 10000, grande: 10000, gigante: 10000 },
+    precios: { chico: 8000, mediano: 8000, grande: 8000, gigante: 8000 },
     aplicaRecargoManto: false,
   },
 ]
 
 export const extras: Extra[] = [
-  { id: 'medicado', nombre: 'Baño medicado o dermatológico', precio: 8000, precioHasta: 15000 },
-  { id: 'antipulgas', nombre: 'Baño antipulgas / garrapatas', precio: 7000, precioHasta: 14000 },
+  { id: 'medicado', nombre: 'Baño medicado o dermatológico', precio: 12000 },
+  { id: 'antipulgas', nombre: 'Baño antipulgas / garrapatas', precio: 11000 },
   {
     id: 'manejo-especial',
     nombre: 'Plus por manejo especial o conducta',
     tipo: 'porcentaje',
-    precio: 15,
-    precioHasta: 25,
+    precio: 20,
   },
-  { id: 'traslado', nombre: 'Traslado a domicilio (ida y vuelta, según zona)', precio: 6000, precioHasta: 15000 },
+  { id: 'traslado', nombre: 'Traslado a domicilio (ida y vuelta)', precio: 11000 },
 ]
 
 /*
-  El tarifario 2027 ya contempla el tipo de manto dentro de cada rango, así que el multiplicador
-  queda en 1 (se puede volver a usar desde el panel). El desenredado de nudos (+$12.000 a $25.000
-  según dificultad) se elige con el selector de nudos: leves, moderados o severos.
+  El multiplicador por manto queda en 1 (se puede volver a usar desde el panel). El desenredado de
+  nudos tiene un precio fijo por dificultad y se elige con el selector de nudos.
 */
 export const pricingConfig: PricingConfig = {
   multiplicadoresManto: { corto: 1, largo: 1, rizado: 1 },

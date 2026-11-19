@@ -64,9 +64,8 @@ describe('IA Scan & Care: plan y precio', () => {
     const caniche = ejemplosMascota.find((e) => e.id === 'caniche')!.sugerencia
     const plan = aplicarPlan({ ...estadoInicial(), servicioIds: ['bano-corte'] }, caniche, catalog)
     const quote = buildQuote(plan, catalog, pricingConfig)
-    // Baño higiénico simple, chico: $18.000 a $25.000; + desenredado de nudos moderados $18.000
-    expect(quote.total).toBe(18000 + 18000)
-    expect(quote.totalHasta).toBe(25000 + 18000)
+    // Baño higiénico simple, chico: $22.000; + desenredado de nudos moderados $18.000
+    expect(quote.total).toBe(22000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 })
@@ -81,8 +80,8 @@ describe('IA Scan & Care: los ejemplos', () => {
     }
   })
 
-  it('muestran los cuatro tratamientos', () => {
-    expect(new Set(ejemplosMascota.map((e) => e.sugerencia.tratamiento)).size).toBe(4)
+  it('cada una de las 3 fotos muestra un tratamiento distinto', () => {
+    expect(new Set(ejemplosMascota.map((e) => e.sugerencia.tratamiento)).size).toBe(3)
   })
 })
 
@@ -107,5 +106,11 @@ describe('IA Scan & Care: el escaneo viaja hasta el panel', () => {
   it('arma la nota interna de ingreso con el origen a la vista', () => {
     expect(notaDeIngreso(escaneo)).toContain('ejemplo de demo')
     expect(notaDeIngreso(escaneo)).toContain('Baño de hidratación profunda')
+  })
+})
+
+describe('IA Scan & Care: fotos de prueba', () => {
+  it('ofrece exactamente 3 fotos de prueba', () => {
+    expect(ejemplosMascota.map((e) => e.id)).toEqual(['caniche', 'yorkshire', 'shih-tzu'])
   })
 })

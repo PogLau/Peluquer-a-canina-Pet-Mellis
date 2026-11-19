@@ -1,6 +1,5 @@
 import { Icon } from '@/components/ui'
 import { cn } from '@/lib/cn'
-import { formatMoney } from '@/lib/format'
 
 import { serviceIcons } from './ServiceCard'
 
@@ -9,16 +8,12 @@ type Props = {
   name: string
   description: string
   duration: string
-  /** Precio para el tamaño y manto elegidos, sin recargo por nudos (coincide con su línea del resumen). */
-  price: number
-  /** Precio «hasta» (rango orientativo). */
-  priceHasta?: number
   selected: boolean
   onToggle: () => void
 }
 
-/** Tarjeta de servicio seleccionable del cotizador. */
-export function SelectableService({ id, name, description, duration, price, priceHasta, selected, onToggle }: Props) {
+/** Tarjeta de servicio seleccionable del cotizador. No muestra precio: aparece en el resumen al elegir. */
+export function SelectableService({ id, name, description, duration, selected, onToggle }: Props) {
   return (
     <button
       type="button"
@@ -48,16 +43,8 @@ export function SelectableService({ id, name, description, duration, price, pric
         <span className="font-display text-lg font-bold lowercase">{name}</span>
         <span className="text-sm text-texto-suave">{description}</span>
       </span>
-      <span className="mt-auto flex flex-wrap items-end justify-between gap-x-2 gap-y-1 border-t-2 border-dashed border-linea pt-2">
-        <span className="flex flex-col">
-          <span className="cifras font-display text-xl font-bold">
-            {priceHasta !== undefined && priceHasta > price && <span className="text-sm font-normal">desde </span>}
-            {formatMoney(price)}
-          </span>
-          {priceHasta !== undefined && priceHasta > price && (
-            <span className="cifras text-xs text-texto-suave">hasta {formatMoney(priceHasta)}</span>
-          )}
-        </span>
+      <span className="mt-auto flex items-center gap-1.5 border-t-2 border-dashed border-linea pt-2">
+        <Icon name="reloj" size={16} />
         <span className="rotulo text-texto-suave">{duration}</span>
       </span>
     </button>

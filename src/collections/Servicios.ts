@@ -27,33 +27,25 @@ export const Servicios: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'precioChico', type: 'number', label: 'Chico, desde', required: true, min: 0 },
-        { name: 'precioMediano', type: 'number', label: 'Mediano, desde', required: true, min: 0 },
-        { name: 'precioGrande', type: 'number', label: 'Grande, desde', required: true, min: 0 },
+        { name: 'precioChico', type: 'number', label: 'Precio chico', required: true, min: 0 },
+        { name: 'precioMediano', type: 'number', label: 'Precio mediano', required: true, min: 0 },
+        { name: 'precioGrande', type: 'number', label: 'Precio grande', required: true, min: 0 },
         {
           name: 'precioGigante',
           type: 'number',
-          label: 'Gigante, desde',
+          label: 'Precio gigante',
           min: 0,
           admin: { description: 'Si queda vacío, se usa el precio de grande.' },
         },
       ],
     },
-    {
-      type: 'row',
-      fields: [
-        {
-          name: 'precioChicoHasta',
-          type: 'number',
-          label: 'Chico, hasta',
-          min: 0,
-          admin: { description: 'Precios orientativos: el cotizador muestra el rango «desde–hasta».' },
-        },
-        { name: 'precioMedianoHasta', type: 'number', label: 'Mediano, hasta', min: 0 },
-        { name: 'precioGrandeHasta', type: 'number', label: 'Grande, hasta', min: 0 },
-        { name: 'precioGiganteHasta', type: 'number', label: 'Gigante, hasta', min: 0 },
-      ],
-    },
+    /*
+      Columnas de la versión con rangos de precio. Ya no se usan (precios fijos): quedan ocultas para no
+      tener que borrar columnas de la base con una migración. El panel las vacía al guardar.
+    */
+    ...(['precioChicoHasta', 'precioMedianoHasta', 'precioGrandeHasta', 'precioGiganteHasta'] as const).map(
+      (name) => ({ name, type: 'number' as const, admin: { hidden: true } }),
+    ),
     {
       name: 'aplicaRecargoManto',
       type: 'checkbox',

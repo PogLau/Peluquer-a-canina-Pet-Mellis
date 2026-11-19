@@ -25,7 +25,7 @@ import { arDate } from '@/seed/fechas'
 */
 
 // 2: IA Scan & Care (los turnos guardan el escaneo de ingreso)
-export const VERSION_DEMO = 4
+export const VERSION_DEMO = 5
 export const WHATSAPP_SALON = '5491151770132'
 
 export type DServicio = Service & { activo: boolean }

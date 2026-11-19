@@ -235,33 +235,34 @@ Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan 
 
 ---
 
-## 8. Reglas de precios (tarifario 2027, `src/lib/pricing.ts` y `src/lib/catalogo-demo.ts`)
+## 8. Reglas de precios (tarifario 2027 con precios fijos, `src/lib/pricing.ts` y `src/lib/catalogo-demo.ts`)
 
-Los precios son **orientativos**: cada servicio tiene un rango «desde–hasta» por tamaño y el valor final se confirma al revisar el manto en el local. El cotizador, la reserva y el escaneo muestran el total como rango («desde $X / hasta $Y») y una nota aclaratoria. El precio que se guarda en el turno (`precioEstimado`) es el «desde» y lo calcula el servidor.
+Cada servicio tiene **un precio fijo por tamaño** (sin rangos «desde–hasta»): es el punto medio del rango original del tarifario 2027, redondeado a $1.000. **Ningún precio se muestra antes de que la persona elija**: la portada y las tarjetas de servicio no tienen precio; el cotizador muestra el desglose y el total recién con el tamaño y al menos un servicio elegidos; el escáner muestra el precio del plan al terminar. El tamaño tampoco viene marcado por defecto (ni en el cotizador ni en la reserva).
 
 **Tamaños:** chico hasta 10 kg · mediano 10–25 kg · grande 25–40 kg · gigante más de 40 kg (`sizeFromWeight`).
 
 | Servicio | Chico | Mediano | Grande | Gigante |
 |---|---|---|---|---|
-| Baño higiénico simple (incluye uñas y oídos) | 18.000–25.000 | 25.000–35.000 | 38.000–50.000 | 50.000–68.000 |
-| Baño y corte higiénico (zona sanitaria, plantares, lagrimales) | 22.000–30.000 | 30.000–42.000 | 45.000–58.000 | 60.000–78.000 |
-| Baño y corte completo (máquina y/o tijera según raza), popular | 32.000–48.000 | 45.000–62.000 | 62.000–80.000 | 82.000–105.000 |
-| Deslanado profundo (doble capa) | 28.000–38.000 | 40.000–55.000 | 58.000–75.000 | 78.000–98.000 |
-| Sesión de adaptación (cachorros hasta 5 meses) | 15.000–20.000 | 18.000–24.000 | 22.000–28.000 | 25.000–32.000 |
-| Corte de uñas y limpieza de oídos (sin baño) | 6.000–10.000 | 6.000–10.000 | 6.000–10.000 | 6.000–10.000 |
+| Baño higiénico simple (incluye uñas y oídos) | 22.000 | 30.000 | 44.000 | 59.000 |
+| Baño y corte higiénico (zona sanitaria, plantares, lagrimales) | 26.000 | 36.000 | 52.000 | 69.000 |
+| Baño y corte completo (máquina y/o tijera según raza), popular | 40.000 | 54.000 | 71.000 | 94.000 |
+| Deslanado profundo (doble capa) | 33.000 | 48.000 | 67.000 | 88.000 |
+| Sesión de adaptación (cachorros hasta 5 meses) | 18.000 | 21.000 | 25.000 | 29.000 |
+| Corte de uñas y limpieza de oídos (sin baño) | 8.000 | 8.000 | 8.000 | 8.000 |
 
-**Adicionales:** baño medicado o dermatológico +$8.000 a $15.000 · baño antipulgas / garrapatas +$7.000 a $14.000 · plus por manejo especial o conducta +15 % a 25 % sobre los servicios · traslado a domicilio $6.000 a $15.000.
+**Adicionales:** baño medicado o dermatológico $12.000 · baño antipulgas / garrapatas $11.000 · plus por manejo especial o conducta **+20 %** sobre los servicios · traslado a domicilio $11.000.
 
 **Desenredado de nudos** (selector de nudos): leves $12.000 · moderados $18.000 · severos $25.000. Se suma **una sola vez**, en una línea aparte, y solo si hay un servicio con recargo por manto.
 
-**Manto:** el tarifario ya contempla el manto dentro de cada rango, así que el multiplicador quedó en 1 (se puede volver a usar desde el panel).
+**Manto:** el multiplicador está en 1 (se puede volver a usar desde el panel).
 
 ```
-total_desde = Σ servicios[desde] + Σ extras fijos[desde] + % manejo[desde] sobre servicios + desenredado
-total_hasta = Σ servicios[hasta] + Σ extras fijos[hasta] + % manejo[hasta] sobre servicios + desenredado
+total = Σ servicios + Σ extras fijos + % manejo especial sobre los servicios + desenredado de nudos
 ```
 
-**Caso de prueba:** Toby (chico, nudos moderados) + baño y corte completo + antipulgas = **$57.000 a $80.000**.
+**Caso de prueba:** Toby (chico, nudos moderados) + baño y corte completo + antipulgas = **$69.000**.
+
+> Las columnas «hasta» de la versión con rangos siguen en la base pero ocultas y sin uso (borrarlas exigiría una migración destructiva); el panel las vacía al guardar precios.
 
 ## 9. Datos de demo (seed)
 

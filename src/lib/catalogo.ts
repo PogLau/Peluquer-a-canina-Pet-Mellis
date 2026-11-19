@@ -31,12 +31,6 @@ export async function loadCatalog(payload: Payload): Promise<Catalog> {
         grande: s.precioGrande,
         gigante: s.precioGigante ?? s.precioGrande,
       },
-      preciosHasta: {
-        chico: s.precioChicoHasta ?? undefined,
-        mediano: s.precioMedianoHasta ?? undefined,
-        grande: s.precioGrandeHasta ?? undefined,
-        gigante: s.precioGiganteHasta ?? s.precioGrandeHasta ?? undefined,
-      },
       aplicaRecargoManto: s.aplicaRecargoManto ?? true,
       popular: s.popular ?? false,
     })),
@@ -46,7 +40,6 @@ export async function loadCatalog(payload: Payload): Promise<Catalog> {
       descripcion: e.descripcion ?? undefined,
       tipo: e.tipo ?? 'fijo',
       precio: e.precio,
-      precioHasta: e.precioHasta ?? undefined,
     })),
     config: {
       multiplicadoresManto: {

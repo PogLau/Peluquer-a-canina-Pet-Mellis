@@ -118,6 +118,14 @@ describe('asistente de reserva', () => {
     expect(missingInStep(1, e, true)).toBe('Elegí al menos un servicio.')
   })
 
+  it('el tamaño del perro nuevo no viene marcado y hay que elegirlo', () => {
+    const e = initialBooking({}, [])
+    expect(e.nueva.tamano).toBeNull()
+    const conDatos = { ...e, tutorNombre: 'Lucía', whatsapp: '11 0000 0123', nueva: { ...e.nueva, nombre: 'Toby' } }
+    expect(missingInStep(0, conDatos, false)).toBe('Elegí el tamaño de tu perro.')
+    expect(missingInStep(0, { ...conDatos, nueva: { ...conDatos.nueva, tamano: 'mediano' } }, false)).toBeNull()
+  })
+
   it('dice qué falta en cada paso', () => {
     const e = initialBooking({}, [])
     expect(missingInStep(0, e, false)).toBe('Falta tu nombre.')

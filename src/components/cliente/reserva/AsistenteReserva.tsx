@@ -93,7 +93,8 @@ export function AsistenteReserva({
     setError(null)
   }
   const elegida = mascotas.find((m) => m.id === estado.mascotaId)
-  const tamano = elegida?.tamano ?? estado.nueva.tamano
+  // El precio se calcula desde el paso 2, cuando el tamaño ya es obligatorio: el respaldo no se ve
+  const tamano = elegida?.tamano ?? estado.nueva.tamano ?? 'chico'
   const manto = elegida?.manto ?? estado.nueva.manto
   const nombreMascota = elegida?.nombre ?? (estado.nueva.nombre.trim() || 'tu perro')
   const quote = useMemo(
@@ -126,7 +127,10 @@ export function AsistenteReserva({
           tutorNombre: estado.tutorNombre,
           whatsapp: estado.whatsapp,
           mascotaId: estado.mascotaId,
-          mascota: estado.mascotaId === null ? estado.nueva : null,
+          mascota:
+            estado.mascotaId === null
+              ? { ...estado.nueva, tamano: estado.nueva.tamano ?? '' }
+              : null,
           servicios: estado.servicios,
           extras: estado.extras,
           nudos: estado.nudos,
@@ -168,7 +172,7 @@ export function AsistenteReserva({
           role="status"
           title={`Listo: pediste el turno de ${listo.mascota} para el ${listo.cuando}.`}
         >
-          Precio estimado: <span className="cifras font-bold">{formatMoney(listo.precio)}</span>. Te
+          Precio: <span className="cifras font-bold">{formatMoney(listo.precio)}</span>. Te
           lo confirmamos por WhatsApp.
         </Notice>
         <div className="flex flex-wrap gap-3">
@@ -205,8 +209,6 @@ export function AsistenteReserva({
             estado={estado}
             set={set}
             catalog={catalog}
-            tamano={tamano}
-            manto={manto}
             quote={quote}
           />
         )}

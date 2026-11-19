@@ -29,12 +29,13 @@ export const Extras: CollectionConfig = {
         {
           name: 'precio',
           type: 'number',
-          label: 'Desde',
+          label: 'Precio',
           required: true,
           min: 0,
-          admin: { description: 'En pesos, o en % si el tipo es porcentaje (por ejemplo, 15 a 25).' },
+          admin: { description: 'En pesos, o en % si el tipo es porcentaje (por ejemplo, 20).' },
         },
-        { name: 'precioHasta', type: 'number', label: 'Hasta', min: 0 },
+        // Columna de la versión con rangos: sin uso, oculta (evita una migración destructiva)
+        { name: 'precioHasta', type: 'number', admin: { hidden: true } },
       ],
     },
     { name: 'activo', type: 'checkbox', label: 'Activo', defaultValue: true },

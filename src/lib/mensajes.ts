@@ -38,7 +38,7 @@ export function confirmationMessage(t: DatosTurnoMensaje): string {
     `Hola, ${primerNombre(t.tutor)}. Te confirmamos el turno de ${t.mascota} ${cuando(t.fechaHora)} en Los Mellis.`,
     `Servicios: ${listar(t.servicios.map((s) => s.toLowerCase()))}.`,
   ]
-  if (t.precioEstimado) lineas.push(`Precio estimado: ${formatMoney(t.precioEstimado)}.`)
+  if (t.precioEstimado) lineas.push(`Precio: ${formatMoney(t.precioEstimado)}.`)
   lineas.push('Si necesitás cambiar algo, avisanos por acá.', ...lineaEnlace(t.enlace))
   return lineas.join('\n')
 }
@@ -96,7 +96,7 @@ export type DatosPedido = {
 export function bookingRequestMessage(p: DatosPedido): string {
   return [
     `Hola, soy ${p.tutor.trim()}. Pedí un turno desde la web para ${p.mascota} ${cuando(p.fechaHora)}.`,
-    `Servicios: ${listar(p.servicios.map((s) => s.toLowerCase()))}. Precio estimado: ${formatMoney(p.precioEstimado)}.`,
+    `Servicios: ${listar(p.servicios.map((s) => s.toLowerCase()))}. Precio: ${formatMoney(p.precioEstimado)}.`,
     '¿Me lo confirman? Gracias.',
   ].join('\n')
 }

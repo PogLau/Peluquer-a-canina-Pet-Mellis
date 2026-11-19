@@ -112,8 +112,7 @@ describe('Servicios y precios', () => {
     const { buildQuote } = await import('@/lib/pricing')
     const p = await precios.getPricing(payload, peluquera)
     const i = p.servicios.findIndex((s) => s.nombre === 'Baño y corte completo')
-    p.servicios[i].precioChico = '36.000'
-    p.servicios[i].precioChicoHasta = '50.000'
+    p.servicios[i].precioChico = '45.000'
     await precios.savePricing(payload, peluquera, p)
 
     const catalogo = await loadCatalog(payload)
@@ -128,9 +127,8 @@ describe('Servicios y precios', () => {
       catalogo,
       catalogo.config,
     )
-    // 36.000 + antipulgas 7.000 + desenredado moderado 18.000; hasta: 50.000 + 14.000 + 18.000
-    expect(quote.total).toBe(61000)
-    expect(quote.totalHasta).toBe(82000)
+    // 45.000 + antipulgas 11.000 + desenredado moderado 18.000
+    expect(quote.total).toBe(74000)
   })
 
   it('los multiplicadores y recargos también se guardan', async () => {

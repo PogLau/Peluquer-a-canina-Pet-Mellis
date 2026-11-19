@@ -154,28 +154,24 @@ describe('validaciones de Clientes y Precios', () => {
           precioChico: '32000',
           precioMediano: 'abc',
           precioGrande: '62000',
-          precioGigante: '82000',
-          precioChicoHasta: '48000',
-          precioMedianoHasta: '',
-          precioGrandeHasta: '50000',
-          precioGiganteHasta: '105000',
+          precioGigante: 'x',
           aplicaRecargoManto: true,
           popular: true,
           activo: true,
         },
       ],
       extras: [
-        { id: 1, nombre: 'Antipulgas', tipo: 'fijo', precio: '', precioHasta: '14000', activo: true },
-        { id: 2, nombre: 'Manejo especial', tipo: 'porcentaje', precio: '15', precioHasta: '150', activo: true },
+        { id: 1, nombre: 'Antipulgas', tipo: 'fijo', precio: '', activo: true },
+        { id: 2, nombre: 'Manejo especial', tipo: 'porcentaje', precio: '150', activo: true },
       ],
       multiplicadores: { corto: '1', largo: '1,15', rizado: '5' },
       recargos: { leves: '12000', moderados: '18000', severos: '25000' },
     }
     expect(Object.keys(validatePricing(p)).sort()).toEqual([
       'extras.0.precio',
-      'extras.1.precioHasta',
+      'extras.1.precio',
       'multiplicadores.rizado',
-      'servicios.0.precioGrandeHasta',
+      'servicios.0.precioGigante',
       'servicios.0.precioMediano',
     ])
   })

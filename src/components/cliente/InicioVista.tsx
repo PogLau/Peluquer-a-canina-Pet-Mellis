@@ -1,7 +1,7 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
 import { Icon, LinkButton, Ticket } from '@/components/ui'
 import { ejemplosMascota } from '@/lib/ia/ejemplos'
-import { startingPrice, type Service } from '@/lib/pricing'
+import type { Service } from '@/lib/pricing'
 import { rutaPublica } from '@/lib/ruta-publica'
 
 const fotosSalon = [
@@ -114,7 +114,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         </div>
         {destacados.length === 0 && (
           <p className="text-texto-suave">
-            Los precios no están disponibles en este momento. Escribinos para consultar.
+            Los servicios no están disponibles en este momento. Escribinos para consultar.
           </p>
         )}
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -124,7 +124,6 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
                 id={s.id}
                 name={s.nombre}
                 description={s.descripcion}
-                price={startingPrice(s)}
                 duration={s.duracion}
                 popular={s.popular}
               />
@@ -132,7 +131,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           ))}
         </ul>
         <p className="text-sm text-texto-suave">
-          El precio final depende del tamaño, el tipo de manto y los nudos. Calculalo en el
+          El precio depende del tamaño de tu perro y de los servicios que elijas. Calculalo en el
           cotizador.
         </p>
       </section>

@@ -68,8 +68,8 @@ describe('reservar sin login', () => {
     )
     expect(r.ok).toBe(true)
     if (!r.ok) return
-    // Chico: baño y corte completo $32.000 + antipulgas $7.000 + desenredado moderado $18.000
-    expect(r.precioEstimado).toBe(57000)
+    // Chico: baño y corte completo $40.000 + antipulgas $11.000 + desenredado moderado $18.000
+    expect(r.precioEstimado).toBe(69000)
     expect(r.tokenNuevo).toMatch(/^[A-Za-z0-9_-]{32}$/)
 
     const turno = await payload.findByID({ collection: 'turnos', id: r.turnoId, depth: 1 })
@@ -215,9 +215,9 @@ describe('reservar sin login', () => {
     expect(coco).toMatchObject({ tamano: 'mediano', manto: 'corto' })
     const mismos = await payload.count({ collection: 'mascotas', where: { tutor: { equals: carla.id } } })
     expect(mismos.totalDocs).toBe(1)
-    // Mediano: baño y corte completo $45.000 + antipulgas $7.000 + desenredado moderado $18.000
-    expect(r.precioEstimado).toBe(70000)
-    expect(turno.precioEstimado).toBe(70000)
+    // Mediano: baño y corte completo $54.000 + antipulgas $11.000 + desenredado moderado $18.000
+    expect(r.precioEstimado).toBe(83000)
+    expect(turno.precioEstimado).toBe(83000)
   })
 })
 

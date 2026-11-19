@@ -4,30 +4,20 @@ import { ChipGroup, ToggleChip } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
 import { alternar } from '@/lib/cotizacion'
-import { formatExtraPrice, formatRange } from '@/lib/format'
-import {
-  knots,
-  knotsLabels,
-  servicePriceRange,
-  type Coat,
-  type Knots,
-  type Quote,
-  type Size,
-} from '@/lib/pricing'
+import { formatMoney } from '@/lib/format'
+import { knots, knotsLabels, type Knots, type Quote } from '@/lib/pricing'
 
-import { NotaPrecios, TotalRango } from '../Precios'
+import { NotaPrecios, TotalPresupuesto } from '../Precios'
 
 type Props = {
   estado: EstadoReserva
   set: (patch: Partial<EstadoReserva>) => void
   catalog: Catalog
-  tamano: Size
-  manto: Coat
   quote: Quote
 }
 
 /** Paso 2: servicios y extras (vienen del cotizador si el cliente pasó por ahí). */
-export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Props) {
+export function PasoServicios({ estado, set, catalog, quote }: Props) {
   return (
     <div className="flex flex-col gap-6">
       <fieldset className="flex flex-col gap-2">
@@ -44,13 +34,7 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
               pressed={estado.servicios.includes(s.id)}
               onPressedChange={() => set({ servicios: alternar(estado.servicios, s.id) })}
             >
-              {s.nombre} ·{' '}
-              <span className="cifras">
-                {(() => {
-                  const r = servicePriceRange(s, tamano, manto, catalog.config)
-                  return formatRange(r.desde, r.hasta)
-                })()}
-              </span>
+              {s.nombre}
             </ToggleChip>
           ))}
         </div>
@@ -65,7 +49,7 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
               pressed={estado.extras.includes(x.id)}
               onPressedChange={() => set({ extras: alternar(estado.extras, x.id) })}
             >
-              {x.nombre} · <span className="cifras">{formatExtraPrice(x)}</span>
+              {x.nombre}
             </ToggleChip>
           ))}
         </div>
@@ -77,13 +61,24 @@ export function PasoServicios({ estado, set, catalog, tamano, manto, quote }: Pr
         options={knots.map((k) => ({ value: k, label: knotsLabels[k] }))}
         value={estado.nudos}
         onChange={(v) => set({ nudos: v as Knots })}
-        hint={`El desenredado de nudos (${formatRange(catalog.config.recargosNudos.leves, catalog.config.recargosNudos.severos)} según dificultad) se suma una sola vez.`}
+        hint="El desenredado de nudos se suma una sola vez."
       />
 
-      <div className="flex flex-col gap-2 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
-        <TotalRango quote={quote} />
-        <NotaPrecios />
-      </div>
+      {/* El precio aparece recién con al menos un servicio elegido (el tamaño ya se eligió en el paso 1) */}
+      {estado.servicios.length > 0 && (
+        <div className="flex flex-col gap-2 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
+          <ul className="flex flex-col gap-1.5 text-sm" aria-live="polite">
+            {quote.lineas.map((l) => (
+              <li key={`${l.tipo}-${l.id}`} className="flex items-baseline justify-between gap-3">
+                <span>{l.nombre}</span>
+                <span className="cifras whitespace-nowrap font-bold">{formatMoney(l.monto)}</span>
+              </li>
+            ))}
+          </ul>
+          <TotalPresupuesto quote={quote} />
+          <NotaPrecios />
+        </div>
+      )}
     </div>
   )
 }

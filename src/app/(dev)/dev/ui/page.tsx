@@ -106,7 +106,6 @@ export default function DevUiPage() {
             id="bano-corte"
             name="Baño y Corte"
             description="Baño completo, secado y corte a elección."
-            price={8500}
             duration="2 a 3 h"
             popular
           />

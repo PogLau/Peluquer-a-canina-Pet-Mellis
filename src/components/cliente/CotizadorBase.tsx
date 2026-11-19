@@ -11,7 +11,6 @@ import {
   estadoInicial,
   type EstadoCotizacion,
 } from '@/lib/cotizacion'
-import { formatExtraPrice, formatRange } from '@/lib/format'
 import { escaneoDeSugerencia, type ResultadoSugerencia, type Sugerencia } from '@/lib/ia/sugerencia'
 import {
   buildQuote,
@@ -19,7 +18,6 @@ import {
   coats,
   knots,
   knotsLabels,
-  servicePriceRange,
   sizeLabels,
   sizes,
 } from '@/lib/pricing'
@@ -36,8 +34,9 @@ type Props = {
 
 /** Cotizador sin dependencias del servidor: lo usan la app real y la demo estática. */
 export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
-  // Empieza sin servicios elegidos: el resumen pide elegir uno antes de mostrar el precio
+  // Empieza sin servicios elegidos y sin tamaño marcado: ningún precio aparece antes de elegir
   const [estado, setEstado] = useState<EstadoCotizacion>(() => estadoInicial())
+  const [tamanoElegido, setTamanoElegido] = useState(false)
   const [sugerencia, setSugerencia] = useState<Sugerencia | null>(null)
 
   const quote = useMemo(() => buildQuote(estado, catalog, catalog.config), [estado, catalog])
@@ -45,11 +44,13 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
 
   function onSugerencia(s: Sugerencia) {
     setSugerencia(s)
+    setTamanoElegido(true)
     setEstado((e) => aplicarSugerencia(e, s))
   }
 
   function onUsarPlan(s: Sugerencia) {
     setSugerencia(s)
+    setTamanoElegido(true)
     setEstado((e) => aplicarPlan(e, s, catalog))
   }
 
@@ -83,8 +84,11 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
           <ChipGroup
             legend="Tamaño"
             name="tamano"
-            value={estado.tamano}
-            onChange={(tamano) => set({ tamano })}
+            value={tamanoElegido ? estado.tamano : null}
+            onChange={(tamano) => {
+              setTamanoElegido(true)
+              set({ tamano })
+            }}
             hint={hintTamano}
             options={sizes.map((s) => ({
               value: s,
@@ -108,7 +112,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
             hint={
               sugerido('nudos') ??
               (estado.nudos !== 'sin'
-                ? `El desenredado de nudos (${formatRange(catalog.config.recargosNudos.leves, catalog.config.recargosNudos.severos)} según dificultad) se suma una sola vez en el resumen.`
+                ? 'El desenredado de nudos se suma una sola vez en el resumen.'
                 : undefined)
             }
             options={knots.map((k) => ({ value: k, label: knotsLabels[k] }))}
@@ -120,8 +124,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
             servicios
           </h2>
           <p className="text-sm text-texto-suave">
-            Precios orientativos para un perro {sizeLabels[estado.tamano].label.toLowerCase()} de
-            manto {coatLabels[estado.manto].toLowerCase()}. No incluyen el desenredado de nudos.
+            Elegí los servicios: el precio aparece en el resumen cuando ya marcaste el tamaño de tu perro.
           </p>
           {estado.servicioIds.length === 0 && (
             <p role="status" className="text-sm font-bold text-aviso">
@@ -136,8 +139,6 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
                   name={s.nombre}
                   description={s.descripcion}
                   duration={s.duracion}
-                  price={servicePriceRange(s, estado.tamano, estado.manto, catalog.config).desde}
-                  priceHasta={servicePriceRange(s, estado.tamano, estado.manto, catalog.config).hasta}
                   selected={estado.servicioIds.includes(s.id)}
                   onToggle={() => set({ servicioIds: alternar(estado.servicioIds, s.id) })}
                 />
@@ -158,7 +159,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
                   pressed={estado.extraIds.includes(e.id)}
                   onPressedChange={() => set({ extraIds: alternar(estado.extraIds, e.id) })}
                 >
-                  {e.nombre} · {formatExtraPrice(e)}
+                  {e.nombre}
                 </ToggleChip>
               ))}
             </div>
@@ -169,6 +170,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
       <ResumenPresupuesto
         quote={quote}
         estado={estado}
+        tamanoElegido={tamanoElegido}
         escaneo={sugerencia ? escaneoDeSugerencia(sugerencia) : null}
       />
     </div>

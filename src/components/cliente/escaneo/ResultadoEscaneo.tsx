@@ -3,7 +3,7 @@
 import { Button, Icon, LinkButton } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import { aplicarPlan, reservarHref, type EstadoCotizacion } from '@/lib/cotizacion'
-import { formatRange } from '@/lib/format'
+import { formatMoney } from '@/lib/format'
 import {
   estadoPelaje,
   hidratacionLabels,
@@ -15,7 +15,7 @@ import {
 import { escaneoDeSugerencia, type Sugerencia } from '@/lib/ia/sugerencia'
 import { buildQuote, knotsLabels, sizeLabels } from '@/lib/pricing'
 
-import { NotaPrecios, TotalRango } from '../Precios'
+import { NotaPrecios, TotalPresupuesto } from '../Precios'
 
 type Props = {
   sugerencia: Sugerencia
@@ -97,11 +97,11 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex justify-between gap-3">
               <span>{l.nombre}</span>
-              <span className="cifras whitespace-nowrap font-bold">{formatRange(l.monto, l.montoHasta)}</span>
+              <span className="cifras whitespace-nowrap font-bold">{formatMoney(l.monto)}</span>
             </li>
           ))}
         </ul>
-        <TotalRango quote={quote} label="Estimado del plan" />
+        <TotalPresupuesto quote={quote} label="Precio del plan" />
         <NotaPrecios />
         <div className="flex flex-wrap gap-3">
           <LinkButton href={reservarHref(plan, escaneoDeSugerencia(s))} iconEnd="flecha">

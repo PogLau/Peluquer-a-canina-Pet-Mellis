@@ -6,7 +6,6 @@ import type { Puntajes } from '@/lib/ficha'
 import { parseEscaneo } from '@/lib/ia/cuidado'
 import { validateVisit } from '@/lib/panel/atenciones'
 import {
-  optPesos,
   parseMultiplier,
   parsePesos,
   preciosDesdeFila,
@@ -276,14 +275,7 @@ export function guardarPrecios(s: DemoState, p: PreciosEditables): DemoState {
     }),
     extras: s.extras.map((x, i) => {
       const n = p.extras.find((y) => y.id === i + 1)
-      return n
-        ? {
-            ...x,
-            activo: n.activo,
-            precio: parsePesos(n.precio)!,
-            precioHasta: optPesos(n.precioHasta) ?? undefined,
-          }
-        : x
+      return n ? { ...x, activo: n.activo, precio: parsePesos(n.precio)! } : x
     }),
     pricing: {
       multiplicadoresManto: {

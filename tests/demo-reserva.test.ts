@@ -51,8 +51,8 @@ describe('demo: quién entra', () => {
       raza: 'Mestizo',
       tamano: 'mediano',
     })
-    // Mediano: baño y corte completo $45.000 + antipulgas $7.000 + desenredado moderado $18.000
-    expect(precio).toBe(70000)
+    // Mediano: baño y corte completo $54.000 + antipulgas $11.000 + desenredado moderado $18.000
+    expect(precio).toBe(83000)
   })
 })
 
@@ -84,7 +84,7 @@ describe('demo: «otro perro» con el nombre de uno propio', () => {
       manto: 'corto',
       raza: 'Mestizo',
     })
-    expect(precio).toBe(70000)
-    expect(turno.precioEstimado).toBe(70000)
+    expect(precio).toBe(83000)
+    expect(turno.precioEstimado).toBe(83000)
   })
 })
