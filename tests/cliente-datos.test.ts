@@ -191,6 +191,32 @@ describe('reservar sin login', () => {
     )
     expect(r.ok).toBe(false)
   })
+
+  it('«otro perro» con el nombre de uno propio actualiza ese perro y el precio usa los datos nuevos', async () => {
+    // Coco es chico y de manto largo; la tutora lo carga como «coco», mediano y de manto corto
+    const carla = await tutorDe('Coco')
+    const fechaHora = (await reserva.availableDays(payload)).flatMap((d) => d.horas)[0].iso
+    const r = await reserva.createBooking(
+      payload,
+      {
+        ...base,
+        mascota: { nombre: 'coco', raza: 'Shih Tzu', tamano: 'mediano', manto: 'corto' },
+        fechaHora,
+      },
+      carla,
+    )
+    expect(r.ok).toBe(true)
+    if (!r.ok) return
+    const turno = await payload.findByID({ collection: 'turnos', id: r.turnoId, depth: 0 })
+    expect(turno.mascota).toBe(carla.mascotaId)
+    const coco = await payload.findByID({ collection: 'mascotas', id: carla.mascotaId, depth: 0 })
+    expect(coco).toMatchObject({ tamano: 'mediano', manto: 'corto' })
+    const mismos = await payload.count({ collection: 'mascotas', where: { tutor: { equals: carla.id } } })
+    expect(mismos.totalDocs).toBe(1)
+    // Mediano: baño y corte completo $45.000 + antipulgas $7.000 + desenredado moderado $18.000
+    expect(r.precioEstimado).toBe(70000)
+    expect(turno.precioEstimado).toBe(70000)
+  })
 })
 
 describe('Mis turnos y Mi mascota', () => {

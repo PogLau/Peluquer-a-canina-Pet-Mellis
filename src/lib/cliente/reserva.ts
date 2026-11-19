@@ -217,6 +217,20 @@ export async function createBooking(
     const igual = propias.find(
       (p) => p.nombre.trim().toLowerCase() === m.nombre.trim().toLowerCase(),
     )
+    if (igual) {
+      // Mismo tutor y mismo nombre: es el mismo perro. Se actualizan sus datos con lo que se acaba
+      // de cargar, así el turno y su precio usan el tamaño y el manto que la persona confirmó.
+      await payload.update({
+        collection: 'mascotas',
+        id: igual.id,
+        data: {
+          tamano: m.tamano as Size,
+          manto: m.manto as Coat,
+          ...(m.raza.trim() ? { raza: m.raza.trim() } : {}),
+        },
+        overrideAccess: true,
+      })
+    }
     mascotaId = igual
       ? igual.id
       : (

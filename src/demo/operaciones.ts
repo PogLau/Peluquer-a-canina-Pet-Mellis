@@ -185,8 +185,24 @@ export function reservar(
     const igual = propias.find(
       (p) => p.nombre.trim().toLowerCase() === m.nombre.trim().toLowerCase(),
     )
-    if (igual) mascotaId = igual.id
-    else {
+    if (igual) {
+      // Mismo tutor y mismo nombre: es el mismo perro. Se actualizan sus datos con lo que se acaba
+      // de cargar, así el turno y su precio usan el tamaño y el manto que la persona confirmó.
+      mascotaId = igual.id
+      estado = {
+        ...estado,
+        mascotas: estado.mascotas.map((p) =>
+          p.id === igual.id
+            ? {
+                ...p,
+                tamano: m.tamano as Size,
+                manto: m.manto as Coat,
+                raza: m.raza.trim() || p.raza,
+              }
+            : p,
+        ),
+      }
+    } else {
       const [conId, id] = nextId(estado)
       estado = {
         ...conId,

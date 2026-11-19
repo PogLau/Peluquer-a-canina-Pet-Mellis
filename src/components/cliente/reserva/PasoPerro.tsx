@@ -16,6 +16,10 @@ const NUEVA = 'nueva'
 
 /** Paso 1: quién sos y qué perro viene. Con enlace personal se elige uno de los suyos. */
 export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
+  // Aviso si el «otro perro» se llama igual que uno ya guardado (la reserva actualiza a ese perro)
+  const repetido = mascotas.find(
+    (m) => m.nombre.trim().toLowerCase() === estado.nueva.nombre.trim().toLowerCase(),
+  )
   const setNueva = (patch: Partial<EstadoReserva['nueva']>) =>
     set({ nueva: { ...estado.nueva, ...patch } })
 
@@ -70,6 +74,11 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
               label="Nombre de tu perro"
               value={estado.nueva.nombre}
               onChange={(e) => setNueva({ nombre: e.target.value })}
+              hint={
+                repetido
+                  ? `Ya tenés un perro llamado ${repetido.nombre}. Si es el mismo, elegilo arriba; si seguís, actualizamos su tamaño y su manto con lo que marques acá.`
+                  : undefined
+              }
             />
             <TextField
               label="Raza"

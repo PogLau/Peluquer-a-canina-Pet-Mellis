@@ -25,7 +25,7 @@ import { arDate } from '@/seed/fechas'
 */
 
 // 2: IA Scan & Care (los turnos guardan el escaneo de ingreso)
-export const VERSION_DEMO = 3
+export const VERSION_DEMO = 4
 export const WHATSAPP_SALON = '5491151770132'
 
 export type DServicio = Service & { activo: boolean }
@@ -158,7 +158,9 @@ export function initialState(now = new Date()): DemoState {
     mascotas,
     turnos: [],
     atenciones: [],
-    clienteId: tutores[0].id,
+    // Arranca como un visitante nuevo, sin enlace: así entra un cliente real la primera vez.
+    // Para ver los datos de un cliente de ejemplo, se elige en «Ver como».
+    clienteId: null,
     ultimoId: 0,
   }
 
