@@ -43,7 +43,7 @@ export default async function ReservarPage({ searchParams }: Props) {
 
   return (
     <>
-      <PageHeader eyebrow="Reserva" title="reservá un turno">
+      <PageHeader volver eyebrow="Reserva" title="reservá un turno">
         Cuatro pasos: tu perro, los servicios, el horario y la confirmación. No hace falta crear una
         cuenta.
       </PageHeader>

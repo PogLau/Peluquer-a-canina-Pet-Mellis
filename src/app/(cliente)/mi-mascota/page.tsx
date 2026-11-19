@@ -16,7 +16,7 @@ export default async function MiMascotaPage() {
   if (!sesion) {
     return (
       <>
-        <PageHeader title="libreta de mi mascota" />
+        <PageHeader volver title="libreta de mi mascota" />
         <SinEnlace />
       </>
     )
@@ -25,7 +25,7 @@ export default async function MiMascotaPage() {
   const mascotas = await listClientPets(sesion.payload, sesion.tutor.id)
   return (
     <>
-      <PageHeader
+      <PageHeader volver
         eyebrow={`Hola, ${sesion.tutor.nombre.split(' ')[0]}`}
         title="libreta de mi mascota"
       >

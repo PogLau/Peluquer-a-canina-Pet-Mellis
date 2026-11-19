@@ -15,7 +15,7 @@ export default async function CotizarPage() {
 
   return (
     <>
-      <PageHeader eyebrow="Presupuesto al instante" title="cotizá el turno">
+      <PageHeader volver eyebrow="Presupuesto al instante" title="cotizá el turno">
         Elegí el tamaño, el manto y los servicios. El precio se actualiza mientras elegís.
       </PageHeader>
       {catalog && catalog.servicios.length > 0 ? (

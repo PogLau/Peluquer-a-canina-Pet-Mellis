@@ -1,6 +1,6 @@
 'use client'
 
-import { ChipGroup, TextField } from '@/components/ui'
+import { ChipGroup, Icon, LinkButton, TextField } from '@/components/ui'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
 import type { MascotaDelTutor } from '@/lib/cliente/reserva'
 import { coatLabels, coats, sizeLabels, sizes, type Coat, type Size } from '@/lib/pricing'
@@ -69,6 +69,19 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
 
       {estado.mascotaId === null && (
         <div className="flex flex-col gap-5">
+          {/* Perro nuevo: opción de volver a escanearlo con IA para conocer tamaño y pelaje */}
+          <div className="flex flex-col gap-3 rounded-md border-2 border-dashed border-linea bg-superficie-alt p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="flex items-start gap-2 text-sm">
+              <Icon name="escaner" size={20} className="mt-0.5 text-verde" />
+              <span>
+                <strong>¿No sabés su tamaño o tipo de pelaje?</strong> Escanealo con IA y después reservá con
+                los datos cargados.
+              </span>
+            </p>
+            <LinkButton href="/cotizar#escaneo" variant="secondary" size="small" icon="escaner" className="shrink-0">
+              Escanear con IA
+            </LinkButton>
+          </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <TextField
               label="Nombre de tu perro"

@@ -9,7 +9,7 @@ export default function CotizarDemo() {
   const s = useEstado()
   return (
     <>
-      <PageHeader eyebrow="Presupuesto al instante" title="cotizá el turno">
+      <PageHeader volver eyebrow="Presupuesto al instante" title="cotizá el turno">
         Elegí el tamaño, el manto y los servicios. El precio se actualiza mientras elegís.
       </PageHeader>
       {/* Sin clave de IA: «Sugerir con foto» muestra solo los ejemplos, rotulados como ejemplos */}

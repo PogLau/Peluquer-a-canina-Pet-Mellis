@@ -54,7 +54,7 @@ export default async function MisTurnosPage({
   if (!sesion) {
     return (
       <>
-        <PageHeader title="mis turnos" />
+        <PageHeader volver title="mis turnos" />
         <SinEnlace invalido={enlace === 'invalido'} />
       </>
     )
@@ -63,7 +63,7 @@ export default async function MisTurnosPage({
   const { proximos, pasados } = await listClientAppointments(sesion.payload, sesion.tutor.id)
   return (
     <>
-      <PageHeader
+      <PageHeader volver
         eyebrow={`Hola, ${sesion.tutor.nombre.split(' ')[0]}`}
         title="mis turnos"
         actions={

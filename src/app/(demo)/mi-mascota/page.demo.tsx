@@ -14,7 +14,7 @@ export default function MiMascotaDemo() {
 
   return (
     <>
-      <PageHeader
+      <PageHeader volver
         eyebrow={tutor ? `Hola, ${tutor.nombre.split(' ')[0]}` : 'Sin enlace personal'}
         title="libreta de mi mascota"
       >

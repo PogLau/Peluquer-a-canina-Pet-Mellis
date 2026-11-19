@@ -60,7 +60,7 @@ export default function MisTurnosDemo() {
 
   return (
     <>
-      <PageHeader
+      <PageHeader volver
         eyebrow={tutor ? `Hola, ${tutor.nombre.split(' ')[0]}` : 'Sin enlace personal'}
         title="mis turnos"
         actions={

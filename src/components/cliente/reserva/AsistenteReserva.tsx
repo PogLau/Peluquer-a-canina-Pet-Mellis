@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState, useTransition } from 'react'
 
-import { Button, LinkButton, Notice, Stepper, Ticket } from '@/components/ui'
+import { Button, LinkButton, Notice, Stepper, Ticket, BotonVolver } from '@/components/ui'
 import type { DiaLibre } from '@/lib/agenda'
 import type { Catalog } from '@/lib/catalogo'
 import {
@@ -235,7 +235,8 @@ export function AsistenteReserva({
                 Volver
               </Button>
             ) : (
-              <span />
+              // En el primer paso, «Volver» lleva a la pantalla anterior (o al inicio)
+              <BotonVolver />
             )}
             {paso < 3 ? (
               <Button
