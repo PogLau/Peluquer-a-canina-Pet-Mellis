@@ -43,7 +43,7 @@ export function FormularioMascota({
     return (
       <Ticket size="small" className="flex flex-wrap items-center justify-between gap-3">
         <span className="flex flex-col">
-          <span className="font-display text-xl titulo">{m.nombre}</span>
+          <span className="font-display text-xl oracion">{m.nombre}</span>
           <span className="text-sm text-texto-suave">
             {[m.raza, sizeLabels[m.tamano].label, `manto ${coatLabels[m.manto].toLowerCase()}`]
               .filter(Boolean)

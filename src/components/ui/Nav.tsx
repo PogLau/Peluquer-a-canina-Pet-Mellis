@@ -39,8 +39,8 @@ export function TopNav({ items, root }: { items: readonly NavItem[]; root: strin
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'inline-flex min-h-10 items-center rounded-sm px-3 text-sm font-bold focus-visible:outline-amarillo',
-                  active ? 'bg-amarillo text-petroleo' : 'text-crema hover:bg-crema/10',
+                  'inline-flex min-h-10 items-center rounded-sm px-3 text-sm font-medium focus-visible:outline-tinta',
+                  active ? 'bg-menta text-carbon' : 'text-texto hover:bg-superficie-alt',
                 )}
               >
                 {item.label}
@@ -60,7 +60,7 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
   return (
     <nav
       aria-label="Principal"
-      className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-tinta bg-superficie pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-30 border-t border-linea bg-superficie pb-[env(safe-area-inset-bottom)] md:hidden"
     >
       <ul
         className="grid"
@@ -75,7 +75,7 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex min-h-16 flex-col items-center justify-center gap-1 px-0.5 py-1.5 text-xs font-bold',
-                  active ? 'bg-amarillo text-petroleo' : 'text-texto',
+                  active ? 'bg-menta text-carbon' : 'text-texto',
                 )}
               >
                 <Icon name={item.icon} size={22} />
@@ -91,7 +91,7 @@ export function BottomNav({ items, root }: { items: readonly NavItem[]; root: st
   )
 }
 
-/** Menú lateral verde del panel de la peluquera (desde 768 px). */
+/** Menú lateral del panel de la peluquera (desde 768 px). */
 export function SideNav({ items, root }: { items: readonly NavItem[]; root: string }) {
   const pathname = usePathname()
   return (
@@ -105,8 +105,8 @@ export function SideNav({ items, root }: { items: readonly NavItem[]; root: stri
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'flex min-h-11 items-center gap-3 rounded-sm px-3 text-sm font-bold focus-visible:outline-amarillo',
-                  active ? 'bg-amarillo text-petroleo' : 'text-crema hover:bg-crema/10',
+                  'flex min-h-11 items-center gap-3 rounded-sm px-3 text-sm font-medium focus-visible:outline-tinta',
+                  active ? 'bg-menta text-carbon' : 'text-texto hover:bg-superficie-alt',
                 )}
               >
                 <Icon name={item.icon} size={20} />

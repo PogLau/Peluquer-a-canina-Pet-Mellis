@@ -47,7 +47,7 @@ export function FormularioAtencion({
   const [resumen, setResumen] = useState('')
   const [resumenEditado, setResumenEditado] = useState(false)
   const [recomendacion, setRecomendacion] = useState(datos.recomendacionSugerida)
-  // IA Scan & Care: la ficha de ingreso precarga la nota interna (editable)
+  // Consulta por foto: la ficha de ingreso precarga la nota interna (editable)
   const [notaInterna, setNotaInterna] = useState(() =>
     turno.escaneo ? notaDeIngreso(turno.escaneo) : '',
   )

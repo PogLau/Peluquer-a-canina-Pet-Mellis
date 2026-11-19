@@ -103,7 +103,7 @@ describe('reservar sin login', () => {
     expect(r.ok).toBe(false)
   })
 
-  it('IA Scan & Care: el escaneo se guarda con el turno y el panel lo lee; uno adulterado se descarta', async () => {
+  it('Consulta por foto: el escaneo se guarda con el turno y el panel lo lee; uno adulterado se descarta', async () => {
     const { toTurnoPanel } = await import('@/lib/panel/turnos')
     const escaneo = {
       raza: 'Yorkshire Terrier',
@@ -142,7 +142,7 @@ describe('reservar sin login', () => {
     const turnoMalo = await payload.findByID({ collection: 'turnos', id: malo.turnoId, depth: 0 })
     expect(turnoMalo.escaneo ?? null).toBeNull()
 
-    // La solicitud de Bella del seed viene de IA Scan & Care
+    // La solicitud de Bella del seed viene de Consulta por foto
     const bella = await payload.find({
       collection: 'turnos',
       where: { estado: { equals: 'solicitado' }, 'mascota.nombre': { equals: 'Bella' } },

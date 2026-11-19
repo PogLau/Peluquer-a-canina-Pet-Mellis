@@ -26,7 +26,7 @@ export async function sugerirConFoto(formData: FormData): Promise<ResultadoSuger
     return {
       ok: false,
       motivo: 'sin-ia',
-      mensaje: 'El análisis de fotos propias todavía no está activado. Probá con un ejemplo o elegí los datos a mano.',
+      mensaje: 'Por ahora no podemos leer fotos propias. Probá con un ejemplo o marcá los datos a mano.',
     }
   }
 

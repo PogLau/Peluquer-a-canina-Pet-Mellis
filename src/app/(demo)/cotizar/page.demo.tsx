@@ -12,7 +12,7 @@ export default function CotizarDemo() {
       <PageHeader volver eyebrow="Presupuesto al instante" title="cotizá el turno">
         Elegí el tamaño, el manto y los servicios. El precio se actualiza mientras elegís.
       </PageHeader>
-      {/* Sin clave de IA: «Sugerir con foto» muestra solo los ejemplos, rotulados como ejemplos */}
+      {/* Sin lectura automática: la consulta por foto muestra solo los ejemplos, rotulados como ejemplos */}
       <CotizadorBase catalog={catalogOf(s)} iaActiva={false} />
     </>
   )

@@ -1,11 +1,16 @@
-import { Manuale } from 'next/font/google'
+import { Outfit } from 'next/font/google'
 
-// Familia única oficial (pet-mellis-contexto-maestro.md §2.4): Manuale 700 para títulos y 400 para texto.
-export const manuale = Manuale({
+/*
+  Familia única: Outfit, la equivalente libre (Google Fonts, licencia OFL) de Stolzl, la tipografía de la
+  referencia de diseño. Las dos son geométricas, con «a» de un solo piso y mayúsculas anchas.
+  400 para texto, 500 para rótulos y botones, 700 para títulos.
+  Si el salón licencia Stolzl (Adobe Fonts o TipoType), se cambia acá por next/font/local con la misma variable.
+*/
+export const outfit = Outfit({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-manuale',
+  weight: ['400', '500', '700'],
+  variable: '--font-outfit',
   display: 'swap',
 })
 
-export const fontVariables = manuale.variable
+export const fontVariables = outfit.variable

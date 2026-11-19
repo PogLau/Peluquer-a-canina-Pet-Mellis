@@ -38,7 +38,7 @@ function Buscador() {
           onChange={(e) => setQ(e.target.value)}
           placeholder="Toby, caniche, Sofía…"
           autoComplete="off"
-          className="min-h-12 w-full rounded-sm border-2 border-tinta bg-superficie px-3 text-base text-texto placeholder:text-texto-suave"
+          className="min-h-12 w-full rounded-sm border border-linea bg-superficie px-3 text-base text-texto placeholder:text-texto-suave"
         />
       </div>
       {mascotas.length === 0 ? (
@@ -59,7 +59,7 @@ function Buscador() {
                     className="flex h-full flex-col gap-2 rounded-sm p-1"
                   >
                     <span className="flex items-center justify-between gap-2">
-                      <span className="titulo font-display text-xl">{m.nombre}</span>
+                      <span className="font-display text-xl">{m.nombre}</span>
                       <Icon name="flecha" size={20} />
                     </span>
                     <span className="text-sm text-texto-suave">

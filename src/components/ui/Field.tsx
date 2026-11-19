@@ -21,7 +21,7 @@ type ShellProps = {
 }
 
 const controlClasses =
-  'w-full rounded-sm border-2 border-tinta bg-superficie px-3 text-base text-texto placeholder:text-texto-suave disabled:border-linea disabled:bg-superficie-alt disabled:text-texto-suave aria-invalid:border-peligro'
+  'w-full rounded-sm border border-linea bg-superficie px-3 text-base text-texto placeholder:text-texto-suave disabled:border-linea disabled:bg-superficie-alt disabled:text-texto-suave aria-invalid:border-peligro'
 
 function useFieldIds(id: string | undefined, hint?: string, error?: string) {
   const auto = useId()

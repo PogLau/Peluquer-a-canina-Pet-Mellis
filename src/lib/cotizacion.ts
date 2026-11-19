@@ -26,7 +26,7 @@ export function aplicarSugerencia(estado: EstadoCotizacion, sugerencia: Sugerenc
   return { ...estado, tamano: sugerencia.tamano, manto: sugerencia.manto, nudos: sugerencia.nudos }
 }
 
-/** IA Scan & Care: además del perro, carga los servicios y extras del tratamiento sugerido. */
+/** Consulta por foto: además del perro, carga los servicios y extras del tratamiento sugerido. */
 export function aplicarPlan(
   estado: EstadoCotizacion,
   sugerencia: Sugerencia,
@@ -45,7 +45,7 @@ export function alternar(lista: readonly string[], id: string): string[] {
   return lista.includes(id) ? lista.filter((x) => x !== id) : [...lista, id]
 }
 
-/** Enlace a la reserva con el presupuesto precargado (y el escaneo de IA Scan & Care, si hubo). */
+/** Enlace a la reserva con el presupuesto precargado (y el escaneo de Consulta por foto, si hubo). */
 export function reservarHref(estado: EstadoCotizacion, escaneo?: EscaneoTurno | null): string {
   const params = new URLSearchParams({
     tamano: estado.tamano,

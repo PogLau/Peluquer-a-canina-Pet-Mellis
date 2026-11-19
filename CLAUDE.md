@@ -170,47 +170,53 @@ src/
 
 ## 7. Sistema de diseño
 
-> **Paleta oficial vigente (19/11/2026).** Reemplaza a las anteriores (amarillo y negro; azul, menta y coral; grafito y terracota). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-tinta`, `shadow-ticket`...). La paleta por defecto de Tailwind está desactivada.
+> **Paleta y tipografía vigentes (19/11/2026),** tomadas de la referencia de Behance «Web design for grooming salon» (Anna Sh). Reemplazan a las anteriores (crema, verde profundo, petróleo y amarillo; antes, amarillo y negro; azul, menta y coral; grafito y terracota). Los tokens viven en `src/styles/globals.css` y se usan como utilidades de Tailwind (`bg-accion`, `text-texto-suave`, `border-linea`, `shadow-ticket`...). La paleta por defecto de Tailwind está desactivada.
 
-Estilo: fondo blanco cálido con trama de puntos, tarjetas «ticket» (borde petróleo de 2 px y sombra dura de 4 px), títulos y subtítulos en MAYÚSCULAS (CSS: h1–h4, .titulo y .rotulo, con letter-spacing). Toda hora visible lleva «hs» al final (formatTime, conHs, franjaHoraria en src/lib/format.ts). El salón está en Merlo, Buenos Aires (UBICACION_SALON en src/lib/brand.ts), visible en el inicio y en el pie. Todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
+Estilo: fondo blanco liso, **líneas finas** (bordes de 1 px gris `linea`), esquinas de 8 px, sombras suaves, títulos en oración (se escriben en minúscula en el código y CSS pone la primera letra en mayúscula), etiquetas en píldora con contorno fino. Todo color sale de un token, todo texto cumple el contraste WCAG AA y los dos paneles usan **los mismos componentes**.
 
 ### 7.1 Tokens de color
 
 | Token (utilidad) | Hex | Uso |
 |---|---|---|
-| `crema` (blanco cálido) | #fffdf7 | Fondo general (`fondo`) y texto sobre verde |
-| `verde` (verde profundo) | #245b45 | Logo, header, **títulos principales** (`titulo`), **CTA principal** (`accion`, texto crema), estados activos |
-| `petroleo` (azul petróleo) | #173b46 | Texto principal, subtítulos, etiquetas, bordes y sombra (`texto`, `tinta`) |
-| `amarillo` (amarillo cálido) | #f4d35e | Selección (chips, pasos, pestaña activa), badges, CTA secundario (`Button variant="highlight"`), siempre con texto petróleo |
-| `naranja` (naranja amable) | #f28c45 | Promociones, alertas suaves e íconos destacados, con texto petróleo |
+| `blanco` | #ffffff | Fondo, tarjetas, header |
+| `carbon` | #2b2b2b | Texto, títulos, contorno del botón secundario y foco (`texto`, `titulo`, `tinta`) |
+| `verde` (salvia) | #609b7b | Marca: palabra destacada de los títulos grandes, gráficos, collar de la mascota. **No** para texto chico ni con texto blanco encima (3,2:1) |
+| `verde-oscuro` | #48745c | **CTA principal** (`accion`, texto blanco), bandas verdes con texto blanco, rótulos y enlaces verdes |
+| `menta` | #caddd3 | Selección (chips, pasos, pestaña activa: `seleccion`), siempre con texto carbón |
+| `naranja` | #e6873c | CTA secundario (`Button variant="highlight"`), destacados, toalla de la mascota; texto carbón |
+| `rosa` | #efb9d6 | Insignias («Popular»), detalles de la mascota (lengua, moño, almohadillas); texto carbón |
+| `gris` | #f5f5f5 | Fondo alternativo (`superficie-alt`) |
+| `durazno` | #faede5 | Tarjetas resaltadas, avisos suaves |
 
-Derivados de las escalas 50–950 de la marca (verificados AA en `tests/contraste.test.ts`): `verde-claro` #dbf0e8, `verde-hover` #2c6d53, `amarillo-claro` #fcf2cf, `amarillo-hover` #f2cb40, `naranja-claro` #fae4d1, `naranja-texto` #8b480e, `petroleo-claro` #ecf6f9 (`superficie-alt`), `texto-suave` #256174, `linea` #d8ecf3. Estados: `exito`, `aviso`, `peligro`, `info` con su `*-fondo`. Tema oscuro en `[data-theme="oscuro"]`.
+Derivados (AA verificado en `tests/contraste.test.ts`): `verde-hover` #436c56, `menta-hover` #b9d0c3, `menta-claro` #e3eee8, `naranja-hover` #e37a27, `naranja-texto` #8d4912, `rosa-claro` #fbe9f2, `texto-suave` #595959, `linea` #e4e4e4. Estados: `exito`, `aviso`, `peligro`, `info` con su `*-fondo`. Tema oscuro en `[data-theme="oscuro"]`.
 
 **Reglas de color:**
-- CTA principal: verde con texto blanco cálido. Botones amarillos o naranjas: texto petróleo.
-- Nunca amarillo ni naranja como texto chico sobre fondos claros (para eso está `naranja-texto`).
-- Sobre el header o bloques verdes, el botón principal pasa a `variant="highlight"` (amarillo).
+- CTA principal: verde oscuro con texto blanco. Botones naranjas, menta o rosas: texto carbón.
+- El salvia puro (`verde`) solo en texto grande (24 px o más en negrita) o en piezas decorativas.
 - Botón deshabilitado: fondo `superficie-alt`, texto `texto-suave`, sin sombra, y un mensaje con lo que falta.
 - Los estados se acompañan con palabras o íconos, no solo color.
 - Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: lo verifica `tests/design-rules.test.ts`.
 
 ### 7.2 Tipografía
 
-Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan Sora, Nunito, Space Mono, Fredoka, Poppins ni Inter.
+Familia única: **Outfit** (Google Fonts, OFL), equivalente libre de **Stolzl**, la de la referencia (Stolzl es paga: si se licencia, se cambia en `src/app/fonts.ts` con `next/font/local` y la misma variable). Ya no se usa Manuale.
 
-| Rol | Peso | Tamaño (escala 1.333 sobre 16 px) |
+| Rol | Peso | Tamaño |
 |---|---|---|
-| Títulos (`font-display`, h1–h3) | 700 Bold | `text-4xl` 50,6 px (H2) · `text-3xl` 37,9 px (H3) · `text-2xl` 28,4 px (H4) · `text-xl` 21,3 px (H5), en MAYÚSCULAS con letter-spacing 0,03em; los dos más grandes se achican con `clamp()` en el celular |
-| Cuerpo y botones (`font-sans`) | 400 Regular / 700 Bold | 16 px el cuerpo, interlineado 1,5; botones 16 px (mínimo 14) |
-| Rótulos y datos (`.rotulo`) | 700 Bold | 12 px (small) |
+| Título de portada (`text-4xl`) | 700 | 36–56 px, interlineado 1,08, espaciado −0,015 em |
+| Título de sección (`text-3xl`) | 700 | 28–36 px |
+| Título de bloque y de tarjeta (`text-2xl`, `text-xl`) | 700 | 26 px · 20 px |
+| Cuerpo (`font-sans`) | 400 | 16 px, interlineado 1,5 |
+| Botones y navegación | 500 | 16 px (mínimo 14) |
+| Rótulos y datos (`.rotulo`) | 500 | 12 px, espaciado 0,03 em |
 
 - Cargar la fuente con `next/font` (`src/app/fonts.ts`), no con `@import`.
 - **Mínimo de 12 px** para cualquier texto y de **14 px** para acciones. Prohibido `text-[9px]` y `text-[10px]`.
-- Íconos de interfaz: SVG de 24 × 24 con trazo de 1,75 px en `currentColor` (`components/ui/Icons.tsx`). **Sin emojis.**
-- **Logo:** el manual define un isotipo nuevo (una «M» con dos perros), pero todavía no hay archivo. Hasta tenerlo, se usan los mellis de siempre recoloreados con la paleta oficial (`components/ui/Logo.tsx`, `app/icon.svg`).
+- Íconos de interfaz: SVG de 24 × 24 con trazo fino en `currentColor` (`components/ui/Icons.tsx`). **Sin emojis.**
+- **Mascota y logo:** los mellis, dos perritos mestizos esponjosos y despeinados en estilo sticker (contorno a mano alzada en carbón, borde blanco, pocos trazos). Melli lleva pañuelo naranja; su melliza es su espejo, con mancha durazno en el ojo y pañuelo verde. En cada escena aparecen los dos haciendo algo juntos (`components/marca/Mascota.tsx`, archivos en `public/marca/`). Una sola escena por pantalla en el panel del cliente; en el panel de la peluquera, íconos. El isotipo son las dos cabezas juntas. El logotipo es «pet **mellis**» con la segunda palabra en verde. Nada de rulos de caniche.
 
 ### 7.3 Componentes compartidos (`components/ui/`)
-- `Ticket` (normal y chico)
+- `Ticket` (normal y chico): borde fino de 1 px y sombra suave
 - `Button` (`primary`, `secondary`, `ghost`)
 - `Field` (con `<label htmlFor>`, ayuda y error)
 - `Chip` (selector de opción)
@@ -232,6 +238,9 @@ Familia única oficial: **Manuale** (Google Fonts), serif humanista. No se usan 
 - Fechas con `Intl.DateTimeFormat('es-AR')`, por ejemplo «lunes 16 de noviembre». La fecha del día siempre se calcula, nunca se escribe fija.
 - Moneda: ARS con `Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })`.
 - Fotos propias o libres, guardadas en el proyecto o en Media. No usar hotlinks a Unsplash.
+- Horas siempre con «hs» al final: «10:30 hs», «09:00 a 18:00 hs» (`formatTime`, `conHs` y `franjaHoraria` en `src/lib/format.ts`). Las duraciones de servicio («2 a 3 h») no llevan «hs».
+- Ubicación: **Merlo, Buenos Aires** (`UBICACION_SALON` en `src/lib/brand.ts`), visible en el inicio y en el pie de página del panel de cliente.
+- La herramienta de la foto se llama **«IA Scan»** (decisión del 19/11/2026: es la única mención de IA permitida en pantalla, en títulos y botones como «Escanear con IA Scan»). El resto del texto sigue la guía: «precio orientativo», «lo confirmamos al ver a tu perro», «lectura automática, a confirmar». Sin «beta» ni «& Care».
 
 ---
 

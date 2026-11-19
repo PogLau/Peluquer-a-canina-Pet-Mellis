@@ -9,20 +9,20 @@ import {
 } from '@/lib/ia/cuidado'
 
 /**
- * Ficha de ingreso de IA Scan & Care en el panel (Solicitudes, Hoy, Registrar).
+ * Ficha de la consulta por foto en el panel (Solicitudes, Hoy, Registrar).
  * Siempre rotulada como sugerencia: la peluquera la confirma al ver al perro.
  */
 export function EscaneoIngreso({ escaneo: e, compacto = false }: { escaneo: EscaneoTurno; compacto?: boolean }) {
   const plan = tratamientoInfo[e.tratamiento].nombre
   return (
     <section
-      aria-label="Ficha de ingreso de IA Scan & Care"
-      className="flex flex-col gap-1.5 rounded-md border-2 border-tinta bg-amarillo-claro p-3 text-sm text-petroleo"
+      aria-label="Ficha de IA Scan"
+      className="flex flex-col gap-1.5 rounded-md border border-linea bg-durazno p-3 text-sm text-carbon"
     >
       <p className="flex flex-wrap items-center gap-2">
         <Icon name="escaner" size={18} />
-        <span className="rotulo">IA Scan &amp; Care</span>
-        <span className="rotulo rounded-pill border-2 border-tinta bg-superficie px-2 py-0.5 text-texto">
+        <span className="rotulo">Consulta por foto</span>
+        <span className="rotulo rounded-pill border border-linea bg-superficie px-2 py-0.5 text-texto">
           {origenLabels[e.origen]}
         </span>
       </p>

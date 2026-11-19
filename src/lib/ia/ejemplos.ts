@@ -4,9 +4,9 @@ import { mantoDeTextura, tratamientoSugerido, type Hidratacion, type Textura } f
 import type { Confianza, Sugerencia } from './sugerencia'
 
 /*
-  Ejemplos de IA Scan & Care. NO son análisis de imágenes: cada foto de referencia tiene un
+  Ejemplos de la consulta por foto. NO son análisis de imágenes: cada foto de referencia tiene un
   resultado preparado a mano y la interfaz lo dice («Ejemplo de demo»). Sirven para mostrar el
-  flujo completo sin clave de IA, también en la demo estática.
+  flujo completo sin lectura automática, también en la demo estática.
   Las fotos están en public/fotos (créditos en docs/fotos.md).
 */
 

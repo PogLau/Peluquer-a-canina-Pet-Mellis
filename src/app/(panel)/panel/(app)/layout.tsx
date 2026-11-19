@@ -19,19 +19,19 @@ export default async function PanelLayout({ children }: { children: ReactNode })
     <>
       <a
         href="#contenido"
-        className="sr-only z-50 rounded-sm bg-accion px-4 py-2 font-bold text-petroleo focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-sm bg-menta px-4 py-2 font-bold text-carbon focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido
       </a>
       <div className="md:grid md:min-h-dvh md:grid-cols-[200px_minmax(0,1fr)] lg:grid-cols-[248px_minmax(0,1fr)]">
-        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-verde md:h-dvh md:border-b-0 md:border-r-2">
+        <header className="sticky top-0 z-40 w-full border-b border-linea bg-superficie md:h-dvh md:border-b-0 md:border-r">
           <div className="flex min-h-16 items-center justify-between gap-3 px-4 md:h-full md:flex-col md:items-stretch md:justify-start md:gap-8 md:py-6">
             <Link
               href="/panel"
               aria-label="Pet Mellis, panel"
-              className="rounded-sm focus-visible:outline-amarillo"
+              className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo tone="dark" tagline="panel del salón" />
+              <Imagotipo tagline="panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNav} root="/panel" />
@@ -40,13 +40,13 @@ export default async function PanelLayout({ children }: { children: ReactNode })
               {/* En el celular, Informes no entra en la barra inferior: queda acá */}
               <Link
                 href="/panel/informes"
-                className="inline-flex min-h-10 items-center gap-2 rounded-sm px-2 text-sm font-bold text-crema hover:bg-crema/10 focus-visible:outline-amarillo md:hidden"
+                className="inline-flex min-h-10 items-center gap-2 rounded-sm px-2 text-sm font-bold text-texto hover:bg-superficie-alt focus-visible:outline-tinta md:hidden"
               >
                 <Icon name="grafico" size={20} />
                 <span className="sr-only sm:not-sr-only">Informes</span>
               </Link>
               <p
-                className="hidden truncate px-3 text-sm text-crema/80 md:block"
+                className="hidden truncate px-3 text-sm text-texto-suave md:block"
                 title={user.email}
               >
                 {nombre}
@@ -54,7 +54,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
               <form action={salir}>
                 <button
                   type="submit"
-                  className="inline-flex min-h-10 w-full items-center gap-2 rounded-sm px-2 text-sm font-bold text-crema hover:bg-crema/10 focus-visible:outline-amarillo md:px-3"
+                  className="inline-flex min-h-10 w-full items-center gap-2 rounded-sm px-2 text-sm font-bold text-texto hover:bg-superficie-alt focus-visible:outline-tinta md:px-3"
                 >
                   <Icon name="salir" size={20} />
                   <span className="sr-only sm:not-sr-only">Salir</span>

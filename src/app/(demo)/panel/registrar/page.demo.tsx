@@ -46,7 +46,7 @@ function Registro() {
     <>
       <Link
         href="/panel"
-        className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde"
+        className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde-oscuro"
       >
         <Icon name="volver" size={18} /> Hoy
       </Link>

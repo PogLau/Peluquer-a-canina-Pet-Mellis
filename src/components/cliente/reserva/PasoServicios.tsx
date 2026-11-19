@@ -66,7 +66,7 @@ export function PasoServicios({ estado, set, catalog, quote }: Props) {
 
       {/* El precio aparece recién con al menos un servicio elegido (el tamaño ya se eligió en el paso 1) */}
       {estado.servicios.length > 0 && (
-        <div className="flex flex-col gap-2 rounded-sm border-2 border-tinta bg-superficie-alt px-4 py-3">
+        <div className="flex flex-col gap-2 rounded-sm border border-linea bg-superficie-alt px-4 py-3">
           <ul className="flex flex-col gap-1.5 text-sm" aria-live="polite">
             {quote.lineas.map((l) => (
               <li key={`${l.tipo}-${l.id}`} className="flex items-baseline justify-between gap-3">

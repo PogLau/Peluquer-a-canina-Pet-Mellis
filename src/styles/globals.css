@@ -1,95 +1,94 @@
 @import 'tailwindcss';
 
 /*
-  Pet Mellis: tokens de marca (paleta oficial del 19/11/2026).
-  Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
-  - Blanco cálido #FFFDF7: fondo y tarjetas.            - Verde profundo #245B45: marca, header, títulos, CTA principal.
-  - Azul petróleo #173B46: texto, etiquetas y bordes.     - Amarillo cálido #F4D35E: destacados, precios, CTA secundario.
-  - Naranja amable #F28C45: promociones, alertas suaves e íconos destacados.
-  Los tonos «-claro», «-hover» y «-texto» salen de las escalas 50–950 de la marca, para fondos suaves,
-  hover y texto chico con contraste AA (ver tests/contraste.test.ts).
+  Pet Mellis: tokens de marca (paleta del 19/11/2026, tomada de la referencia «Web design for grooming
+  salon»). Todo color de la interfaz sale de acá. Nada de hex sueltos en los componentes.
+  - Blanco #FFFFFF: fondo y tarjetas.               - Carbón #2B2B2B: texto, títulos y contornos.
+  - Verde salvia #609B7B: marca, bandas, acentos.  - Naranja #E6873C: CTA secundario y destacados.
+  - Menta #CADDD3: selección y fondos suaves.      - Rosa #EFB9D6: insignias y detalles de la mascota.
+  - Gris #F5F5F5 y durazno #FAEDE5: fondos alternativos.
+  Los tonos «-oscuro», «-hover» y «-texto» salen de la misma paleta oscurecida, para que el texto
+  chico y los botones cumplan AA (ver tests/contraste.test.ts): el salvia puro solo da 3,2:1 con blanco.
 */
 
 :root {
-  /* Paleta oficial */
-  --crema: #fffdf7; /* blanco cálido: fondo y tarjetas */
-  --verde: #245b45; /* primario de marca */
-  --petroleo: #173b46; /* texto principal y bordes */
-  --amarillo: #f4d35e; /* destacados y llamadas a la acción secundarias */
-  --naranja: #f28c45; /* acentos y detalles */
+  /* Paleta de la referencia */
+  --blanco: #ffffff;
+  --carbon: #2b2b2b;
+  --verde: #609b7b; /* salvia */
+  --menta: #caddd3;
+  --naranja: #e6873c;
+  --rosa: #efb9d6;
+  --gris: #f5f5f5;
+  --durazno: #faede5;
 
-  /* Derivados (escalas primary / secondary / accent / text) */
-  --verde-hover: #2c6d53; /* primary-700 */
-  --verde-claro: #dbf0e8; /* primary-100 */
-  --amarillo-hover: #f2cb40; /* secondary-400 */
-  --amarillo-claro: #fcf2cf; /* secondary-100 */
-  --naranja-claro: #fae4d1; /* accent-100 */
-  --naranja-texto: #8b480e; /* accent-700: naranja para texto chico sobre claro */
-  --petroleo-claro: #ecf6f9; /* text-50 */
+  /* Derivados para contraste AA */
+  --verde-oscuro: #48745c; /* botones y texto verde chico: 5,35:1 con blanco */
+  --verde-hover: #436c56;
+  --menta-hover: #b9d0c3;
+  --menta-claro: #e3eee8;
+  --naranja-hover: #e37a27;
+  --naranja-texto: #8d4912; /* naranja para texto chico sobre claro */
+  --rosa-claro: #fbe9f2;
 
   /* Semánticos (cambian con el tema) */
-  --fondo: var(--crema);
-  --superficie: #ffffff;
-  --superficie-alt: var(--petroleo-claro);
-  --texto: var(--petroleo);
-  --titulo: var(--verde); /* títulos principales (h1) */
-  --texto-suave: #256174; /* text-700 */
-  --tinta: var(--petroleo);
-  --linea: #d8ecf3; /* text-100 */
-  --accion: var(--verde);
-  --sobre-accion: var(--crema);
-  --seleccion: var(--amarillo);
-  --sobre-seleccion: var(--petroleo);
+  --fondo: var(--blanco);
+  --superficie: var(--blanco);
+  --superficie-alt: var(--gris);
+  --texto: var(--carbon);
+  --titulo: var(--carbon);
+  --texto-suave: #595959;
+  --tinta: var(--carbon); /* foco y contornos fuertes */
+  --linea: #e4e4e4; /* bordes finos de tarjetas, campos y separadores */
+  --accion: var(--verde-oscuro);
+  --sobre-accion: var(--blanco);
+  --seleccion: var(--menta);
+  --sobre-seleccion: var(--carbon);
 
   /* Estados */
-  --exito: #1d4937; /* primary-800 */
-  --exito-fondo: var(--verde-claro);
-  --aviso: #5f4c07; /* secondary-800 */
-  --aviso-fondo: var(--amarillo-claro);
+  --exito: #3e6550;
+  --exito-fondo: var(--menta-claro);
+  --aviso: var(--naranja-texto);
+  --aviso-fondo: var(--durazno);
   --peligro: #b42318;
   --peligro-fondo: #fde4e1;
-  --info: var(--naranja-texto);
-  --info-fondo: var(--naranja-claro);
+  --info: #7a2e58;
+  --info-fondo: var(--rosa-claro);
 
-  /* Forma */
+  /* Forma: líneas finas y sombras suaves */
   --radio-sm: 6px;
-  --radio-md: 10px;
-  --radio-lg: 18px;
+  --radio-md: 8px;
+  --radio-lg: 14px;
   --radio-pill: 999px;
-  --borde-ticket: 2px;
-  --sombra-ticket: 4px 4px 0 0 var(--tinta);
-  --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
-  --trazo-icono: 1.75px;
-
-  /* Patrón de puntos del papel (tinta al 10 %) */
-  --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
+  --borde-ticket: 1px;
+  --sombra-ticket: 0 1px 2px rgb(43 43 43 / 0.04), 0 6px 20px -8px rgb(43 43 43 / 0.12);
+  --sombra-ticket-presionada: 0 1px 2px rgb(43 43 43 / 0.06);
+  --trazo-icono: 1.5px;
 
   color-scheme: light;
 }
 
 [data-theme='oscuro'] {
-  --fondo: #0c2027; /* text-900 */
-  --superficie: #102a33;
-  --superficie-alt: #19414d; /* text-800 */
-  --texto: var(--crema);
-  --titulo: var(--amarillo);
-  --texto-suave: #b2dae6; /* text-200 */
-  --tinta: var(--amarillo);
-  --linea: #256174;
-  --accion: var(--amarillo);
-  --sobre-accion: var(--petroleo);
-  --exito: #92d3b9;
-  --exito-fondo: #1d4937;
-  --aviso: var(--amarillo);
-  --aviso-fondo: #302603;
+  --fondo: #1f2421;
+  --superficie: #262c28;
+  --superficie-alt: #2e3530;
+  --texto: var(--blanco);
+  --titulo: var(--menta);
+  --texto-suave: #c3cec7;
+  --tinta: var(--menta);
+  --linea: #3a433d;
+  --accion: var(--menta);
+  --sobre-accion: var(--carbon);
+  --exito: #a9d3bb;
+  --exito-fondo: #23372c;
+  --aviso: #f1ae74;
+  --aviso-fondo: #3a2614;
   --peligro: #ff8a80;
   --peligro-fondo: #3a1512;
-  --info: #f1ae74;
-  --info-fondo: #2e1805;
-  --trama: color-mix(in srgb, var(--tinta) 10%, transparent);
-  /* Los var() de :root ya se resolvieron con la tinta clara: hay que redefinirlos */
-  --sombra-ticket: 4px 4px 0 0 var(--tinta);
-  --sombra-ticket-presionada: 1px 1px 0 0 var(--tinta);
+  --info: #f3c6de;
+  --info-fondo: #3a2130;
+  --sombra-ticket: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 20px -8px rgb(0 0 0 / 0.5);
+  --sombra-ticket-presionada: 0 1px 2px rgb(0 0 0 / 0.3);
 
   color-scheme: dark;
 }
@@ -103,18 +102,21 @@
   --color-transparent: transparent;
   --color-current: currentColor;
 
-  --color-crema: var(--crema);
+  --color-blanco: var(--blanco);
+  --color-carbon: var(--carbon);
   --color-verde: var(--verde);
-  --color-petroleo: var(--petroleo);
-  --color-amarillo: var(--amarillo);
+  --color-menta: var(--menta);
   --color-naranja: var(--naranja);
+  --color-rosa: var(--rosa);
+  --color-gris: var(--gris);
+  --color-durazno: var(--durazno);
+  --color-verde-oscuro: var(--verde-oscuro);
   --color-verde-hover: var(--verde-hover);
-  --color-verde-claro: var(--verde-claro);
-  --color-amarillo-hover: var(--amarillo-hover);
-  --color-amarillo-claro: var(--amarillo-claro);
-  --color-naranja-claro: var(--naranja-claro);
+  --color-menta-hover: var(--menta-hover);
+  --color-menta-claro: var(--menta-claro);
+  --color-naranja-hover: var(--naranja-hover);
   --color-naranja-texto: var(--naranja-texto);
-  --color-petroleo-claro: var(--petroleo-claro);
+  --color-rosa-claro: var(--rosa-claro);
 
   --color-fondo: var(--fondo);
   --color-superficie: var(--superficie);
@@ -138,10 +140,10 @@
   --color-info: var(--info);
   --color-info-fondo: var(--info-fondo);
 
-  /* Familia única oficial: Manuale (títulos 700, texto 400) */
-  --font-display: var(--font-manuale), Georgia, 'Times New Roman', serif;
-  --font-sans: var(--font-manuale), Georgia, 'Times New Roman', serif;
-  --font-mono: var(--font-manuale), Georgia, serif;
+  /* Familia única: Outfit (equivalente libre de Stolzl, la de la referencia). 400 texto, 500 rótulos y botones, 700 títulos */
+  --font-display: var(--font-outfit), 'Helvetica Neue', Arial, sans-serif;
+  --font-sans: var(--font-outfit), 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: var(--font-outfit), 'Helvetica Neue', Arial, sans-serif;
 
   --radius-sm: var(--radio-sm);
   --radius-md: var(--radio-md);
@@ -151,23 +153,23 @@
   --shadow-ticket: var(--sombra-ticket);
   --shadow-ticket-presionada: var(--sombra-ticket-presionada);
 
-  /* Escala modular 1.333 sobre 16 px (manual §2.4). Nada por debajo de 12 px. */
-  --text-xs: 12px; /* small */
-  --text-xs--line-height: 18px;
+  /* Escala de la referencia: títulos grandes y compactos, cuerpo de 16 px. Nada por debajo de 12 px. */
+  --text-xs: 12px; /* rótulos */
+  --text-xs--line-height: 16px;
   --text-sm: 14px;
   --text-sm--line-height: 21px;
-  --text-base: 16px; /* body */
+  --text-base: 16px; /* cuerpo */
   --text-base--line-height: 24px;
   --text-lg: 18px;
   --text-lg--line-height: 27px;
-  --text-xl: 21.33px; /* H5 */
-  --text-xl--line-height: 28px;
-  --text-2xl: 28.43px; /* H4 */
-  --text-2xl--line-height: 34px;
-  --text-3xl: clamp(28.43px, 7vw, 37.9px); /* H3, se achica en el celular */
+  --text-xl: 20px; /* título de tarjeta */
+  --text-xl--line-height: 26px;
+  --text-2xl: 26px; /* título de bloque */
+  --text-2xl--line-height: 32px;
+  --text-3xl: clamp(28px, 6vw, 36px); /* título de sección («Nuestros servicios») */
   --text-3xl--line-height: 1.15;
-  --text-4xl: clamp(37.9px, 9vw, 50.56px); /* H2 */
-  --text-4xl--line-height: 1.05;
+  --text-4xl: clamp(36px, 8vw, 56px); /* título principal de portada */
+  --text-4xl--line-height: 1.08;
 }
 
 @layer base {
@@ -177,8 +179,6 @@
 
   body {
     background-color: var(--fondo);
-    background-image: radial-gradient(var(--trama) 1px, transparent 1.2px);
-    background-size: 18px 18px;
     color: var(--texto);
     font-family: var(--font-sans);
     font-size: 16px;
@@ -186,14 +186,19 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Títulos y subtítulos en MAYÚSCULAS, con un poco de aire entre letras para que se lean bien */
   h1,
   h2,
-  h3,
-  h4 {
+  h3 {
     font-family: var(--font-display);
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  /* Los títulos se escriben en minúscula en el código; se muestran como oración, igual que la referencia */
+  h1::first-letter,
+  h2::first-letter,
+  h3::first-letter {
     text-transform: uppercase;
   }
 
@@ -208,25 +213,23 @@
   }
 
   ::selection {
-    background: var(--amarillo-claro);
-    color: var(--petroleo);
+    background: var(--menta);
+    color: var(--carbon);
   }
 }
 
 @layer components {
-  /* Títulos que no son h1–h4 (tarjetas, avisos, nombres en listas): igual que los títulos */
-  .titulo {
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-
-  /* Rótulo de datos: Manuale Bold 12 px (estados, fechas, datos del ticket) */
+  /* Rótulo de datos: Outfit Medium 12 px (estados, fechas, datos del ticket) */
   .rotulo {
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 16px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* Texto en oración: primera letra mayúscula (reemplaza al viejo «lowercase» de los títulos) */
+  .oracion::first-letter {
     text-transform: uppercase;
   }
 
@@ -235,35 +238,21 @@
   }
 }
 
-/* IA Scan & Care: línea que barre la foto mientras se analiza */
-@keyframes barrido {
-  0% {
-    top: 0%;
+/* Consulta por foto: Melli espera, con un balanceo suave, mientras se lee la foto */
+@keyframes espera {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
   }
   50% {
-    top: calc(100% - 3px);
-  }
-  100% {
-    top: 0%;
+    transform: translateY(-4px) rotate(-3deg);
   }
 }
 
 @layer components {
-  .escaneo-linea {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: var(--amarillo);
-    box-shadow: 0 0 14px 4px color-mix(in srgb, var(--amarillo) 55%, transparent);
-    animation: barrido 2.2s ease-in-out infinite;
-  }
-
-  .escaneo-grilla {
-    background-image:
-      linear-gradient(color-mix(in srgb, var(--amarillo) 22%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in srgb, var(--amarillo) 22%, transparent) 1px, transparent 1px);
-    background-size: 28px 28px;
+  .mascota-espera {
+    animation: espera 1.6s ease-in-out infinite;
+    transform-origin: 50% 100%;
   }
 }
 
@@ -275,9 +264,7 @@
     animation-duration: 0.01ms !important;
   }
 
-  /* Sin barrido: la línea queda quieta en el medio */
-  .escaneo-linea {
+  .mascota-espera {
     animation: none !important;
-    top: 50%;
   }
 }

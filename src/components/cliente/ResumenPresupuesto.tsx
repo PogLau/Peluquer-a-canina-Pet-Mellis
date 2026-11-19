@@ -21,7 +21,7 @@ export function ResumenPresupuesto({
   estado: EstadoCotizacion
   /** False mientras la persona no tocó un tamaño (ni lo cargó el escaneo). */
   tamanoElegido: boolean
-  /** Si hubo IA Scan & Care, la ficha de ingreso viaja con la reserva. */
+  /** Si hubo Consulta por foto, la ficha de ingreso viaja con la reserva. */
   escaneo?: EscaneoTurno | null
 }) {
   const sinServicio = estado.servicioIds.length === 0
@@ -51,10 +51,10 @@ export function ResumenPresupuesto({
         </p>
       ) : (
         <>
-          <ul className="flex flex-col gap-2 border-y-2 border-dashed border-linea py-3" aria-live="polite">
+          <ul className="flex flex-col gap-2 border-y border-dashed border-linea py-3" aria-live="polite">
             {quote.lineas.map((l) => (
               <li key={l.id} className="flex items-baseline justify-between gap-3 text-sm">
-                <span className={cn(l.tipo === 'recargo' && 'font-bold text-verde')}>{l.nombre}</span>
+                <span className={cn(l.tipo === 'recargo' && 'font-bold text-verde-oscuro')}>{l.nombre}</span>
                 <span className="cifras whitespace-nowrap font-bold">{formatMoney(l.monto)}</span>
               </li>
             ))}

@@ -58,7 +58,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
   // Marca «sugerido» mientras el valor elegido coincida con la sugerencia
   const sugerido = (campo: 'tamano' | 'manto' | 'nudos') =>
     sugerencia && sugerencia[campo] === estado[campo]
-      ? 'Sugerido por el escaneo. Podés cambiarlo.'
+      ? 'Sale de la foto. Podés cambiarlo.'
       : undefined
 
   const hintTamano =

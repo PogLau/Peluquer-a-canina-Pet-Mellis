@@ -2,7 +2,8 @@
 
 import { useState, useSyncExternalStore, type ReactNode } from 'react'
 
-import { Button, Icon, Ticket } from '@/components/ui'
+import { Melli } from '@/components/marca/Mascota'
+import { Button, Ticket } from '@/components/ui'
 
 function suscribirHash(avisar: () => void) {
   window.addEventListener('hashchange', avisar)
@@ -10,7 +11,7 @@ function suscribirHash(avisar: () => void) {
 }
 
 /**
- * IA Scan & Care plegado: quien ya sabe el tamaño de su perro va directo al formulario.
+ * Consulta por foto plegada: quien ya sabe el tamaño de su perro va directo al formulario.
  * Se abre con el botón o al llegar con /cotizar#escaneo (desde el inicio o la reserva).
  * Una vez abierto queda abierto, para no perder la foto ni el escaneo.
  */
@@ -31,15 +32,13 @@ export function EscaneoPlegado({ children }: { children: ReactNode }) {
       highlighted
       className="flex scroll-mt-24 flex-wrap items-center gap-x-4 gap-y-3"
     >
-      <span className="grid size-10 shrink-0 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-petroleo">
-        <Icon name="escaner" />
-      </span>
+      <Melli pose="foto" size={72} className="shrink-0" />
       <div className="min-w-0 flex-1 basis-56">
         <h2 id="titulo-escaneo-plegado" className="text-xl">
-          ¿no sabés el tamaño o el pelaje?
+          IA Scan
         </h2>
         <p className="text-sm text-texto-suave">
-          Con una foto, IA Scan &amp; Care (beta) te sugiere los datos y el tratamiento.
+          ¿No sabés el tamaño o el pelaje? Mandanos una foto y te sugerimos el tamaño, el tipo de pelo y el servicio.
         </p>
       </div>
       <Button
@@ -49,7 +48,7 @@ export function EscaneoPlegado({ children }: { children: ReactNode }) {
         aria-expanded={false}
         onClick={() => setAbiertoPorBoton(true)}
       >
-        Escanear una foto
+        Escanear con IA Scan
       </Button>
     </Ticket>
   )

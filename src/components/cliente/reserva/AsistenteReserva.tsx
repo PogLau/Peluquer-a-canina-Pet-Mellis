@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState, useTransition } from 'react'
 
+import { Melli } from '@/components/marca/Mascota'
 import { Button, LinkButton, Notice, Stepper, Ticket, BotonVolver } from '@/components/ui'
 import type { DiaLibre } from '@/lib/agenda'
 import type { Catalog } from '@/lib/catalogo'
@@ -35,7 +36,7 @@ type Props = {
     resumen: { mascota: string; servicios: string[] },
   ) => Promise<RespuestaReserva>
   misTurnosHref?: string
-  /** Ficha de IA Scan & Care que viene del cotizador: se guarda con el turno para la peluquera. */
+  /** Ficha de la consulta por foto que viene del cotizador: se guarda con el turno para la peluquera. */
   escaneo?: EscaneoTurno | null
 }
 
@@ -167,6 +168,7 @@ export function AsistenteReserva({
   if (listo) {
     return (
       <Ticket className="flex flex-col gap-5">
+        <Melli pose="listo" size={112} title="Los mellis, recién bañados" />
         <Notice
           tone="exito"
           role="status"
@@ -195,7 +197,7 @@ export function AsistenteReserva({
     <div className="flex flex-col gap-6">
       <Stepper steps={pasosReserva} current={paso} />
       {escaneo && (
-        <Notice tone="info" title="Reservás con la ficha de IA Scan & Care">
+        <Notice tone="info" title="Reservás con los datos de IA Scan">
           {resumenEscaneo(escaneo)}. ({origenLabels[escaneo.origen]}.) La peluquera la ve con tu pedido.
         </Notice>
       )}

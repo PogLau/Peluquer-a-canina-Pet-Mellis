@@ -10,7 +10,7 @@ type Props<T extends ElementType> = {
   highlighted?: boolean
 } & Omit<ComponentPropsWithoutRef<T>, 'as'>
 
-/** Tarjeta «ticket»: borde de tinta de 2 px, esquinas de 10 px y sombra dura de 4 px. */
+/** Tarjeta: borde fino gris de 1 px, esquinas de 8 px y sombra suave. */
 export function Ticket<T extends ElementType = 'div'>({
   as,
   size = 'normal',
@@ -22,8 +22,8 @@ export function Ticket<T extends ElementType = 'div'>({
   return (
     <Component
       className={cn(
-        'rounded-md border-2 border-tinta text-texto shadow-ticket',
-        highlighted ? 'bg-amarillo-claro' : 'bg-superficie',
+        'rounded-md border border-linea text-texto shadow-ticket',
+        highlighted ? 'bg-durazno' : 'bg-superficie',
         size === 'normal' ? 'p-5' : 'p-3',
         className,
       )}

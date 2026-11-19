@@ -2,7 +2,7 @@ import type { ReactNode, SVGProps } from 'react'
 
 /*
   Íconos de interfaz de Pet Mellis (manual §5 y §13.4):
-  24 × 24, trazo de 1,75 px, puntas redondeadas, en currentColor.
+  24 × 24, trazo fino de 1,5 px, puntas redondeadas, en currentColor.
   Nunca reemplazarlos por emojis.
 */
 
@@ -188,7 +188,7 @@ export function Icon({ name, size = 24, label, className, ...props }: Props) {
       height={size}
       fill="none"
       stroke="currentColor"
-      strokeWidth={1.75}
+      strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
       className={['shrink-0', className].filter(Boolean).join(' ')}

@@ -21,7 +21,7 @@ export function Cargando({ tarjetas = 3 }: { tarjetas?: number }) {
         {Array.from({ length: tarjetas }, (_, i) => (
           <div
             key={i}
-            className="h-36 animate-pulse rounded-md border-2 border-linea bg-superficie"
+            className="h-36 animate-pulse rounded-md border border-linea bg-superficie"
           />
         ))}
       </div>
@@ -66,7 +66,7 @@ export function ErrorPantalla({
 export function NoEncontrado({ volver, texto }: { volver: string; texto: string }) {
   return (
     <div className="flex flex-col items-center gap-5 py-6">
-      <EmptyState icon="pata" title="no encontramos esa página">
+      <EmptyState mascota="duerme" title="no encontramos esa página">
         {texto}
       </EmptyState>
       <Link href={volver} className={buttonClasses({ variant: 'primary' })}>

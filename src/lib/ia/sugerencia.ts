@@ -14,7 +14,7 @@ import {
 
 /*
   Sugerencia de datos de la mascota a partir de una foto.
-  La IA (o un ejemplo de demo) solo SUGIERE tamaño, manto y nudos: el precio lo calcula
+  La lectura automática (o un ejemplo de demo) solo SUGIERE tamaño, manto y nudos: el precio lo calcula
   siempre pricing.ts con los valores de la base de datos.
 */
 

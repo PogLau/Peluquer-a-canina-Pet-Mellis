@@ -30,9 +30,9 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
       ref={ref}
       aria-labelledby={titleId}
       onClose={onClose}
-      className="m-auto w-[calc(100%-32px)] max-w-lg rounded-md border-2 border-tinta bg-superficie p-0 text-texto shadow-ticket backdrop:bg-petroleo/50"
+      className="m-auto w-[calc(100%-32px)] max-w-lg rounded-md border border-linea bg-superficie p-0 text-texto shadow-ticket backdrop:bg-carbon/50"
     >
-      <div className="flex items-start justify-between gap-4 border-b-2 border-tinta px-5 py-4">
+      <div className="flex items-start justify-between gap-4 border-b border-linea px-5 py-4">
         <h2 id={titleId} className="text-xl">
           {title}
         </h2>
@@ -46,7 +46,7 @@ export function Modal({ open, onClose, title, children, footer }: Props) {
         </button>
       </div>
       <div className="px-5 py-4">{children}</div>
-      {footer && <div className="flex flex-wrap justify-end gap-3 border-t-2 border-linea px-5 py-4">{footer}</div>}
+      {footer && <div className="flex flex-wrap justify-end gap-3 border-t border-linea px-5 py-4">{footer}</div>}
     </dialog>
   )
 }

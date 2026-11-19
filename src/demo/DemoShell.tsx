@@ -41,12 +41,12 @@ function BarraDemo({ panel }: { panel: boolean }) {
   const pestana = (activa: boolean) =>
     cn(
       'inline-flex min-h-9 items-center rounded-sm px-2.5 text-sm font-bold sm:px-3',
-      activa ? 'bg-verde text-amarillo' : 'text-petroleo underline-offset-4 hover:underline',
+      activa ? 'bg-carbon text-blanco' : 'text-carbon underline-offset-4 hover:underline',
     )
   // En el celular entra en un solo renglón: rótulo, Cliente / Peluquera y reiniciar con ícono
   return (
-    <div className="border-b-2 border-tinta bg-amarillo">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-3 px-4 py-1.5 text-petroleo sm:py-2">
+    <div className="border-b border-linea bg-durazno">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-3 px-4 py-1.5 text-carbon sm:py-2">
         <p className="text-sm">
           <span className="rotulo sm:mr-2">Demo</span>
           <span className="hidden sm:inline">Datos ficticios, guardados solo en este navegador.</span>
@@ -106,14 +106,14 @@ function BarraDemo({ panel }: { panel: boolean }) {
 function MarcoCliente({ children }: { children: ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-verde">
+      <header className="sticky top-0 z-40 w-full border-b border-linea bg-superficie/95 backdrop-blur">
         <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-4 px-4">
           <Link
             href="/"
             aria-label="Pet Mellis, inicio"
-            className="rounded-sm focus-visible:outline-amarillo"
+            className="rounded-sm focus-visible:outline-tinta"
           >
-            <Imagotipo tone="dark" />
+            <Imagotipo />
           </Link>
           <TopNav items={clienteNav} root="/" />
           <div className="hidden lg:block">
@@ -136,19 +136,19 @@ function MarcoPanel({ children }: { children: ReactNode }) {
   return (
     <>
       <div className="md:grid md:min-h-dvh md:grid-cols-[200px_minmax(0,1fr)] lg:grid-cols-[248px_minmax(0,1fr)]">
-        <header className="sticky top-0 z-40 w-full border-b-2 border-tinta bg-verde md:h-dvh md:border-b-0 md:border-r-2">
+        <header className="sticky top-0 z-40 w-full border-b border-linea bg-superficie md:h-dvh md:border-b-0 md:border-r">
           <div className="flex min-h-16 items-center justify-between gap-3 px-4 md:h-full md:flex-col md:items-stretch md:justify-start md:gap-8 md:py-6">
             <Link
               href="/panel"
               aria-label="Pet Mellis, panel"
-              className="rounded-sm focus-visible:outline-amarillo"
+              className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo tone="dark" tagline="panel del salón" />
+              <Imagotipo tagline="panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNavDemo} root="/panel" />
             </div>
-            <p className="hidden px-3 text-sm text-crema md:mt-auto md:block">
+            <p className="hidden px-3 text-sm text-blanco md:mt-auto md:block">
               En la app real, la peluquera entra con usuario y contraseña.
             </p>
           </div>
@@ -177,7 +177,7 @@ export function DemoShell({ children }: { children: ReactNode }) {
     <>
       <a
         href="#contenido"
-        className="sr-only z-50 rounded-sm bg-amarillo px-4 py-2 font-bold text-petroleo focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+        className="sr-only z-50 rounded-sm bg-menta px-4 py-2 font-bold text-carbon focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido
       </a>

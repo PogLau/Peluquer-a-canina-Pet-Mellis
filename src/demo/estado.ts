@@ -24,7 +24,7 @@ import { arDate } from '@/seed/fechas'
   Nada sale del dispositivo. Las fechas se arman relativas al día en que se abre la demo.
 */
 
-// 2: IA Scan & Care (los turnos guardan el escaneo de ingreso)
+// 2: Consulta por foto (los turnos guardan el escaneo de ingreso)
 // 6: cada cliente tiene su código de enlace personal (privacidad: nadie ve los datos de otro)
 export const VERSION_DEMO = 6
 export const WHATSAPP_SALON = '5491151770132'
@@ -73,7 +73,7 @@ export type DTurno = {
   precioEstimado: number
   origen: 'web' | 'panel'
   notasCliente: string
-  /** IA Scan & Care del pedido. Opcional: estados guardados antes no lo tienen. */
+  /** Consulta por foto del pedido. Opcional: estados guardados antes no lo tienen. */
   escaneo?: EscaneoTurno | null
 }
 export type DAtencion = {

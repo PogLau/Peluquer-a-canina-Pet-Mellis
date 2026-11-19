@@ -20,7 +20,7 @@ Es la forma de mostrar el trabajo sin montar infraestructura: un sitio estático
 Todo el guion de la demo (`CLAUDE.md` §10):
 
 1. **Cliente:** cotizar (Toby: $15.200), reservar en 4 pasos con horarios libres de verdad, avisar por WhatsApp, ver «Mis turnos» y «Mi mascota».
-1. **IA Scan & Care (en Cotizar):** elegir una foto de ejemplo, ver el escaneo y la ficha de ingreso (raza, pelaje, hidratación, nudos, tratamiento y precio) y «Reservar con este plan». La ficha llega a Solicitudes y a Registrar atención. Las fichas de ejemplo están preparadas a mano y rotuladas; una foto propia no se analiza en la demo (el tutor marca lo que ve).
+1. **Consulta por foto (en Cotizar):** elegir una foto de ejemplo, ver el escaneo y la ficha de ingreso (raza, pelaje, hidratación, nudos, tratamiento y precio) y «Reservar con este plan». La ficha llega a Solicitudes y a Registrar atención. Las fichas de ejemplo están preparadas a mano y rotuladas; una foto propia no se analiza en la demo (el tutor marca lo que ve).
 2. **Peluquera:** ver la solicitud nueva y aceptarla, iniciar a Max con un toque, registrar la atención de Toby, ver la mejora en la Ficha Evolutiva, enviar el resumen, cambiar precios (se ven al instante en el cotizador) e Informes con descarga en CSV.
 
 ## Cómo está hecha

@@ -2,8 +2,8 @@ import type { Catalog } from '../catalogo'
 import { knotsLabels, type Coat, type Knots } from '../pricing'
 
 /*
-  IA Scan & Care: de lo que se ve en la foto a un plan de cuidado.
-  La foto (IA o ejemplo de demo) solo describe el pelaje. El tratamiento sale de estas reglas fijas,
+  Consulta por foto: de lo que se ve en la foto a un plan de cuidado.
+  La foto (lectura automática o ejemplo de demo) solo describe el pelaje. El tratamiento sale de estas reglas fijas,
   así la sugerencia es predecible y la peluquera la puede explicar. Funciones puras: las usan
   la app real, la demo estática y los tests.
 */
@@ -111,9 +111,9 @@ export const origenesEscaneo = ['ejemplo', 'ia', 'manual'] as const
 export type OrigenEscaneo = (typeof origenesEscaneo)[number]
 
 export const origenLabels: Record<OrigenEscaneo, string> = {
-  ejemplo: 'Ejemplo de demo',
-  ia: 'IA beta, sin confirmar',
-  manual: 'Cargado por el tutor',
+  ejemplo: 'Foto de ejemplo',
+  ia: 'Lectura automática, a confirmar',
+  manual: 'Lo marcó el tutor',
 }
 
 /* ---------- El escaneo viaja con la reserva hasta el panel ---------- */
@@ -190,5 +190,5 @@ export function resumenEscaneo(e: EscaneoTurno): string {
 
 /** Texto inicial para la nota interna al registrar la atención (editable). */
 export function notaDeIngreso(e: EscaneoTurno): string {
-  return `Escaneo de ingreso (${origenLabels[e.origen].toLowerCase()}): ${estadoPelaje(e)} Plan sugerido: ${tratamientoInfo[e.tratamiento].nombre}.`
+  return `Consulta por foto (${origenLabels[e.origen].toLowerCase()}): ${estadoPelaje(e)} Plan sugerido: ${tratamientoInfo[e.tratamiento].nombre}.`
 }

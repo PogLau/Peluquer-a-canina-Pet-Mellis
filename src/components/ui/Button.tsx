@@ -6,9 +6,9 @@ import { cn } from '@/lib/cn'
 import { Icon, type IconName } from './Icons'
 
 /**
- * - `primary`: verde profundo con texto blanco cálido (CTA principal). Una sola por pantalla.
- * - `secondary`: superficie con texto petróleo.
- * - `highlight`: amarillo con texto petróleo. CTA secundarios, WhatsApp y acciones sobre fondo verde.
+ * - `primary`: verde oscuro con texto blanco (CTA principal). Una sola por pantalla.
+ * - `secondary`: blanco con contorno fino carbón, como el botón «Consultation» de la referencia.
+ * - `highlight`: naranja con texto carbón. CTA secundarios, WhatsApp y acciones sobre bandas verdes.
  * - `ghost`: sin borde, para acciones terciarias.
  */
 export type ButtonVariant = 'primary' | 'secondary' | 'highlight' | 'ghost'
@@ -22,14 +22,14 @@ type Base = {
   children: ReactNode
 }
 
-const ticket =
-  'border-2 border-tinta shadow-ticket active:translate-x-[3px] active:translate-y-[3px] active:shadow-ticket-presionada'
+// Línea fina y sombra apenas visible; al presionar, la sombra se aplana
+const ticket = 'border shadow-ticket-presionada hover:shadow-ticket active:shadow-none'
 
 const variants: Record<ButtonVariant, string> = {
-  primary: cn(ticket, 'bg-accion text-sobre-accion hover:bg-verde-hover'),
-  secondary: cn(ticket, 'bg-superficie text-texto hover:bg-superficie-alt'),
-  highlight: cn(ticket, 'bg-amarillo text-petroleo hover:bg-amarillo-hover'),
-  ghost: 'border-2 border-transparent bg-transparent text-texto underline-offset-4 hover:underline',
+  primary: cn(ticket, 'border-transparent bg-accion text-sobre-accion hover:bg-verde-hover'),
+  secondary: cn(ticket, 'border-tinta bg-superficie text-texto hover:bg-superficie-alt'),
+  highlight: cn(ticket, 'border-transparent bg-naranja text-carbon hover:bg-naranja-hover'),
+  ghost: 'border border-transparent bg-transparent text-texto underline-offset-4 hover:underline',
 }
 
 export function buttonClasses({
@@ -38,7 +38,7 @@ export function buttonClasses({
   fullWidth = false,
 }: Pick<Base, 'variant' | 'size' | 'fullWidth'>) {
   return cn(
-    'inline-flex select-none items-center justify-center gap-2 rounded-md font-sans font-bold transition-[transform,box-shadow,background-color] duration-100',
+    'inline-flex select-none items-center justify-center gap-2 rounded-sm font-sans font-medium transition-[box-shadow,background-color] duration-150',
     // Acciones: mínimo 14 px
     size === 'normal' ? 'min-h-12 px-5 text-base' : 'min-h-10 px-4 text-sm',
     variants[variant],

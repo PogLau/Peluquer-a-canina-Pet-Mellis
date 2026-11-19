@@ -49,7 +49,7 @@ export default async function ClientesPage({
             defaultValue={q}
             placeholder="Sofía, 1122, Merlo…"
             autoComplete="off"
-            className="min-h-12 w-full rounded-sm border-2 border-tinta bg-superficie px-3 text-base text-texto placeholder:text-texto-suave"
+            className="min-h-12 w-full rounded-sm border border-linea bg-superficie px-3 text-base text-texto placeholder:text-texto-suave"
           />
         </div>
         <Button type="submit" icon="buscar">
@@ -78,7 +78,7 @@ export default async function ClientesPage({
                     className="flex h-full flex-col gap-1.5 rounded-sm p-1"
                   >
                     <span className="flex items-center justify-between gap-2">
-                      <span className="titulo font-display text-xl">{c.nombre}</span>
+                      <span className="font-display text-xl">{c.nombre}</span>
                       <Icon name="flecha" size={20} />
                     </span>
                     <span className="cifras text-sm">{formatPhone(c.whatsapp)}</span>

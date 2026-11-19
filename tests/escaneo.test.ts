@@ -18,7 +18,7 @@ import { buildQuote } from '@/lib/pricing'
 
 const catalog = { servicios, extras }
 
-describe('IA Scan & Care: reglas del tratamiento', () => {
+describe('Consulta por foto: reglas del tratamiento', () => {
   it('con nudos moderados o severos, primero se desenreda', () => {
     expect(tratamientoSugerido({ nudos: 'moderados', hidratacion: 'baja', textura: 'largo' })).toBe('spa-desenredado')
     expect(tratamientoSugerido({ nudos: 'severos', hidratacion: 'buena', textura: 'corto' })).toBe('spa-desenredado')
@@ -43,7 +43,7 @@ describe('IA Scan & Care: reglas del tratamiento', () => {
   })
 })
 
-describe('IA Scan & Care: plan y precio', () => {
+describe('Consulta por foto: plan y precio', () => {
   it('cada tratamiento encuentra sus servicios en el catálogo', () => {
     expect(planDelCatalogo('corte-raza', catalog)).toEqual({ servicioIds: ['bano-corte'], extraIds: [] })
     expect(planDelCatalogo('spa-desenredado', catalog)).toEqual({ servicioIds: ['bano-higienico'], extraIds: [] })
@@ -70,7 +70,7 @@ describe('IA Scan & Care: plan y precio', () => {
   })
 })
 
-describe('IA Scan & Care: los ejemplos', () => {
+describe('Consulta por foto: los ejemplos', () => {
   it('son válidos, tienen foto y texto alternativo, y están rotulados como ejemplo', () => {
     for (const e of ejemplosMascota) {
       expect(parseSugerencia(e.sugerencia)).not.toBeNull()
@@ -85,7 +85,7 @@ describe('IA Scan & Care: los ejemplos', () => {
   })
 })
 
-describe('IA Scan & Care: el escaneo viaja hasta el panel', () => {
+describe('Consulta por foto: el escaneo viaja hasta el panel', () => {
   const escaneo: EscaneoTurno = escaneoDeSugerencia(ejemplosMascota[1]!.sugerencia)
 
   it('va y vuelve por la URL de la reserva junto con el presupuesto', () => {
@@ -104,12 +104,12 @@ describe('IA Scan & Care: el escaneo viaja hasta el panel', () => {
   })
 
   it('arma la nota interna de ingreso con el origen a la vista', () => {
-    expect(notaDeIngreso(escaneo)).toContain('ejemplo de demo')
+    expect(notaDeIngreso(escaneo)).toContain('foto de ejemplo')
     expect(notaDeIngreso(escaneo)).toContain('Baño de hidratación profunda')
   })
 })
 
-describe('IA Scan & Care: fotos de prueba', () => {
+describe('Consulta por foto: fotos de prueba', () => {
   it('ofrece exactamente 3 fotos de prueba', () => {
     expect(ejemplosMascota.map((e) => e.id)).toEqual(['caniche', 'yorkshire', 'shih-tzu'])
   })

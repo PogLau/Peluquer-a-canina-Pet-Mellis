@@ -30,7 +30,7 @@ const nivelHidratacion: Record<Hidratacion, number> = { buena: 3, media: 2, baja
 
 function Dato({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-0.5 border-b-2 border-dashed border-linea pb-2">
+    <div className="flex flex-col gap-0.5 border-b border-dashed border-linea pb-2">
       <dt className="rotulo text-texto-suave">{label}</dt>
       <dd className="font-bold">{children}</dd>
     </div>
@@ -49,7 +49,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-xl">ficha de ingreso</h3>
-        <span className="rotulo rounded-pill border-2 border-tinta bg-superficie px-2.5 py-1">
+        <span className="rotulo rounded-pill border border-linea bg-superficie px-2.5 py-1">
           {origenLabels[s.origen]}
         </span>
       </div>
@@ -75,7 +75,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
               {[1, 2, 3].map((n) => (
                 <span
                   key={n}
-                  className={`h-3 w-6 rounded-pill border-2 border-tinta ${n <= nivel ? (nivel === 1 ? 'bg-naranja' : 'bg-amarillo') : 'bg-transparent'}`}
+                  className={`h-3 w-6 rounded-pill border border-linea ${n <= nivel ? (nivel === 1 ? 'bg-naranja' : 'bg-verde') : 'bg-transparent'}`}
                 />
               ))}
             </span>
@@ -86,14 +86,14 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
       </dl>
       {s.observaciones && <p className="text-sm text-texto-suave">{s.observaciones}</p>}
 
-      <div className="flex flex-col gap-3 rounded-md border-2 border-tinta bg-superficie p-4">
-        <p className="rotulo text-verde">Tratamiento ideal</p>
-        <p className="flex items-center gap-2 font-display text-xl font-bold titulo">
+      <div className="flex flex-col gap-3 rounded-md border border-linea bg-superficie p-4">
+        <p className="rotulo text-verde-oscuro">Tratamiento ideal</p>
+        <p className="flex items-center gap-2 font-display text-xl font-bold oracion">
           <Icon name={s.tratamiento === 'corte-raza' ? 'tijera' : s.tratamiento === 'spa-desenredado' ? 'cepillo' : 'gota'} />
           {info.nombre}
         </p>
         <p className="text-sm">{info.detalle}</p>
-        <ul className="flex flex-col gap-1 border-y-2 border-dashed border-linea py-2 text-sm">
+        <ul className="flex flex-col gap-1 border-y border-dashed border-linea py-2 text-sm">
           {quote.lineas.map((l) => (
             <li key={l.id} className="flex justify-between gap-3">
               <span>{l.nombre}</span>

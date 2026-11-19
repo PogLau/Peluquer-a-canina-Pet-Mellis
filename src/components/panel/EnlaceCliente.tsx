@@ -46,7 +46,7 @@ export function EnlaceCliente({
         aria-label={`Enlace personal de ${tutor}`}
         value={enlace}
         onFocus={(e) => e.currentTarget.select()}
-        className="cifras min-h-11 w-full rounded-sm border-2 border-tinta bg-superficie-alt px-3 text-sm"
+        className="cifras min-h-11 w-full rounded-sm border border-linea bg-superficie-alt px-3 text-sm"
       />
       <div className="flex flex-wrap gap-3">
         <Button size="small" variant="secondary" icon="check" onClick={copiar}>

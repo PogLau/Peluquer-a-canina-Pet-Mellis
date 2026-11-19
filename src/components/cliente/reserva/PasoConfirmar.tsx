@@ -30,10 +30,10 @@ export function PasoConfirmar({ estado, set, tutor, mascota, quote, error }: Pro
         <dd>{fecha ? `${formatLongDate(fecha)} a las ${formatTime(fecha)}` : '—'}</dd>
       </dl>
 
-      <ul className="flex flex-col divide-y-2 divide-linea rounded-sm border-2 border-tinta bg-superficie">
+      <ul className="flex flex-col divide-y-2 divide-linea rounded-sm border border-linea bg-superficie">
         {quote.lineas.map((l) => (
           <li key={`${l.tipo}-${l.id}`} className="flex justify-between gap-3 px-4 py-2.5 text-sm">
-            <span className={l.tipo === 'recargo' ? 'font-bold text-verde' : undefined}>
+            <span className={l.tipo === 'recargo' ? 'font-bold text-verde-oscuro' : undefined}>
               {l.nombre}
             </span>
             <span className="cifras whitespace-nowrap">{formatMoney(l.monto)}</span>

@@ -18,21 +18,21 @@ import {
 import { InteractiveDemo } from './InteractiveDemo'
 
 const colorTokens = [
-  ['azul petróleo', 'bg-petroleo'],
-  ['blanco cálido', 'bg-crema'],
-  ['amarillo cálido', 'bg-amarillo'],
-  ['verde profundo', 'bg-verde'],
-  ['naranja amable', 'bg-naranja'],
-  ['amarillo claro', 'bg-amarillo-claro'],
-  ['verde claro', 'bg-verde-claro'],
-  ['naranja claro', 'bg-naranja-claro'],
-  ['superficie alt', 'bg-superficie-alt'],
+  ['blanco', 'bg-blanco'],
+  ['carbón', 'bg-carbon'],
+  ['verde salvia', 'bg-verde'],
+  ['verde oscuro (botones)', 'bg-verde-oscuro'],
+  ['menta', 'bg-menta'],
+  ['naranja', 'bg-naranja'],
+  ['rosa', 'bg-rosa'],
+  ['gris', 'bg-gris'],
+  ['durazno', 'bg-durazno'],
   ['linea', 'bg-linea'],
 ] as const
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="flex flex-col gap-4 border-t-2 border-tinta pt-6">
+    <section className="flex flex-col gap-4 border-t border-linea pt-6">
       <h2 className="text-xl">{title}</h2>
       {children}
     </section>
@@ -50,7 +50,7 @@ export default function DevUiPage() {
         <div className="flex flex-wrap items-center gap-6">
           <Isotipo height={64} title="Pet Mellis" />
           <Imagotipo />
-          <span className="rounded-md bg-verde p-4">
+          <span className="rounded-md bg-verde-oscuro p-4">
             <Imagotipo tone="dark" />
           </span>
         </div>
@@ -60,7 +60,7 @@ export default function DevUiPage() {
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {colorTokens.map(([name, bg]) => (
             <li key={name} className="flex flex-col gap-1.5">
-              <span className={`h-14 rounded-md border-2 border-tinta ${bg}`} />
+              <span className={`h-14 rounded-md border border-linea ${bg}`} />
               <span className="rotulo">{name}</span>
             </li>
           ))}
@@ -68,10 +68,10 @@ export default function DevUiPage() {
       </Section>
 
       <Section title="tipografía">
-        <p className="font-display text-4xl font-bold titulo">pet mellis · H2 50,5 px</p>
-        <p className="font-display text-3xl font-bold titulo">título · H3 37,9 px</p>
-        <p className="font-display text-2xl font-bold titulo">sección · H4 28,4 px</p>
-        <p className="font-display text-xl font-bold titulo">tarjeta · H5 21,3 px</p>
+        <p className="font-display text-4xl font-bold oracion">pet mellis · H2 50,5 px</p>
+        <p className="font-display text-3xl font-bold oracion">título · H3 37,9 px</p>
+        <p className="font-display text-2xl font-bold oracion">sección · H4 28,4 px</p>
+        <p className="font-display text-xl font-bold oracion">tarjeta · H5 21,3 px</p>
         <p>Cuerpo 16 px: Manuale Regular 400, interlineado 1,5.</p>
         <p className="text-sm text-texto-suave">Secundario 14 px: ayudas y notas.</p>
         <p className="rotulo">Etiqueta · Manuale Bold 12 px</p>
@@ -158,7 +158,7 @@ export default function DevUiPage() {
       <Section title="íconos de interfaz">
         <ul className="grid grid-cols-3 gap-3 sm:grid-cols-6">
           {iconNames.map((name) => (
-            <li key={name} className="flex flex-col items-center gap-2 rounded-md border-2 border-linea p-3">
+            <li key={name} className="flex flex-col items-center gap-2 rounded-md border border-linea p-3">
               <Icon name={name} />
               <span className="rotulo text-texto-suave">{name}</span>
             </li>

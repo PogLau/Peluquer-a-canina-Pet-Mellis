@@ -1,7 +1,8 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
+import { Melli } from '@/components/marca/Mascota'
 import { Icon, LinkButton, Ticket } from '@/components/ui'
-import { ejemplosMascota } from '@/lib/ia/ejemplos'
 import { franjaHoraria } from '@/lib/format'
+import { ejemplosMascota } from '@/lib/ia/ejemplos'
 import type { Service } from '@/lib/pricing'
 import { rutaPublica } from '@/lib/ruta-publica'
 
@@ -34,13 +35,15 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]"
       >
         <div className="flex flex-col gap-5">
-          <p className="rotulo text-verde">Peluquería canina · Merlo, Buenos Aires</p>
+          <p className="rotulo w-fit rounded-pill border border-tinta px-3 py-1">
+            peluquería canina en Merlo, Buenos Aires
+          </p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
-            cada visita mejora la siguiente
+            cada visita mejora <span className="text-verde">la siguiente</span>
           </h1>
           <p className="text-lg text-texto-suave">
-            Anotamos cómo le fue a tu perro en cada turno, así la próxima vez empezamos sabiendo qué
-            le gusta y qué le cuesta.
+            Anotamos cómo le fue a tu perro en cada turno. Así, la próxima vez ya sabemos qué le
+            gusta, qué le cuesta y cómo dejarlo tranquilo.
           </p>
           <div className="flex flex-wrap gap-3">
             <LinkButton href="/reservar" iconEnd="flecha">
@@ -52,14 +55,18 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           </div>
         </div>
         <figure className="relative">
+          {/* Los mellis como sticker sobre la foto: una sola escena de la mascota por pantalla */}
+          <span className="absolute -left-3 -top-10 z-10 rounded-lg bg-blanco px-1 shadow-ticket sm:-left-8">
+            <Melli pose="saluda" size={104} />
+          </span>
           {/* Foto local de public/fotos (créditos en docs/fotos.md) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={rutaPublica('/fotos/yorkshire-mesa.webp')}
             alt="Peluquera con guantes preparando a un Yorkshire terrier sobre la mesa de trabajo"
-            className="aspect-[4/3] w-full rounded-md border-2 border-tinta object-cover shadow-ticket"
+            className="aspect-[4/3] w-full rounded-md border border-linea object-cover shadow-ticket"
           />
-          <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border-2 border-tinta bg-amarillo-claro p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
+          <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border border-linea bg-durazno p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
             Toby le teme al secador, Max no se deja cortar las uñas. Cada historia queda en su{' '}
             <strong>Ficha Evolutiva</strong>.
           </figcaption>
@@ -68,27 +75,24 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
 
       <section
         aria-labelledby="titulo-escaneo"
-        className="grid items-center gap-6 rounded-md border-2 border-tinta bg-verde p-5 text-crema shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
+        className="grid items-center gap-6 rounded-md border border-linea bg-verde-oscuro p-5 text-blanco shadow-ticket md:grid-cols-[1fr_1.1fr] md:p-8"
       >
         <div className="flex flex-col gap-4">
-          <p className="rotulo flex items-center gap-2 text-amarillo">
-            <Icon name="escaner" size={18} /> Nuevo · beta
-          </p>
+          <p className="rotulo text-blanco">Antes de reservar</p>
           <h2 id="titulo-escaneo" className="text-3xl">
-            ia scan &amp; care
+            IA Scan
           </h2>
           <p>
-            Elegí una foto y armamos la ficha de ingreso de tu perro: raza, tamaño, tipo de pelaje,
-            hidratación y nudos. Te sugerimos el tratamiento ideal con su precio, y lo reservás en un
-            paso.
+            ¿No sabés qué servicio le toca? Mandanos una foto de tu perro y te decimos qué le conviene y cuánto sale, más o menos.
+            Lo confirmamos cuando lo vemos en el salón.
           </p>
           <div>
             <LinkButton href="/cotizar#escaneo" variant="highlight" iconEnd="flecha">
-              Probar el escaneo
+              Escanear con IA Scan
             </LinkButton>
           </div>
         </div>
-        <ul className="grid grid-cols-3 gap-3" aria-label="Fotos de ejemplo del escaneo">
+        <ul className="grid grid-cols-3 gap-3" aria-label="Fotos de ejemplo">
           {ejemplosMascota.slice(0, 3).map((e) => (
             <li key={e.id} className="flex flex-col gap-1.5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -96,7 +100,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
                 src={rutaPublica(e.foto)}
                 alt={e.alt}
                 loading="lazy"
-                className="aspect-[3/4] w-full rounded-md border-2 border-amarillo object-cover"
+                className="aspect-[3/4] w-full rounded-md border border-blanco object-cover"
               />
               <span className="text-xs font-bold">{e.nombre}</span>
             </li>
@@ -115,7 +119,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         </div>
         {destacados.length === 0 && (
           <p className="text-texto-suave">
-            Los servicios no están disponibles en este momento. Escribinos para consultar.
+            Ahora no podemos mostrar los servicios. Escribinos y te contamos.
           </p>
         )}
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -132,8 +136,8 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           ))}
         </ul>
         <p className="text-sm text-texto-suave">
-          El precio depende del tamaño de tu perro y de los servicios que elijas. Calculalo en el
-          cotizador.
+          El precio depende del tamaño de tu perro y de lo que le hagamos. En el cotizador lo ves al
+          instante.
         </p>
       </section>
 
@@ -149,7 +153,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
                 src={rutaPublica(f.src)}
                 alt={f.alt}
                 loading="lazy"
-                className="aspect-square w-full rounded-md border-2 border-tinta object-cover shadow-ticket"
+                className="aspect-square w-full rounded-md border border-linea object-cover shadow-ticket"
               />
             </li>
           ))}
@@ -164,7 +168,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         <Ticket className="flex items-start gap-4">
           <Icon name="ubicacion" size={28} />
           <div>
-            <p className="font-display text-xl titulo">dónde estamos</p>
+            <p className="font-display text-xl oracion">dónde estamos</p>
             <p className="text-texto-suave">{local.direccion}</p>
           </div>
         </Ticket>
@@ -172,7 +176,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           <div className="flex items-start gap-4">
             <Icon name="reloj" size={28} />
             <div>
-              <p className="font-display text-xl titulo">horarios</p>
+              <p className="font-display text-xl oracion">horarios</p>
               {local.horarios.length > 0 ? (
                 <ul className="text-texto-suave">
                   {local.horarios.map((h) => (

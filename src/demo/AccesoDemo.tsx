@@ -43,7 +43,7 @@ export function SinEnlaceDemo() {
 /** Para teléfonos compartidos: este navegador deja de recordar al cliente. */
 export function OlvidarTelefonoDemo({ nombre }: { nombre: string }) {
   return (
-    <p className="mt-10 border-t-2 border-linea pt-4 text-sm text-texto-suave">
+    <p className="mt-10 border-t border-linea pt-4 text-sm text-texto-suave">
       Estás viendo los datos de {nombre}.{' '}
       <button
         type="button"

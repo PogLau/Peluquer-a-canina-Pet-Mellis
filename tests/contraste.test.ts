@@ -35,20 +35,20 @@ const pares: Array<[string, string, string]> = [
   ['texto', 'fondo', 'texto principal sobre la página'],
   ['texto', 'superficie', 'texto en tarjetas'],
   ['texto', 'superficie-alt', 'texto en filas y botones deshabilitados'],
-  ['titulo', 'fondo', 'títulos principales en verde'],
+  ['titulo', 'fondo', 'títulos'],
   ['texto-suave', 'fondo', 'texto secundario sobre la página'],
   ['texto-suave', 'superficie', 'texto secundario en tarjetas'],
   ['texto-suave', 'superficie-alt', 'texto de botones deshabilitados'],
-  ['texto-suave', 'amarillo-claro', 'ayudas en tarjetas resaltadas'],
-  ['sobre-accion', 'accion', 'CTA principal: blanco cálido sobre verde'],
-  ['crema', 'verde-hover', 'CTA principal al pasar el mouse'],
-  ['sobre-seleccion', 'seleccion', 'opción elegida: petróleo sobre amarillo'],
-  ['petroleo', 'amarillo-hover', 'botón amarillo al pasar el mouse'],
-  ['petroleo', 'naranja', 'acentos: petróleo sobre naranja'],
-  ['amarillo', 'verde', 'pestaña y rótulos amarillos sobre el header verde'],
-  ['crema', 'verde', 'texto del header y la navegación'],
-  ['verde', 'fondo', 'rótulos y enlaces verdes sobre la página'],
-  ['verde', 'superficie', 'rótulos verdes en tarjetas'],
+  ['texto-suave', 'durazno', 'ayudas en tarjetas resaltadas'],
+  ['sobre-accion', 'accion', 'CTA principal: blanco sobre verde oscuro'],
+  ['blanco', 'verde-hover', 'CTA principal al pasar el mouse'],
+  ['blanco', 'verde-oscuro', 'texto de las bandas verdes'],
+  ['sobre-seleccion', 'seleccion', 'opción elegida: carbón sobre menta'],
+  ['carbon', 'naranja', 'botón naranja'],
+  ['carbon', 'naranja-hover', 'botón naranja al pasar el mouse'],
+  ['carbon', 'rosa', 'insignias rosas'],
+  ['verde-oscuro', 'fondo', 'rótulos y enlaces verdes sobre la página'],
+  ['verde-oscuro', 'superficie-alt', 'rótulos verdes sobre gris'],
   ['naranja-texto', 'fondo', 'texto naranja chico'],
   ['exito', 'exito-fondo', 'estado confirmado / listo'],
   ['aviso', 'aviso-fondo', 'estado solicitado y alertas de la ficha'],
@@ -56,16 +56,20 @@ const pares: Array<[string, string, string]> = [
   ['info', 'info-fondo', 'estado en atención'],
 ]
 
-describe('contraste de la paleta oficial (WCAG AA)', () => {
+describe('contraste de la paleta (WCAG AA)', () => {
   it.each(pares)('%s sobre %s (%s) llega a 4,5:1', (texto, fondo) => {
     expect(ratio(texto, fondo)).toBeGreaterThanOrEqual(4.5)
   })
 
   it('los colores oficiales de la marca están definidos', () => {
-    expect(token('crema')).toBe('#fffdf7')
-    expect(token('verde')).toBe('#245b45')
-    expect(token('petroleo')).toBe('#173b46')
-    expect(token('amarillo')).toBe('#f4d35e')
-    expect(token('naranja')).toBe('#f28c45')
+    // Paleta de la referencia «Web design for grooming salon», medida sobre la imagen original
+    expect(token('blanco')).toBe('#ffffff')
+    expect(token('carbon')).toBe('#2b2b2b')
+    expect(token('verde')).toBe('#609b7b')
+    expect(token('menta')).toBe('#caddd3')
+    expect(token('naranja')).toBe('#e6873c')
+    expect(token('rosa')).toBe('#efb9d6')
+    expect(token('gris')).toBe('#f5f5f5')
+    expect(token('durazno')).toBe('#faede5')
   })
 })

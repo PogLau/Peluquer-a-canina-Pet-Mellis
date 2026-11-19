@@ -14,7 +14,7 @@ export type TurnoPanel = {
   origen: 'web' | 'panel'
   precioEstimado: number | null
   notasCliente: string | null
-  /** IA Scan & Care del pedido (sugerencia sin confirmar). */
+  /** Consulta por foto del pedido (sugerencia sin confirmar). */
   escaneo: EscaneoTurno | null
   servicios: string[]
   mascota: {

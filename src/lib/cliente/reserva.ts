@@ -29,7 +29,7 @@ export type ReservaInput = {
   nudos: string
   fechaHora: string
   notas: string
-  /** IA Scan & Care: viene del cotizador. Se vuelve a validar antes de guardar. */
+  /** Consulta por foto: viene del cotizador. Se vuelve a validar antes de guardar. */
   escaneo?: EscaneoTurno | null
 }
 

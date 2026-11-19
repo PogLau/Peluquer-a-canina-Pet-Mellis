@@ -151,7 +151,7 @@ export const TURNOS: Array<{
     nudos: 'leves',
     origen: 'web',
     notasCliente: '¿Puede ser a la mañana? Gracias.',
-    // Pedido hecho desde IA Scan & Care con una foto de ejemplo
+    // Pedido hecho desde Consulta por foto con una foto de ejemplo
     escaneo: {
       raza: 'Bichón Maltés',
       textura: 'rizado',

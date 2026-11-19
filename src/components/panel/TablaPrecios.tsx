@@ -46,7 +46,7 @@ function Num({
           onBlur={() => setEditando(false)}
           onChange={(e) => onChange(e.target.value)}
           className={cn(
-            'cifras min-h-10 w-full rounded-sm border-2 border-tinta bg-superficie px-2 text-right text-sm',
+            'cifras min-h-10 w-full rounded-sm border border-linea bg-superficie px-2 text-right text-sm',
             error && 'border-peligro',
           )}
         />
@@ -159,7 +159,7 @@ export function TablaPrecios({
             </thead>
             <tbody>
               {p.servicios.map((s, i) => (
-                <tr key={s.id} className={cn('border-t-2 border-linea', !s.activo && 'opacity-60')}>
+                <tr key={s.id} className={cn('border-t border-linea', !s.activo && 'opacity-60')}>
                   <th scope="row" className={cn(celda, 'text-left font-bold')}>
                     {s.nombre}
                   </th>

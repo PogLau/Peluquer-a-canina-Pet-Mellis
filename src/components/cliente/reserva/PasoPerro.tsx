@@ -94,11 +94,11 @@ export function PasoPerro({ estado, set, tutor, mascotas }: Props) {
           </div>
           {/* Justo antes de tamaño y manto: si no los sabe, puede escanear una foto */}
           <p className="flex items-start gap-2 text-sm">
-            <Icon name="escaner" size={20} className="mt-0.5 shrink-0 text-verde" />
+            <Icon name="escaner" size={20} className="mt-0.5 shrink-0 text-verde-oscuro" />
             <span>
-              ¿No sabés su tamaño o tipo de pelaje?{' '}
+              ¿No sabés su tamaño o tipo de pelo?{' '}
               <Link href="/cotizar#escaneo" className="font-bold underline underline-offset-4">
-                Escanealo con IA
+                Escanealo con IA Scan
               </Link>{' '}
               y volvé a reservar con los datos cargados.
             </span>

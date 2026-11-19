@@ -63,7 +63,7 @@ export async function analizarConGemini(
   const key = process.env.GEMINI_API_KEY
   const model = process.env.GEMINI_MODEL
   if (!key || !model) {
-    return { ok: false, motivo: 'sin-ia', mensaje: 'El análisis con IA no está activado en este servidor.' }
+    return { ok: false, motivo: 'sin-ia', mensaje: 'Ahora no podemos leer la foto. Marcá vos los datos.' }
   }
 
   const fallo: ResultadoSugerencia = {

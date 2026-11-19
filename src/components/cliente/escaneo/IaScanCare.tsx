@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from 'react'
 
+import { Melli } from '@/components/marca/Mascota'
 import { Icon, Notice, Ticket } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import { cn } from '@/lib/cn'
@@ -47,8 +48,15 @@ async function reducir(file: File): Promise<File> {
 
 const esperar = (ms: number) => new Promise((ok) => setTimeout(ok, ms))
 
-/** IA Scan & Care: elegir o subir una foto, escanearla y armar la ficha de ingreso con su plan. */
-export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSugerencia, onUsarPlan }: Props) {
+/** IA Scan: elegir o subir una foto, leerla y armar la ficha de ingreso con su plan. */
+export function IaScanCare({
+  catalog,
+  estado,
+  iaActiva: iaPedida,
+  analizar,
+  onSugerencia,
+  onUsarPlan,
+}: Props) {
   const iaActiva = iaPedida && !!analizar
   const inputId = useId()
   const [foto, setFoto] = useState<Foto | null>(null)
@@ -143,24 +151,27 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
   const escaneando = paso !== null && paso < pasosEscaneo.length
 
   return (
-    <Ticket as="section" id="escaneo" aria-labelledby="titulo-escaneo" highlighted className="flex scroll-mt-24 flex-col gap-5">
+    <Ticket
+      as="section"
+      id="escaneo"
+      aria-labelledby="titulo-escaneo"
+      highlighted
+      className="flex scroll-mt-24 flex-col gap-5"
+    >
       <div className="flex flex-wrap items-center gap-2">
-        <span className="grid size-10 place-items-center rounded-lg border-2 border-tinta bg-amarillo text-petroleo">
-          <Icon name="escaner" />
-        </span>
+        <Melli pose="foto" size={72} />
         <h2 id="titulo-escaneo" className="text-2xl">
-          ia scan &amp; care
+          IA Scan
         </h2>
-        <span className="rotulo rounded-pill bg-verde px-2.5 py-1 text-crema">Beta</span>
       </div>
       <p className="max-w-2xl">
-        Elegí una foto y armamos la ficha de ingreso: raza, tamaño, tipo de pelaje, hidratación y
-        nudos, con el tratamiento ideal y su precio.
+        Con una foto vemos tamaño, tipo de pelo y si tiene nudos, y te decimos qué servicio le
+        conviene y cuánto sale.
       </p>
-      <Notice tone="info" title={iaActiva ? 'Las fotos de ejemplo están preparadas' : 'Modo demo: no se analizan imágenes'}>
+      <Notice tone="info" title="Es un precio orientativo">
         {iaActiva
-          ? 'Cada ejemplo tiene su ficha cargada a mano. Si subís una foto propia, la analiza la IA (beta): revisá los datos, los podés cambiar.'
-          : 'Cada foto de ejemplo tiene su ficha cargada a mano para mostrar el recorrido. Si subís una foto tuya, marcás vos lo que ves y armamos el mismo plan.'}
+          ? 'Las fotos de ejemplo ya tienen su ficha. Con una foto tuya, la lectura es automática: revisá los datos y cambiá lo que no coincida. El precio final lo confirmamos al ver a tu perro.'
+          : 'Las fotos de ejemplo ya tienen su ficha. Si subís una foto tuya, marcás vos cómo es tu perro y te mostramos el mismo presupuesto. El precio final lo confirmamos al verlo.'}
       </Notice>
 
       <div className="grid gap-6 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:items-start">
@@ -169,12 +180,14 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
             src={foto.src}
             alt={foto.alt}
             paso={manual ? null : paso}
-            rotulo={resultado ? origenLabels[resultado.origen] : manual ? 'Sin análisis' : undefined}
+            rotulo={
+              resultado ? origenLabels[resultado.origen] : manual ? 'Lo marcás vos' : undefined
+            }
           />
         ) : (
-          <div className="escaneo-grilla grid aspect-square place-items-center rounded-md border-2 border-dashed border-tinta bg-superficie p-6 text-center">
-            <span className="flex flex-col items-center gap-2 text-texto-suave">
-              <Icon name="camara" size={40} />
+          <div className="grid aspect-square place-items-center rounded-md border border-dashed border-linea bg-superficie p-6 text-center">
+            <span className="flex flex-col items-center gap-3 text-texto-suave">
+              <Melli pose="foto" size={120} />
               Elegí una foto de abajo o subí la de tu perro.
             </span>
           </div>
@@ -186,11 +199,11 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
               {error}
             </Notice>
           )}
-          {escaneando && <p className="font-bold">Analizando… {pasosEscaneo[paso]}.</p>}
+          {escaneando && <p className="font-bold">{pasosEscaneo[paso]}…</p>}
           {manual && (
             <>
-              <Notice tone="aviso" title="Esta foto no se analiza">
-                En esta versión no hay IA conectada. Marcá lo que ves en la foto y te mostramos el plan.
+              <Notice tone="aviso" title="Contanos cómo es tu perro">
+                Marcá lo que ves en la foto y te armamos el presupuesto.
               </Notice>
               <CargaManual onListo={listoManual} />
             </>
@@ -206,9 +219,9 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
           )}
           {!foto && !error && (
             <ul className="flex flex-col gap-2 text-sm">
-              {['Elegí una foto', 'Mirá cómo la escaneamos', 'Reservá con el plan sugerido'].map((t, i) => (
+              {['Elegí una foto', 'Revisá lo que vemos', 'Reservá con ese plan'].map((t, i) => (
                 <li key={t} className="flex items-center gap-2">
-                  <span className="cifras grid size-7 place-items-center rounded-pill border-2 border-tinta bg-superficie font-bold">
+                  <span className="cifras grid size-7 place-items-center rounded-pill border border-linea bg-superficie font-bold">
                     {i + 1}
                   </span>
                   {t}
@@ -232,12 +245,19 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
                   disabled={escaneando}
                   onClick={() => elegirEjemplo(e.id)}
                   className={cn(
-                    'flex w-full flex-col overflow-hidden rounded-md border-2 border-tinta text-left disabled:opacity-60',
-                    activa ? 'bg-seleccion text-sobre-seleccion shadow-ticket-presionada' : 'bg-superficie shadow-ticket hover:bg-superficie-alt',
+                    'flex w-full flex-col overflow-hidden rounded-md border border-linea text-left disabled:opacity-60',
+                    activa
+                      ? 'border-verde-oscuro bg-seleccion text-sobre-seleccion shadow-ticket-presionada'
+                      : 'bg-superficie shadow-ticket hover:bg-superficie-alt',
                   )}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={rutaPublica(e.foto)} alt="" loading="lazy" className="aspect-square w-full object-cover" />
+                  <img
+                    src={rutaPublica(e.foto)}
+                    alt=""
+                    loading="lazy"
+                    className="aspect-square w-full object-cover"
+                  />
                   <span className="flex flex-col px-2 py-1.5">
                     <span className="text-sm font-bold">{e.nombre}</span>
                     <span className="text-xs">{e.descripcion}</span>
@@ -253,7 +273,7 @@ export function IaScanCare({ catalog, estado, iaActiva: iaPedida, analizar, onSu
         <label
           htmlFor={inputId}
           className={cn(
-            'inline-flex min-h-12 w-fit cursor-pointer items-center gap-2 rounded-md border-2 border-tinta bg-superficie px-5 text-base font-bold text-texto shadow-ticket hover:bg-superficie-alt',
+            'inline-flex min-h-12 w-fit cursor-pointer items-center gap-2 rounded-md border border-linea bg-superficie px-5 text-base font-bold text-texto shadow-ticket hover:bg-superficie-alt',
             'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-tinta',
             escaneando && 'pointer-events-none opacity-60',
           )}

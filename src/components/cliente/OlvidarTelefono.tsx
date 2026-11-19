@@ -5,7 +5,7 @@ export function OlvidarTelefono({ nombre }: { nombre: string }) {
   return (
     <form
       action={olvidarEsteTelefono}
-      className="mt-10 border-t-2 border-linea pt-4 text-sm text-texto-suave"
+      className="mt-10 border-t border-linea pt-4 text-sm text-texto-suave"
     >
       Estás viendo los datos de {nombre}.{' '}
       <button type="submit" className="font-bold text-texto underline underline-offset-4">

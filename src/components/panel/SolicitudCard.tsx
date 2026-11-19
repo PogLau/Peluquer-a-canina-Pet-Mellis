@@ -103,7 +103,7 @@ export function SolicitudCard({
         <h2 id={`sol-${turno.id}`} className="text-xl">
           {turno.mascota.nombre}
         </h2>
-        <p className="rotulo text-verde">
+        <p className="rotulo text-verde-oscuro">
           {formatLongDate(fecha)} · {formatTime(fecha)}
         </p>
       </div>

@@ -57,10 +57,10 @@ export function ChipGroup<V extends string>({
             <label
               key={option.value}
               className={cn(
-                'relative flex min-h-12 cursor-pointer items-center gap-2 rounded-sm border-2 border-tinta px-3.5 py-2 text-sm font-bold transition-colors',
+                'relative flex min-h-12 cursor-pointer items-center gap-2 rounded-sm border border-linea px-3.5 py-2 text-sm font-medium transition-colors',
                 'has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-3 has-[:focus-visible]:outline-tinta',
                 checked
-                  ? 'bg-seleccion text-sobre-seleccion shadow-ticket-presionada'
+                  ? 'border-verde-oscuro bg-seleccion text-sobre-seleccion shadow-ticket-presionada'
                   : 'bg-superficie text-texto hover:bg-superficie-alt',
               )}
             >
@@ -105,7 +105,7 @@ export function ToggleChip({ pressed, onPressedChange, children, icon }: ToggleC
       aria-pressed={pressed}
       onClick={() => onPressedChange(!pressed)}
       className={cn(
-        'inline-flex min-h-10 max-w-full items-center gap-2 rounded-sm border-2 border-tinta px-3.5 py-1.5 text-left text-sm font-bold transition-colors',
+        'inline-flex min-h-10 max-w-full items-center gap-2 rounded-sm border border-linea px-3.5 py-1.5 text-left text-sm font-bold transition-colors',
         pressed
           ? 'bg-seleccion text-sobre-seleccion'
           : 'bg-superficie text-texto hover:bg-superficie-alt',

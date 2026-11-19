@@ -10,7 +10,7 @@ import { whatsappLink } from '@/lib/whatsapp'
 function Periodo({ r, id }: { r: ResumenPeriodo; id: string }) {
   return (
     <Ticket as="section" aria-labelledby={id} className="flex flex-col gap-4">
-      <h2 id={id} className="rotulo text-verde">
+      <h2 id={id} className="rotulo text-verde-oscuro">
         {r.periodo.etiqueta}
       </h2>
       <dl className="flex flex-wrap gap-x-6 gap-y-4">
@@ -83,11 +83,11 @@ export function InformesVista({ r, base, exportar }: Props) {
                 >
                   <span className="truncate font-bold">{s.servicio}</span>
                   <span
-                    className="h-4 rounded-sm border-2 border-tinta bg-superficie-alt"
+                    className="h-4 rounded-sm border border-linea bg-superficie-alt"
                     aria-hidden="true"
                   >
                     <span
-                      className="block h-full bg-amarillo"
+                      className="block h-full bg-verde"
                       style={{ width: `${(s.cantidad / maximo) * 100}%` }}
                     />
                   </span>
@@ -125,7 +125,7 @@ export function InformesVista({ r, base, exportar }: Props) {
                 return (
                   <li key={c.id}>
                     <Ticket size="small" className="flex h-full flex-col gap-2">
-                      <p className="titulo font-display text-xl">{c.nombre}</p>
+                      <p className="font-display text-xl">{c.nombre}</p>
                       <p className="text-sm text-texto-suave">
                         {perros} · última visita {formatLongDate(new Date(c.ultimaVisita!))} (
                         {c.diasSinVenir} días)
