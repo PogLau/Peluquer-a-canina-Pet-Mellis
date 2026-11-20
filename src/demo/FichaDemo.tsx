@@ -5,20 +5,18 @@ import { useState } from 'react'
 
 import { EditarRecomendacion } from '@/components/panel/EditarRecomendacion'
 import { EnviarResumen } from '@/components/panel/EnviarResumen'
-import { FichaEvolutiva } from '@/components/panel/FichaEvolutiva'
+import { FichaDatos, FichaEvolutiva, VisitaFicha } from '@/components/panel/FichaEvolutiva'
 import {
   Button,
   EmptyState,
   Icon,
   LinkButton,
   Modal,
-  Notice,
   PageHeader,
   StatusBadge,
-  TagChip,
   Ticket,
 } from '@/components/ui'
-import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
+import { formatLongDate, formatTime } from '@/lib/format'
 import { summaryMessage } from '@/lib/mensajes'
 import type { AtencionPanel } from '@/lib/panel/mascotas'
 import { coatLabels, sizeLabels } from '@/lib/pricing'
@@ -124,24 +122,6 @@ export function FichaDemo({ id }: { id: number }) {
       </PageHeader>
 
       <div className="flex flex-col gap-6">
-        {(mascota.cuidadosEspeciales || etiquetas.length > 0) && (
-          <section aria-labelledby="antes" className="flex flex-col gap-3">
-            <h2 id="antes" className="text-xl">
-              antes de empezar
-            </h2>
-            {mascota.cuidadosEspeciales && (
-              <Notice tone="aviso" title={mascota.cuidadosEspeciales} />
-            )}
-            <ul className="flex flex-wrap gap-2">
-              {etiquetas.map((e) => (
-                <li key={e.id}>
-                  <TagChip kind={e.tipo}>{e.nombre}</TagChip>
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
         {proximos.length > 0 && (
           <section aria-labelledby="proximos" className="flex flex-col gap-3">
             <h2 id="proximos" className="text-xl">
@@ -183,7 +163,27 @@ export function FichaDemo({ id }: { id: number }) {
               ficha evolutiva
             </h2>
           </div>
-          <FichaEvolutiva ficha={ficha} />
+          <FichaDatos
+            datos={{
+              numero: mascota.id,
+              nombre: mascota.nombre,
+              raza: mascota.raza || null,
+              tamano: sizeLabels[mascota.tamano]?.label ?? '',
+              manto: coatLabels[mascota.manto] ?? '',
+              pesoKg: mascota.pesoKg ?? null,
+              usuario: tutor.nombre,
+              cuidados: mascota.cuidadosEspeciales || null,
+              etiquetas: etiquetas.map((e) => ({ nombre: e.nombre, tipo: e.tipo })),
+              visitas: atenciones.length,
+              ultimaVisita: ultima?.fecha ?? null,
+            }}
+          />
+          <section aria-labelledby="evolucion" className="flex flex-col gap-3">
+            <h3 id="evolucion" className="text-xl">
+              evolución por aspecto
+            </h3>
+            <FichaEvolutiva ficha={ficha} />
+          </section>
           {ultima && (
             <EditarRecomendacion
               key={ultima.id}
@@ -193,49 +193,29 @@ export function FichaDemo({ id }: { id: number }) {
               guardar={guardarRecomendacion}
             />
           )}
+          <section aria-labelledby="registro" className="flex flex-col gap-3">
+            <h3 id="registro" className="text-xl">
+              registro de visitas
+            </h3>
+            {atenciones.length === 0 ? (
+              <EmptyState icon="libreta" title="sin visitas registradas">
+                Cuando registres la primera atención, aparece acá.
+              </EmptyState>
+            ) : (
+              <ol className="flex flex-col gap-4">
+                {atenciones.map((a, i) => (
+                  <li key={a.id}>
+                    <VisitaFicha
+                      visita={{ ...a, numero: atenciones.length - i }}
+                      acciones={<Reenviar a={a} mascota={mascota.nombre} tutor={tutor} />}
+                    />
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
         </Ticket>
 
-        <section aria-labelledby="historial" className="flex flex-col gap-3">
-          <h2 id="historial" className="text-xl">
-            historial
-          </h2>
-          {atenciones.length === 0 ? (
-            <EmptyState icon="libreta" title="sin atenciones">
-              Cuando registres la primera atención, aparece acá.
-            </EmptyState>
-          ) : (
-            <ol className="flex flex-col gap-4">
-              {atenciones.map((a) => (
-                <li key={a.id}>
-                  <Ticket size="small" className="flex flex-col gap-2">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <p className="font-bold">{formatLongDate(new Date(a.fecha))}</p>
-                      {a.precioFinal !== null && (
-                        <p className="cifras text-sm">{formatMoney(a.precioFinal)}</p>
-                      )}
-                    </div>
-                    {a.servicios.length > 0 && <p className="text-sm">{a.servicios.join(' + ')}</p>}
-                    {a.resumenTutor && (
-                      <p className="text-sm">
-                        <span className="font-bold">Para el tutor: </span>
-                        {a.resumenTutor}
-                      </p>
-                    )}
-                    {a.notaInterna && (
-                      <p className="text-sm text-texto-suave">
-                        <span className="font-bold">Nota interna (solo el salón): </span>
-                        {a.notaInterna}
-                      </p>
-                    )}
-                    <div>
-                      <Reenviar a={a} mascota={mascota.nombre} tutor={tutor} />
-                    </div>
-                  </Ticket>
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
       </div>
     </>
   )

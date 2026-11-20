@@ -8,6 +8,7 @@ import {
   aplicarPlan,
   aplicarSugerencia,
   alternar,
+  alternarServicio,
   estadoInicial,
   type EstadoCotizacion,
 } from '@/lib/cotizacion'
@@ -38,6 +39,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
   // Empieza sin servicios elegidos y sin tamaño marcado: ningún precio aparece antes de elegir
   const [estado, setEstado] = useState<EstadoCotizacion>(() => estadoInicial())
   const [tamanoElegido, setTamanoElegido] = useState(false)
+  const [avisoBano, setAvisoBano] = useState<string | null>(null)
   const [sugerencia, setSugerencia] = useState<Sugerencia | null>(null)
 
   const quote = useMemo(() => buildQuote(estado, catalog, catalog.config), [estado, catalog])
@@ -128,6 +130,7 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
           </h2>
           <p className="text-sm text-texto-suave">
             Elegí los servicios: el precio aparece en el resumen cuando ya marcaste el tamaño de tu perro.
+            Cada turno lleva un solo baño.
           </p>
           {estado.servicioIds.length === 0 && (
             <p role="status" className="text-sm font-bold text-aviso">
@@ -143,11 +146,18 @@ export function CotizadorBase({ catalog, iaActiva, analizar }: Props) {
                   description={s.descripcion}
                   duration={s.duracion}
                   selected={estado.servicioIds.includes(s.id)}
-                  onToggle={() => set({ servicioIds: alternar(estado.servicioIds, s.id) })}
+                  onToggle={() => {
+                    const r = alternarServicio(estado.servicioIds, s.id, catalog.servicios)
+                    set({ servicioIds: r.ids })
+                    setAvisoBano(r.reemplazado ? `Cambiamos «${r.reemplazado.nombre}» por «${s.nombre}»: cada turno lleva un solo baño.` : null)
+                  }}
                 />
               </li>
             ))}
           </ul>
+          <p role="status" className="text-sm font-bold text-info empty:hidden">
+            {avisoBano}
+          </p>
         </section>
 
         {catalog.extras.length > 0 && (

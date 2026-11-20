@@ -5,20 +5,18 @@ import { notFound } from 'next/navigation'
 import { EditarRecomendacion } from '@/components/panel/EditarRecomendacion'
 import { guardarRecomendacion } from '../../acciones'
 import { EnlaceCliente } from '@/components/panel/EnlaceCliente'
-import { FichaEvolutiva } from '@/components/panel/FichaEvolutiva'
+import { FichaDatos, FichaEvolutiva, VisitaFicha } from '@/components/panel/FichaEvolutiva'
 import { ReenviarResumen } from '@/components/panel/ReenviarResumen'
 import {
   EmptyState,
   Icon,
   LinkButton,
-  Notice,
   PageHeader,
   StatusBadge,
-  TagChip,
   Ticket,
 } from '@/components/ui'
 import { enlaceDeTutor } from '@/lib/enlace-cliente'
-import { formatLongDate, formatMoney, formatTime } from '@/lib/format'
+import { formatLongDate, formatTime } from '@/lib/format'
 import { getPetProfile } from '@/lib/panel/mascotas'
 import { requireStaff } from '@/lib/panel/sesion'
 import { coatLabels, sizeLabels, type Coat, type Size } from '@/lib/pricing'
@@ -77,26 +75,6 @@ export default async function MascotaPage({ params }: Props) {
       </PageHeader>
 
       <div className="flex flex-col gap-6">
-        {(mascota.cuidadosEspeciales || mascota.etiquetas.length > 0) && (
-          <section aria-labelledby="antes" className="flex flex-col gap-3">
-            <h2 id="antes" className="text-xl">
-              antes de empezar
-            </h2>
-            {mascota.cuidadosEspeciales && (
-              <Notice tone="aviso" title={mascota.cuidadosEspeciales} />
-            )}
-            {mascota.etiquetas.length > 0 && (
-              <ul className="flex flex-wrap gap-2">
-                {mascota.etiquetas.map((e) => (
-                  <li key={e.nombre}>
-                    <TagChip kind={e.tipo}>{e.nombre}</TagChip>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        )}
-
         {proximos.length > 0 && (
           <section aria-labelledby="proximos" className="flex flex-col gap-3">
             <h2 id="proximos" className="text-xl">
@@ -138,7 +116,27 @@ export default async function MascotaPage({ params }: Props) {
               ficha evolutiva
             </h2>
           </div>
-          <FichaEvolutiva ficha={ficha} />
+          <FichaDatos
+            datos={{
+              numero: mascota.id,
+              nombre: mascota.nombre,
+              raza: mascota.raza || null,
+              tamano: sizeLabels[mascota.tamano as Size]?.label ?? '',
+              manto: coatLabels[mascota.manto as Coat] ?? '',
+              pesoKg: mascota.pesoKg ?? null,
+              usuario: tutor.nombre,
+              cuidados: mascota.cuidadosEspeciales || null,
+              etiquetas: mascota.etiquetas.map((e) => ({ nombre: e.nombre, tipo: e.tipo })),
+              visitas: atenciones.length,
+              ultimaVisita: ultima?.fecha ?? null,
+            }}
+          />
+          <section aria-labelledby="evolucion" className="flex flex-col gap-3">
+            <h3 id="evolucion" className="text-xl">
+              evolución por aspecto
+            </h3>
+            <FichaEvolutiva ficha={ficha} />
+          </section>
           {ultima && (
             <EditarRecomendacion
               guardar={guardarRecomendacion}
@@ -148,6 +146,27 @@ export default async function MascotaPage({ params }: Props) {
               sugerida={perfil.recomendacionSugerida}
             />
           )}
+          <section aria-labelledby="registro" className="flex flex-col gap-3">
+            <h3 id="registro" className="text-xl">
+              registro de visitas
+            </h3>
+            {atenciones.length === 0 ? (
+              <EmptyState icon="libreta" title="sin visitas registradas">
+                Cuando registres la primera atención, aparece acá.
+              </EmptyState>
+            ) : (
+              <ol className="flex flex-col gap-4">
+                {atenciones.map((a, i) => (
+                  <li key={a.id}>
+                    <VisitaFicha
+                      visita={{ ...a, numero: atenciones.length - i }}
+                      acciones={<ReenviarResumen atencionId={a.id} mascota={mascota.nombre} />}
+                    />
+                  </li>
+                ))}
+              </ol>
+            )}
+          </section>
         </Ticket>
 
         {enlace && (
@@ -159,56 +178,6 @@ export default async function MascotaPage({ params }: Props) {
           </Ticket>
         )}
 
-        <section aria-labelledby="historial" className="flex flex-col gap-3">
-          <h2 id="historial" className="text-xl">
-            historial
-          </h2>
-          {atenciones.length === 0 ? (
-            <EmptyState icon="libreta" title="sin atenciones">
-              Cuando registres la primera atención, aparece acá.
-            </EmptyState>
-          ) : (
-            <ol className="flex flex-col gap-4">
-              {atenciones.map((a) => (
-                <li key={a.id}>
-                  <Ticket size="small" className="flex flex-col gap-2">
-                    <div className="flex flex-wrap items-baseline justify-between gap-2">
-                      <p className="font-bold">{formatLongDate(new Date(a.fecha))}</p>
-                      {a.precioFinal !== null && (
-                        <p className="cifras text-sm">{formatMoney(a.precioFinal)}</p>
-                      )}
-                    </div>
-                    {a.servicios.length > 0 && <p className="text-sm">{a.servicios.join(' + ')}</p>}
-                    {a.etiquetas.length > 0 && (
-                      <p className="flex flex-wrap gap-1.5">
-                        {a.etiquetas.map((e) => (
-                          <TagChip key={e.nombre} kind={e.tipo}>
-                            {e.nombre}
-                          </TagChip>
-                        ))}
-                      </p>
-                    )}
-                    {a.resumenTutor && (
-                      <p className="text-sm">
-                        <span className="font-bold">Para el tutor: </span>
-                        {a.resumenTutor}
-                      </p>
-                    )}
-                    {a.notaInterna && (
-                      <p className="text-sm text-texto-suave">
-                        <span className="font-bold">Nota interna (solo el salón): </span>
-                        {a.notaInterna}
-                      </p>
-                    )}
-                    <div>
-                      <ReenviarResumen atencionId={a.id} mascota={mascota.nombre} />
-                    </div>
-                  </Ticket>
-                </li>
-              ))}
-            </ol>
-          )}
-        </section>
       </div>
     </>
   )

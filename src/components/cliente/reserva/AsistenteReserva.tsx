@@ -198,7 +198,7 @@ export function AsistenteReserva({
       <Stepper steps={pasosReserva} current={paso} />
       {escaneo && (
         <Notice tone="info" title="Reservás con los datos de IA Scan">
-          {resumenEscaneo(escaneo)}. ({origenLabels[escaneo.origen]}.) La peluquera la ve con tu pedido.
+          {resumenEscaneo(escaneo)}. ({origenLabels[escaneo.origen]}.) El administrador la ve con tu pedido.
         </Notice>
       )}
       <Ticket className="flex flex-col gap-6">

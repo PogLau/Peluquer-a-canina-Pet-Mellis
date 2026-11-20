@@ -1,7 +1,7 @@
 /*
   Logo de Pet Mellis (Brand Book, capítulo 2).
   - Imagotipo: la versión secundaria horizontal oficial (public/marca/logo/pet-mellis-horizontal.svg):
-    los mellis, «pet» en carbón, «mellis» en verde oscuro con el punto de la «i» naranja y
+    los mellis, «pet» y «mellis» en verde oscuro, con el punto de la «i» naranja y
     «PELUQUERÍA CANINA» debajo. Se usa tal cual: sin sombras, sin efectos y sin cambiar sus colores.
   - Isotipo: los mellis dibujados en components/marca/Mascota.tsx.
   Tamaño mínimo en pantalla del horizontal: 160 px de ancho. Área de seguridad: 1 x alrededor.

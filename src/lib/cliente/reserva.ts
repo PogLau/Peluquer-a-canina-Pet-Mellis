@@ -1,6 +1,7 @@
 import type { Payload } from 'payload'
 
 import { freeSlots, isSlotFree, type DiaLibre, type OpcionesAgenda } from '@/lib/agenda'
+import { incluyeBano } from '@/lib/cotizacion'
 import type { TutorSesion } from '@/lib/enlace-cliente'
 import { parseEscaneo, type EscaneoTurno } from '@/lib/ia/cuidado'
 import { coats, knots, sizes, type Coat, type Knots, type Size } from '@/lib/pricing'
@@ -118,6 +119,8 @@ export function validateBooking(input: ReservaInput, sesion: TutorSesion | null)
     else if (m.raza.length > 60) e.mascota = 'La raza es muy larga.'
   }
   if (!input.servicios.length) e.servicios = 'Elegí al menos un servicio.'
+  else if (input.servicios.filter((id) => incluyeBano({ id })).length > 1)
+    e.servicios = 'Elegí un solo baño por turno.'
   if (!oneOf(knots, input.nudos)) e.servicios = 'Elegí cómo están los nudos.'
   if (!input.fechaHora) e.fechaHora = 'Elegí día y horario.'
   if (input.notas.length > 500) e.notas = 'Hasta 500 caracteres.'

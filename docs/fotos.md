@@ -7,16 +7,14 @@ reemplazarlas por fotos propias del salón (ver CLAUDE.md §14).
 | Archivo | Dónde se usa | Fuente |
 |---|---|---|
 | `yorkshire-mesa.webp` | Inicio (foto principal) | Freepik («haircuting process small dog sits table…») |
-| `corte-mesa.webp` | Inicio, «en el salón» | Freepik («haircuting process small dog sits table…») |
-| `yorkshire-tijera.webp` | Inicio, «en el salón» | Freepik («woman shears dog… yorkshire terrier») |
-| `yorkshire-bata.webp` | Inicio, «en el salón» | Freepik («lovely pet portrait isolated») |
-| `yorkshire-toalla.webp` | Inicio, «en el salón» | Freepik («close up hands holding yorkshire…») |
-| `yorkshire-largo.webp` | Consulta por foto, ejemplo «Yorkshire» | Freepik («lovely pet portrait isolated») |
-| `shih-tzu.webp` | Consulta por foto, ejemplo «Shih Tzu» | Freepik («front view cute dog sitting») |
-| `terrier-clinica.webp` | Consulta por foto, ejemplo «Terrier» | Freepik («cute dog vet clinic») |
-| `maltes-panuelo.webp` | Consulta por foto, ejemplo «Maltés» | Pexels, foto de Jay Brand |
-| `caniche-mix.webp` | Consulta por foto, ejemplo «Caniche» | Pexels, foto de Jess Arras |
-| `shih-tzu-mono.webp` | Consulta por foto, ejemplo «Shih Tzu con moño» | Pexels, foto de Ricardo Pérez Saravia |
+| `salon-bano.webp` | Inicio, «en el salón» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `salon-corte-tijera.webp` | Inicio, «en el salón» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `salon-secado.webp` | Inicio, «en el salón» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `salon-patas.webp` | Inicio, «en el salón» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `salon-peine.webp` | Inicio, «en el salón» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `escaneo-pastor-brie.webp` | IA Scan, ejemplo «Pastor de Brie» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `escaneo-spaniel.webp` | IA Scan, ejemplo «Spaniel» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
+| `escaneo-shih-tzu.webp` | IA Scan, ejemplo «Shih Tzu» | Entregada para la web el 20/11/2026 (confirmar licencia antes de publicar) |
 
 Las licencias de Freepik piden atribución en el uso gratuito: si la demo se muestra en público,
 dejar esta página enlazada o agregar el crédito al pie.

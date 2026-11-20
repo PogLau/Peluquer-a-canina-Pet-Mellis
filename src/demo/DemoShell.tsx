@@ -53,12 +53,12 @@ function BarraDemo({ panel }: { panel: boolean }) {
         </p>
         <nav aria-label="Modo de la demo" className="flex items-center gap-1">
           <Link href="/" aria-current={!panel ? 'page' : undefined} className={pestana(!panel)}>
-            <span className="sm:hidden">Cliente</span>
-            <span className="hidden sm:inline">Ver como cliente</span>
+            <span className="sm:hidden">Usuario</span>
+            <span className="hidden sm:inline">Ver como usuario</span>
           </Link>
           <Link href="/panel" aria-current={panel ? 'page' : undefined} className={pestana(panel)}>
-            <span className="sm:hidden">Peluquera</span>
-            <span className="hidden sm:inline">Ver como peluquera</span>
+            <span className="sm:hidden">Administrador</span>
+            <span className="hidden sm:inline">Ver como administrador</span>
           </Link>
           <button
             type="button"
@@ -149,7 +149,7 @@ function MarcoPanel({ children }: { children: ReactNode }) {
               <SideNav items={panelNavDemo} root="/panel" />
             </div>
             <p className="hidden px-3 text-sm text-blanco md:mt-auto md:block">
-              En la app real, la peluquera entra con usuario y contraseña.
+              En la app real, el administrador entra con su email y contraseña.
             </p>
           </div>
         </header>

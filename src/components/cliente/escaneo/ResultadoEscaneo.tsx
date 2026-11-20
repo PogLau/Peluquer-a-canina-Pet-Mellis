@@ -112,7 +112,7 @@ export function ResultadoEscaneo({ sugerencia: s, catalog, estado, onUsarPlan, p
           </Button>
         </div>
         <p className="text-xs text-texto-suave">
-          La peluquera recibe esta ficha con tu pedido y la confirma al ver a tu perro. La foto no se
+          El administrador recibe esta ficha con tu pedido y la confirma al ver a tu perro. La foto no se
           guarda.
         </p>
       </div>

@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
+
 import { ChipGroup, ToggleChip } from '@/components/ui'
 import type { Catalog } from '@/lib/catalogo'
 import type { EstadoReserva } from '@/lib/cliente/pasos'
-import { alternar } from '@/lib/cotizacion'
+import { alternar, alternarServicio } from '@/lib/cotizacion'
 import { formatMoney } from '@/lib/format'
 import { knots, knotsLabels, type Knots, type Quote } from '@/lib/pricing'
 
@@ -18,10 +20,12 @@ type Props = {
 
 /** Paso 2: servicios y extras (vienen del cotizador si el cliente pasó por ahí). */
 export function PasoServicios({ estado, set, catalog, quote }: Props) {
+  const [avisoBano, setAvisoBano] = useState<string | null>(null)
   return (
     <div className="flex flex-col gap-6">
       <fieldset className="flex flex-col gap-2">
         <legend className="mb-2 text-sm font-bold">Servicios</legend>
+        <p className="mb-1 text-sm text-texto-suave">Cada turno lleva un solo baño.</p>
         {estado.servicios.length === 0 && (
           <p className="mb-1 text-sm text-texto-suave">
             Todavía no elegiste ningún servicio. Tocá el que quieras.
@@ -32,12 +36,19 @@ export function PasoServicios({ estado, set, catalog, quote }: Props) {
             <ToggleChip
               key={s.id}
               pressed={estado.servicios.includes(s.id)}
-              onPressedChange={() => set({ servicios: alternar(estado.servicios, s.id) })}
+              onPressedChange={() => {
+                const r = alternarServicio(estado.servicios, s.id, catalog.servicios)
+                set({ servicios: r.ids })
+                setAvisoBano(r.reemplazado ? `Cambiamos «${r.reemplazado.nombre}» por «${s.nombre}»: cada turno lleva un solo baño.` : null)
+              }}
             >
               {s.nombre}
             </ToggleChip>
           ))}
         </div>
+        <p role="status" className="text-sm font-bold text-info empty:hidden">
+          {avisoBano}
+        </p>
       </fieldset>
 
       <fieldset className="flex flex-col gap-2">

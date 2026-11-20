@@ -30,7 +30,7 @@ export const Mascotas: CollectionConfig = {
       name: 'cuidadosEspeciales',
       type: 'textarea',
       label: 'Cuidados especiales',
-      admin: { description: 'Lo ve la peluquera antes de empezar. Por ejemplo: «usar técnica gradual con las uñas».' },
+      admin: { description: 'Lo ve el administrador antes de empezar. Por ejemplo: «usar técnica gradual con las uñas».' },
     },
     { name: 'etiquetas', type: 'relationship', label: 'Etiquetas', relationTo: 'etiquetas', hasMany: true },
     { name: 'atenciones', type: 'join', label: 'Atenciones', collection: 'atenciones', on: 'mascota' },

@@ -5,7 +5,7 @@ export const panelNav: readonly NavItem[] = [
   { href: '/panel', label: 'Hoy', icon: 'calendario' },
   { href: '/panel/solicitudes', label: 'Solicitudes', icon: 'bandeja' },
   { href: '/panel/mascotas', label: 'Mascotas', icon: 'pata' },
-  { href: '/panel/clientes', label: 'Clientes', icon: 'usuarios' },
+  { href: '/panel/clientes', label: 'Usuarios', icon: 'usuarios' },
   { href: '/panel/servicios', label: 'Precios', icon: 'ajustes' },
   { href: '/panel/informes', label: 'Informes', icon: 'grafico', mobile: false },
 ]

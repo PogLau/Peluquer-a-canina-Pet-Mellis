@@ -55,17 +55,17 @@ describe('Consulta por foto: plan y precio', () => {
 
   it('si la peluquera renombró los servicios, se respeta lo elegido', () => {
     const renombrados = { servicios: servicios.map((s) => ({ ...s, nombre: `Otro ${s.nombre}` })), extras }
-    const yorkie = ejemplosMascota.find((e) => e.id === 'yorkshire')!.sugerencia
+    const yorkie = ejemplosMascota.find((e) => e.id === 'spaniel')!.sugerencia
     const estado = { ...estadoInicial(), servicioIds: ['unas'], extraIds: ['traslado'] }
     expect(aplicarPlan(estado, yorkie, renombrados)).toMatchObject({ servicioIds: ['unas'], extraIds: ['traslado'] })
   })
 
-  it('el plan del caniche (spa de desenredado) suma el recargo por nudos una sola vez', () => {
-    const caniche = ejemplosMascota.find((e) => e.id === 'caniche')!.sugerencia
-    const plan = aplicarPlan({ ...estadoInicial(), servicioIds: ['bano-corte'] }, caniche, catalog)
+  it('el plan del pastor de Brie (spa de desenredado) suma el recargo por nudos una sola vez', () => {
+    const brie = ejemplosMascota.find((e) => e.id === 'pastor-brie')!.sugerencia
+    const plan = aplicarPlan({ ...estadoInicial(), servicioIds: ['bano-corte'] }, brie, catalog)
     const quote = buildQuote(plan, catalog, pricingConfig)
-    // Baño higiénico simple, chico: $22.000; + desenredado de nudos moderados $18.000
-    expect(quote.total).toBe(22000 + 18000)
+    // Baño higiénico simple, grande: $44.000; + desenredado de nudos moderados $18.000
+    expect(quote.total).toBe(44000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 })
@@ -111,6 +111,6 @@ describe('Consulta por foto: el escaneo viaja hasta el panel', () => {
 
 describe('Consulta por foto: fotos de prueba', () => {
   it('ofrece exactamente 3 fotos de prueba', () => {
-    expect(ejemplosMascota.map((e) => e.id)).toEqual(['caniche', 'yorkshire', 'shih-tzu'])
+    expect(ejemplosMascota.map((e) => e.id)).toEqual(['pastor-brie', 'spaniel', 'shih-tzu'])
   })
 })

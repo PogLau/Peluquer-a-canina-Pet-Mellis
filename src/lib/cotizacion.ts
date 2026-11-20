@@ -21,6 +21,45 @@ export function estadoInicial(): EstadoCotizacion {
   }
 }
 
+/**
+ * Servicios que incluyen baño («Baño higiénico simple», «Baño y corte…»). Un turno lleva uno solo:
+ * uno u otro, nunca dos. Se reconocen por el código (bano-…) o porque el nombre empieza con «Baño».
+ */
+export function incluyeBano(servicio: { id: string; nombre?: string }): boolean {
+  return servicio.id.startsWith('bano') || /^baño/i.test(servicio.nombre?.trim() ?? '')
+}
+
+/** Deja un solo baño en la lista (el primero que aparece). Para presupuestos que llegan armados por enlace. */
+export function unSoloBano<T extends { id: string; nombre?: string }>(
+  ids: readonly string[],
+  servicios: readonly T[],
+): string[] {
+  let hayBano = false
+  return ids.filter((id) => {
+    const s = servicios.find((x) => x.id === id) ?? { id }
+    if (!incluyeBano(s)) return true
+    if (hayBano) return false
+    hayBano = true
+    return true
+  })
+}
+
+/**
+ * Marca o desmarca un servicio. Si se marca un baño y ya había otro, el anterior se desmarca solo.
+ * Devuelve también qué baño se reemplazó, para avisarle a la persona.
+ */
+export function alternarServicio<T extends { id: string; nombre?: string }>(
+  ids: readonly string[],
+  id: string,
+  servicios: readonly T[],
+): { ids: string[]; reemplazado: T | null } {
+  if (ids.includes(id)) return { ids: ids.filter((x) => x !== id), reemplazado: null }
+  const nuevo = servicios.find((s) => s.id === id) ?? ({ id } as T)
+  if (!incluyeBano(nuevo)) return { ids: [...ids, id], reemplazado: null }
+  const anterior = servicios.find((s) => ids.includes(s.id) && incluyeBano(s)) ?? null
+  return { ids: [...ids.filter((x) => x !== anterior?.id), id], reemplazado: anterior }
+}
+
 /** Aplica una sugerencia: cambia tamaño, manto y nudos; respeta los servicios y extras elegidos. */
 export function aplicarSugerencia(estado: EstadoCotizacion, sugerencia: Sugerencia): EstadoCotizacion {
   return { ...estado, tamano: sugerencia.tamano, manto: sugerencia.manto, nudos: sugerencia.nudos }
@@ -36,7 +75,9 @@ export function aplicarPlan(
   return {
     ...aplicarSugerencia(estado, sugerencia),
     // Si la peluquera renombró los servicios y no se encuentran, se respeta lo elegido
-    servicioIds: plan.servicioIds.length ? plan.servicioIds : estado.servicioIds,
+    servicioIds: plan.servicioIds.length
+      ? unSoloBano(plan.servicioIds, catalog.servicios)
+      : estado.servicioIds,
     extraIds: plan.servicioIds.length ? plan.extraIds : estado.extraIds,
   }
 }

@@ -107,7 +107,7 @@ export function InformesVista({ r, base, exportar }: Props) {
           </div>
           {r.sinVolver.length === 0 ? (
             <EmptyState icon="usuarios" title="nadie para recontactar">
-              Todos los clientes vinieron en los últimos 60 días o ya tienen turno.
+              Todos los usuarios vinieron en los últimos 60 días o ya tienen turno.
             </EmptyState>
           ) : (
             <ul className="grid gap-4 sm:grid-cols-2">

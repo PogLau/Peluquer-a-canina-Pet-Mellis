@@ -80,7 +80,7 @@ export function FormularioCliente({ inicial }: { inicial: ClienteEditable }) {
       )}
       <div>
         <Button type="submit" icon="check" disabled={pending}>
-          {pending ? 'Guardando…' : c.id ? 'Guardar cambios' : 'Crear cliente'}
+          {pending ? 'Guardando…' : c.id ? 'Guardar cambios' : 'Crear usuario'}
         </Button>
       </div>
     </form>

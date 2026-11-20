@@ -12,7 +12,7 @@ import { getClient } from '@/lib/panel/clientes'
 import { requireStaff } from '@/lib/panel/sesion'
 import { whatsappLink } from '@/lib/whatsapp'
 
-export const metadata: Metadata = { title: 'Cliente' }
+export const metadata: Metadata = { title: 'Usuario' }
 
 type Props = { params: Promise<{ id: string }>; searchParams: Promise<{ nuevo?: string }> }
 
@@ -22,7 +22,7 @@ function Volver() {
       href="/panel/clientes"
       className="mb-4 inline-flex items-center gap-1.5 text-sm font-bold text-verde-oscuro"
     >
-      <Icon name="volver" size={18} /> Clientes
+      <Icon name="volver" size={18} /> Usuarios
     </Link>
   )
 }
@@ -35,7 +35,7 @@ export default async function ClientePage({ params, searchParams }: Props) {
     return (
       <>
         <Volver />
-        <PageHeader title="nuevo cliente">
+        <PageHeader title="nuevo usuario">
           Después de crearlo vas a poder cargar sus perros.
         </PageHeader>
         <Ticket>
@@ -67,7 +67,7 @@ export default async function ClientePage({ params, searchParams }: Props) {
     <>
       <Volver />
       <PageHeader
-        eyebrow="Cliente"
+        eyebrow="Usuario"
         title={cliente.nombre}
         actions={
           wa && (
@@ -79,7 +79,7 @@ export default async function ClientePage({ params, searchParams }: Props) {
       />
       <div className="flex flex-col gap-6">
         {recienCreado && (
-          <Notice tone="exito" role="status" title="Cliente creado. Ahora cargá sus perros." />
+          <Notice tone="exito" role="status" title="Usuario creado. Ahora cargá sus perros." />
         )}
         <Ticket as="section" aria-labelledby="datos" className="flex flex-col gap-4">
           <h2 id="datos" className="text-xl">

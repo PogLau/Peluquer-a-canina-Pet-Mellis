@@ -15,7 +15,7 @@ import '@/styles/globals.css'
 export const metadata: Metadata = {
   title: 'Pet Mellis · Demo de la web app',
   description:
-    'Demo interactiva de Pet Mellis, la web app de Los Mellis – Peluquería Canina (Merlo): cotizador, reservas, panel de la peluquera y Ficha Evolutiva. Datos ficticios.',
+    'Demo interactiva de Pet Mellis, la web app de Los Mellis – Peluquería Canina (Merlo): cotizador, reservas, panel del administrador y Ficha Evolutiva. Datos ficticios.',
   robots: { index: false },
 }
 

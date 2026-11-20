@@ -26,8 +26,8 @@ export const Usuarios: CollectionConfig = {
       // Solo un admin puede cambiar roles
       access: { update: onlyAdmin },
       options: [
-        { label: 'Peluquera', value: 'peluquera' },
-        { label: 'Admin', value: 'admin' },
+        { label: 'Administrador', value: 'peluquera' },
+        { label: 'Administrador principal', value: 'admin' },
       ],
     },
   ],

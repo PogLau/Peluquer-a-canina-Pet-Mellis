@@ -6,10 +6,11 @@ import type { Service } from '@/lib/pricing'
 import { rutaPublica } from '@/lib/ruta-publica'
 
 const fotosSalon = [
-  { src: '/fotos/yorkshire-tijera.webp', alt: 'Corte de un Yorkshire con peine y tijera' },
-  { src: '/fotos/yorkshire-bata.webp', alt: 'Yorkshire envuelto en una toalla después del baño' },
-  { src: '/fotos/corte-mesa.webp', alt: 'Corte de pelo en las patas sobre la mesa de trabajo' },
-  { src: '/fotos/yorkshire-toalla.webp', alt: 'Yorkshire recién bañado, secándose en una toalla' },
+  { src: '/fotos/salon-bano.webp', alt: 'Yorkshire bañándose con la ducha de mano, sostenido con guantes' },
+  { src: '/fotos/salon-corte-tijera.webp', alt: 'Yorkshire sentado en la mesa de trabajo durante el corte con tijera' },
+  { src: '/fotos/salon-secado.webp', alt: 'Secado de un Yorkshire con secador de mano' },
+  { src: '/fotos/salon-patas.webp', alt: 'Corte del pelo de las patas con tijera sobre la mesa' },
+  { src: '/fotos/salon-peine.webp', alt: 'Yorkshire mirando hacia arriba entre el peine y la tijera' },
 ] as const
 
 type Props = {
@@ -58,7 +59,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={rutaPublica('/fotos/yorkshire-mesa.webp')}
-            alt="Peluquera con guantes preparando a un Yorkshire terrier sobre la mesa de trabajo"
+            alt="Persona del salón con guantes preparando a un Yorkshire terrier sobre la mesa de trabajo"
             className="aspect-[4/3] w-full rounded-md border border-linea object-cover shadow-ticket"
           />
           <figcaption className="relative -mt-10 ml-4 mr-4 rounded-md border border-linea bg-durazno p-4 text-sm shadow-ticket sm:ml-8 sm:mr-auto sm:max-w-xs">
@@ -140,7 +141,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         <h2 id="titulo-salon" className="text-2xl">
           en el salón
         </h2>
-        <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <ul className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
           {fotosSalon.map((f) => (
             <li key={f.src}>
               {/* eslint-disable-next-line @next/next/no-img-element */}

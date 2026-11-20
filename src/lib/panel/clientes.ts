@@ -239,7 +239,7 @@ export async function savePet(
       user,
     })
     const dueno = typeof actual.tutor === 'object' ? actual.tutor.id : actual.tutor
-    if (dueno !== tutorId) throw new PanelError('Ese perro es de otro cliente.')
+    if (dueno !== tutorId) throw new PanelError('Ese perro es de otro usuario.')
     await payload.update({ collection: 'mascotas', id: m.id, data, overrideAccess: false, user })
     return m.id
   }

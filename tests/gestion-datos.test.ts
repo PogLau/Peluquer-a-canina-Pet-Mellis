@@ -91,7 +91,7 @@ describe('Clientes', () => {
     ))!
     const max = diego.mascotas[0]
     await expect(clientes.savePet(payload, peluquera, sofia.id, { ...max })).rejects.toThrow(
-      /otro cliente/,
+      /otro usuario/,
     )
   })
 
@@ -163,7 +163,7 @@ describe('Informes', () => {
     expect(csv.nombre).toMatch(/^turnos-[a-z]+\.csv$/)
     expect(csv.contenido.split('\r\n')[0]).toBe(
       String.fromCharCode(0xfeff) +
-        'Fecha;Hora;Cliente;Perro;Servicios;Estado;Precio estimado;Precio final;Ingreso',
+        'Fecha;Hora;Usuario;Perro;Servicios;Estado;Precio estimado;Precio final;Ingreso',
     )
   })
 })

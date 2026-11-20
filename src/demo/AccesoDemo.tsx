@@ -32,9 +32,9 @@ export function SinEnlaceDemo() {
   return (
     <Notice tone="info" title="Tus datos son solo tuyos">
       <span className="mt-1 block">
-        Cada cliente entra con su enlace personal, que le llega por WhatsApp, y ve solo sus perros
-        y sus turnos. Para probarlo en la demo, reservá un turno o abrí el enlace de un cliente desde
-        su ficha en el panel de la peluquera.
+        Cada usuario entra con su enlace personal, que le llega por WhatsApp, y ve solo sus perros
+        y sus turnos. Para probarlo en la demo, reservá un turno o abrí el enlace de un usuario desde
+        su ficha en el panel del administrador.
       </span>
     </Notice>
   )

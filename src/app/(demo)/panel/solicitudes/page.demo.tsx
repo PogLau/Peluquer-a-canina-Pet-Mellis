@@ -20,7 +20,7 @@ export default function SolicitudesDemo() {
       </PageHeader>
       {lista.length === 0 ? (
         <EmptyState icon="bandeja" title="nada pendiente">
-          Reservá un turno como cliente («Ver como cliente», arriba) y aparece acá.
+          Reservá un turno como usuario («Ver como usuario», arriba) y aparece acá.
         </EmptyState>
       ) : (
         <ul className="flex flex-col gap-5">

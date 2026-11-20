@@ -84,11 +84,11 @@ export const Turnos: CollectionConfig = {
       required: true,
       defaultValue: 'panel',
       options: [
-        { label: 'Web (lo pidió el cliente)', value: 'web' },
+        { label: 'Web (lo pidió el usuario)', value: 'web' },
         { label: 'Panel (lo cargó el salón)', value: 'panel' },
       ],
     },
-    { name: 'notasCliente', type: 'textarea', label: 'Notas del cliente' },
+    { name: 'notasCliente', type: 'textarea', label: 'Notas del usuario' },
     {
       // Consulta por foto: lo que se vio en la foto al reservar (sin la foto). Se valida con parseEscaneo.
       name: 'escaneo',

@@ -34,11 +34,11 @@ describe('ejemplos de la demo', () => {
     }
   })
 
-  it('el ejemplo del caniche + baño y corte completo + antipulgas da $69.000, con el desenredado aparte', () => {
-    const toby = ejemplosMascota.find((e) => e.id === 'caniche')!
-    const estado = aplicarSugerencia({ ...estadoInicial(), servicioIds: ['bano-corte'], extraIds: ['antipulgas'] }, toby.sugerencia)
+  it('el ejemplo del pastor de Brie (grande) + baño y corte completo + antipulgas da $100.000, con el desenredado aparte', () => {
+    const brie = ejemplosMascota.find((e) => e.id === 'pastor-brie')!
+    const estado = aplicarSugerencia({ ...estadoInicial(), servicioIds: ['bano-corte'], extraIds: ['antipulgas'] }, brie.sugerencia)
     const quote = buildQuote(estado, catalog, pricingConfig)
-    expect(quote.total).toBe(40000 + 11000 + 18000)
+    expect(quote.total).toBe(71000 + 11000 + 18000)
     expect(quote.lineas.filter((l) => l.tipo === 'recargo')).toHaveLength(1)
   })
 

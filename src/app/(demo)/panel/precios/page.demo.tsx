@@ -14,7 +14,7 @@ export default function PreciosDemo() {
   return (
     <>
       <PageHeader eyebrow="Catálogo" title="servicios y precios">
-        Los cambios se ven al instante en el cotizador de los clientes. Los turnos ya pedidos
+        Los cambios se ven al instante en el cotizador de los usuarios. Los turnos ya pedidos
         mantienen su precio.
       </PageHeader>
       <TablaPrecios inicial={inicial} guardar={guardarPrecios} />

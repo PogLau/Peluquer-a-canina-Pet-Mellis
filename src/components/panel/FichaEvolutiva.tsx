@@ -1,6 +1,9 @@
-import { formatShortDate } from '@/lib/format'
-import type { Ficha, Tendencia } from '@/lib/ficha'
+import type { ReactNode } from 'react'
+
+import { TagChip } from '@/components/ui'
 import { cn } from '@/lib/cn'
+import type { Ficha, Tendencia } from '@/lib/ficha'
+import { formatLongDate, formatMoney, formatShortDate } from '@/lib/format'
 
 const tendencias: Record<Tendencia, string> = {
   mejora: 'mejora',
@@ -99,5 +102,125 @@ export function FichaEvolutiva({ ficha }: { ficha: Ficha }) {
         </tbody>
       </table>
     </div>
+  )
+}
+
+/* ---------- Ficha de registro: encabezado con los datos del perro y entradas de cada visita ---------- */
+
+type EtiquetaFicha = { nombre: string; tipo: 'alerta' | 'info' }
+
+export type DatosFicha = {
+  numero: number
+  nombre: string
+  raza: string | null
+  tamano: string
+  manto: string
+  pesoKg: number | null
+  usuario: string
+  cuidados: string | null
+  etiquetas: EtiquetaFicha[]
+  visitas: number
+  ultimaVisita: string | null
+}
+
+/** Un campo rotulado de la ficha: rótulo chico arriba y el dato debajo, como en una ficha impresa. */
+function Campo({ rotulo, children }: { rotulo: string; children: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-0.5 border-b border-linea px-4 py-3">
+      <dt className="rotulo text-texto-suave">{rotulo}</dt>
+      <dd className="font-medium">{children}</dd>
+    </div>
+  )
+}
+
+/** Encabezado de la ficha: número, datos del perro y cuidados, todo en campos rotulados. */
+export function FichaDatos({ datos }: { datos: DatosFicha }) {
+  return (
+    <div className="overflow-hidden rounded-md border border-tinta">
+      <div className="flex flex-wrap items-center justify-between gap-2 bg-verde-oscuro px-4 py-2 text-blanco">
+        <p className="rotulo">Ficha evolutiva · Pet Mellis</p>
+        <p className="rotulo cifras">Nº {String(datos.numero).padStart(4, '0')}</p>
+      </div>
+      <dl className="grid sm:grid-cols-2 lg:grid-cols-4">
+        <Campo rotulo="Nombre">{datos.nombre}</Campo>
+        <Campo rotulo="Raza">{datos.raza || 'Sin dato'}</Campo>
+        <Campo rotulo="Tamaño">{datos.tamano}</Campo>
+        <Campo rotulo="Manto">{datos.manto}</Campo>
+        <Campo rotulo="Peso">{datos.pesoKg ? `${datos.pesoKg} kg` : 'Sin dato'}</Campo>
+        <Campo rotulo="Usuario">{datos.usuario}</Campo>
+        <Campo rotulo="Visitas registradas">{datos.visitas}</Campo>
+        <Campo rotulo="Última visita">
+          {datos.ultimaVisita ? formatShortDate(new Date(datos.ultimaVisita)) : 'Todavía no vino'}
+        </Campo>
+      </dl>
+      <div className="flex flex-col gap-2 bg-durazno px-4 py-3">
+        <p className="rotulo text-texto-suave">Cuidados y comportamiento</p>
+        <p className={cn('text-sm', datos.cuidados ? 'font-bold' : 'text-texto-suave')}>
+          {datos.cuidados || 'Sin cuidados especiales anotados.'}
+        </p>
+        {datos.etiquetas.length > 0 && (
+          <ul className="flex flex-wrap gap-2">
+            {datos.etiquetas.map((e) => (
+              <li key={e.nombre}>
+                <TagChip kind={e.tipo}>{e.nombre}</TagChip>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export type VisitaRegistro = {
+  numero: number
+  fecha: string
+  servicios: string[]
+  precioFinal: number | null
+  etiquetas: EtiquetaFicha[]
+  resumenTutor: string | null
+  notaInterna: string | null
+  recomendacion: string | null
+}
+
+/** Entrada del registro de visitas: fecha y número arriba, y cada dato en su renglón rotulado. */
+export function VisitaFicha({ visita, acciones }: { visita: VisitaRegistro; acciones?: ReactNode }) {
+  const filas: Array<[string, ReactNode]> = [
+    ['Servicios', visita.servicios.length ? visita.servicios.join(' + ') : 'Sin dato'],
+    ['Precio final', visita.precioFinal !== null ? formatMoney(visita.precioFinal) : 'Sin dato'],
+  ]
+  if (visita.etiquetas.length)
+    filas.push([
+      'Comportamiento',
+      <span key="e" className="flex flex-wrap gap-1.5">
+        {visita.etiquetas.map((e) => (
+          <TagChip key={e.nombre} kind={e.tipo}>
+            {e.nombre}
+          </TagChip>
+        ))}
+      </span>,
+    ])
+  if (visita.resumenTutor) filas.push(['Para el usuario', visita.resumenTutor])
+  if (visita.notaInterna) filas.push(['Nota interna (solo el salón)', visita.notaInterna])
+  if (visita.recomendacion) filas.push(['Para la próxima', visita.recomendacion])
+
+  return (
+    <article className="overflow-hidden rounded-md border border-linea bg-superficie">
+      <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-linea bg-superficie-alt px-4 py-2">
+        <p className="font-bold">
+          <span className="rotulo mr-2 text-verde-oscuro">Visita {visita.numero}</span>
+          {formatLongDate(new Date(visita.fecha))}
+        </p>
+      </header>
+      <dl className="divide-y divide-linea">
+        {filas.map(([rotulo, valor]) => (
+          <div key={rotulo} className="grid gap-1 px-4 py-2.5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-4">
+            <dt className="rotulo pt-0.5 text-texto-suave">{rotulo}</dt>
+            <dd className="text-sm">{valor}</dd>
+          </div>
+        ))}
+      </dl>
+      {acciones && <div className="border-t border-linea px-4 py-3">{acciones}</div>}
+    </article>
   )
 }

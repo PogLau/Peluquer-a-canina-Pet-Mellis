@@ -1,4 +1,4 @@
-import type { EstadoCotizacion } from '@/lib/cotizacion'
+import { unSoloBano, type EstadoCotizacion } from '@/lib/cotizacion'
 import type { Coat, Knots, Size } from '@/lib/pricing'
 
 /* Estado del asistente de reserva y qué falta en cada paso (funciones puras). */
@@ -38,7 +38,8 @@ export function initialBooking(
       tamano: preset.tamano ?? null,
       manto: preset.manto ?? 'corto',
     },
-    servicios: preset.servicioIds?.length ? [...preset.servicioIds] : [],
+    // Un solo baño por turno, aunque el enlace traiga dos
+    servicios: preset.servicioIds?.length ? unSoloBano(preset.servicioIds, []) : [],
     extras: preset.extraIds ? [...preset.extraIds] : [],
     nudos: preset.nudos ?? 'sin',
     fecha: null,

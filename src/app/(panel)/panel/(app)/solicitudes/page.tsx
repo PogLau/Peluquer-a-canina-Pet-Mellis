@@ -24,7 +24,7 @@ export default async function SolicitudesPage() {
       </PageHeader>
       {solicitudes.length === 0 ? (
         <EmptyState icon="bandeja" title="nada pendiente">
-          Cuando un cliente pida un turno desde la web, aparece acá.
+          Cuando un usuario pida un turno desde la web, aparece acá.
         </EmptyState>
       ) : (
         <ul className="flex flex-col gap-5">

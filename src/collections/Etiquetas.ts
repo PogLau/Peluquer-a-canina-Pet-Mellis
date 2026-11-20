@@ -16,7 +16,7 @@ export const Etiquetas: CollectionConfig = {
       required: true,
       defaultValue: 'info',
       options: [
-        { label: 'Alerta (la peluquera la ve antes de empezar)', value: 'alerta' },
+        { label: 'Alerta (el administrador la ve antes de empezar)', value: 'alerta' },
         { label: 'Información', value: 'info' },
       ],
     },

@@ -138,7 +138,7 @@ export function TablaPrecios({
         {errores.servicios && <p className="text-sm font-bold text-peligro">{errores.servicios}</p>}
         <div className="overflow-x-auto">
           <p className="text-sm text-texto-suave">
-            Un precio fijo por tamaño. El cliente lo ve recién cuando elige el tamaño y el servicio.
+            Un precio fijo por tamaño. El usuario lo ve recién cuando elige el tamaño y el servicio.
             «Suma manto y nudos»: a ese servicio se le aplican el multiplicador por manto y el
             desenredado de nudos de la sección recargos.
           </p>

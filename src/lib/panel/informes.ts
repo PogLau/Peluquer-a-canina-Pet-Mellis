@@ -121,9 +121,9 @@ export function reportCSV(tipo: TipoCSV, r: Reporte): { nombre: string; contenid
   }
   if (tipo === 'sin-volver') {
     return {
-      nombre: 'clientes-sin-volver.csv',
+      nombre: 'usuarios-sin-volver.csv',
       contenido: toCSV(
-        ['Cliente', 'WhatsApp', 'Perros', 'Última visita', 'Días sin venir'],
+        ['Usuario', 'WhatsApp', 'Perros', 'Última visita', 'Días sin venir'],
         r.sinVolver.map((c) => [
           c.nombre,
           c.whatsapp,
@@ -140,7 +140,7 @@ export function reportCSV(tipo: TipoCSV, r: Reporte): { nombre: string; contenid
       [
         'Fecha',
         'Hora',
-        'Cliente',
+        'Usuario',
         'Perro',
         'Servicios',
         'Estado',

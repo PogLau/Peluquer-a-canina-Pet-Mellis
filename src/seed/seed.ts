@@ -193,11 +193,11 @@ export async function seed(payload: Payload, log: (msg: string) => void = () => 
     } else {
       await payload.create({
         collection: 'usuarios',
-        data: { email, password, nombre: 'Peluquera', rol: 'peluquera' },
+        data: { email, password, nombre: 'Administrador', rol: 'peluquera' },
       })
     }
-    log(`Usuario de la peluquera listo (${email})`)
+    log(`Usuario administrador listo (${email})`)
   } else {
-    log('Sin DEMO_ADMIN_EMAIL / DEMO_ADMIN_PASSWORD en .env: no se creó el usuario de la peluquera')
+    log('Sin DEMO_ADMIN_EMAIL / DEMO_ADMIN_PASSWORD en .env: no se creó el usuario administrador')
   }
 }

@@ -6,7 +6,7 @@ import { formatLongDate } from '@/lib/format'
 import { listClients } from '@/lib/panel/clientes'
 import { requireStaff } from '@/lib/panel/sesion'
 
-export const metadata: Metadata = { title: 'Clientes' }
+export const metadata: Metadata = { title: 'Usuarios' }
 
 function formatPhone(digits: string): string {
   // 5491122334455 → +54 9 11 2233-4455 (solo para leer; se guarda sin formato)
@@ -27,10 +27,10 @@ export default async function ClientesPage({
     <>
       <PageHeader
         eyebrow="Tutores"
-        title="clientes"
+        title="usuarios"
         actions={
           <LinkButton href="/panel/clientes/nuevo" size="small" icon="mas">
-            Nuevo cliente
+            Nuevo usuario
           </LinkButton>
         }
       >
@@ -58,15 +58,15 @@ export default async function ClientesPage({
       </form>
 
       {clientes.length === 0 ? (
-        <EmptyState icon="usuarios" title={q ? 'sin resultados' : 'todavía no hay clientes'}>
+        <EmptyState icon="usuarios" title={q ? 'sin resultados' : 'todavía no hay usuarios'}>
           {q
             ? `No encontramos «${q}».`
-            : 'Se cargan solos cuando alguien reserva, o con «Nuevo cliente».'}
+            : 'Se cargan solos cuando alguien reserva, o con «Nuevo usuario».'}
         </EmptyState>
       ) : (
         <>
           <p className="mb-3 text-sm text-texto-suave" role="status">
-            {clientes.length} {clientes.length === 1 ? 'cliente' : 'clientes'}
+            {clientes.length} {clientes.length === 1 ? 'usuario' : 'usuarios'}
             {q && ` para «${q}»`}
           </p>
           <ul className="grid gap-4 sm:grid-cols-2">

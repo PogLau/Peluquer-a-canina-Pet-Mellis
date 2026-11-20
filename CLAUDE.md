@@ -199,6 +199,8 @@ Derivados (AA verificado en `tests/contraste.test.ts`): `verde-hover` #436c56, `
 
 **Logo (Brand Book, cap. 2, 20/11/2026):** el header usa el archivo oficial `public/marca/logo/pet-mellis-horizontal.svg` (componente `Imagotipo`), sin sombras ni efectos y sin «Merlo»; el panel agrega «Panel del salón» debajo. Mínimo 160 px de ancho. A ese tamaño el descriptor «PELUQUERÍA CANINA» del archivo queda decorativo (2 px): no depender de él para informar. Sobre verde oscuro, `pet-mellis-horizontal-oscuro.svg`.
 
+**Decisiones del 20/11/2026:** en el logo, «pet» va en verde oscuro igual que «mellis» (en menta sobre fondos oscuros). En pantalla se dice **usuario** (no «cliente») y **administrador** (no «peluquera»); los nombres internos del código, las rutas (`/panel/clientes`) y los valores de la base (`tutores`, rol `peluquera`) no cambian. Un turno lleva **un solo baño** (`incluyeBano`, `alternarServicio` y `unSoloBano` en `src/lib/cotizacion.ts`; la reserva lo valida).
+
 ### 7.2 Tipografía
 Escala del Brand Book (pág. 16): título Bold 56 px (`text-4xl`, interlineado 1,05) · subtítulo Bold 36 px (`text-3xl`) · encabezado Bold 22 px (`text-xl`) · cuerpo Regular 16 px · botón Medium 16 px (mínimo 14) · rótulo Medium 12 px en mayúsculas espaciadas (`.rotulo`).
 
