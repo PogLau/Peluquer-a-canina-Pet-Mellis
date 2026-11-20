@@ -93,7 +93,7 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
                 src={rutaPublica(e.foto)}
                 alt={e.alt}
                 loading="lazy"
-                className="aspect-[3/4] w-full rounded-md border border-blanco object-cover"
+                className="aspect-[4/3] w-full rounded-md border border-blanco object-cover"
               />
               <span className="text-xs font-bold">{e.nombre}</span>
             </li>

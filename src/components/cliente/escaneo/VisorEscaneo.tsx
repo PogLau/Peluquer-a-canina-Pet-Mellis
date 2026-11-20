@@ -28,7 +28,7 @@ export function VisorEscaneo({ src, alt, paso, rotulo }: Props) {
       <div className="relative overflow-hidden rounded-md border border-linea bg-verde shadow-ticket">
         {/* Foto local (public/fotos) o elegida por el usuario (blob:): no pasa por next/image */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={src} alt={alt} className="aspect-square w-full object-cover" />
+        <img src={src} alt={alt} className="aspect-[4/3] w-full object-cover" />
         {escaneando && (
           <div aria-hidden="true" className="absolute inset-0 bg-blanco/40">
             <Melli pose="foto" size={72} className="mascota-espera absolute bottom-3 right-3" />

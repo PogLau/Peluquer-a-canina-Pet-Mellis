@@ -185,7 +185,7 @@ export function IaScanCare({
             }
           />
         ) : (
-          <div className="grid aspect-square place-items-center rounded-md border border-dashed border-linea bg-superficie p-6 text-center">
+          <div className="grid aspect-[4/3] place-items-center rounded-md border border-dashed border-linea bg-superficie p-6 text-center">
             <span className="flex flex-col items-center gap-3 text-texto-suave">
               <Melli pose="foto" size={120} />
               Elegí una foto de abajo o subí la de tu perro.
@@ -256,7 +256,7 @@ export function IaScanCare({
                     src={rutaPublica(e.foto)}
                     alt=""
                     loading="lazy"
-                    className="aspect-square w-full object-cover"
+                    className="aspect-[4/3] w-full object-cover"
                   />
                   <span className="flex flex-col px-2 py-1.5">
                     <span className="text-sm font-bold">{e.nombre}</span>
