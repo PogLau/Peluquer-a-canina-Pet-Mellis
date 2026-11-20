@@ -113,7 +113,7 @@ function MarcoCliente({ children }: { children: ReactNode }) {
             aria-label="Pet Mellis, inicio"
             className="rounded-sm focus-visible:outline-tinta"
           >
-            <Imagotipo />
+            <Imagotipo width={184} />
           </Link>
           <TopNav items={clienteNav} root="/" />
           <div className="hidden lg:block">
@@ -143,7 +143,7 @@ function MarcoPanel({ children }: { children: ReactNode }) {
               aria-label="Pet Mellis, panel"
               className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo tagline="panel del salón" />
+              <Imagotipo etiqueta="Panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNavDemo} root="/panel" />

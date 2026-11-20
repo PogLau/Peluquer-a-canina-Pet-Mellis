@@ -31,7 +31,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
               aria-label="Pet Mellis, panel"
               className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo tagline="panel del salón" />
+              <Imagotipo etiqueta="Panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNav} root="/panel" />

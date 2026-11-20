@@ -1,5 +1,4 @@
 import { ServiceCard } from '@/components/cliente/ServiceCard'
-import { Melli } from '@/components/marca/Mascota'
 import { Icon, LinkButton, Ticket } from '@/components/ui'
 import { franjaHoraria } from '@/lib/format'
 import { ejemplosMascota } from '@/lib/ia/ejemplos'
@@ -55,10 +54,6 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
           </div>
         </div>
         <figure className="relative">
-          {/* Los mellis como sticker sobre la foto: una sola escena de la mascota por pantalla */}
-          <span className="absolute -left-3 -top-10 z-10 rounded-lg bg-blanco px-1 shadow-ticket sm:-left-8">
-            <Melli pose="saluda" size={104} />
-          </span>
           {/* Foto local de public/fotos (créditos en docs/fotos.md) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img

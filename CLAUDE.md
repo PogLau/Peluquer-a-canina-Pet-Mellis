@@ -197,7 +197,11 @@ Derivados (AA verificado en `tests/contraste.test.ts`): `verde-hover` #436c56, `
 - Los estados se acompañan con palabras o íconos, no solo color.
 - Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: lo verifica `tests/design-rules.test.ts`.
 
+**Logo (Brand Book, cap. 2, 20/11/2026):** el header usa el archivo oficial `public/marca/logo/pet-mellis-horizontal.svg` (componente `Imagotipo`), sin sombras ni efectos y sin «Merlo»; el panel agrega «Panel del salón» debajo. Mínimo 160 px de ancho. A ese tamaño el descriptor «PELUQUERÍA CANINA» del archivo queda decorativo (2 px): no depender de él para informar. Sobre verde oscuro, `pet-mellis-horizontal-oscuro.svg`.
+
 ### 7.2 Tipografía
+Escala del Brand Book (pág. 16): título Bold 56 px (`text-4xl`, interlineado 1,05) · subtítulo Bold 36 px (`text-3xl`) · encabezado Bold 22 px (`text-xl`) · cuerpo Regular 16 px · botón Medium 16 px (mínimo 14) · rótulo Medium 12 px en mayúsculas espaciadas (`.rotulo`).
+
 
 Familia única: **Outfit** (Google Fonts, OFL), equivalente libre de **Stolzl**, la de la referencia (Stolzl es paga: si se licencia, se cambia en `src/app/fonts.ts` con `next/font/local` y la misma variable). Ya no se usa Manuale.
 

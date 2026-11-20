@@ -41,7 +41,7 @@ export default function ClienteLayout({ children }: { children: ReactNode }) {
               aria-label="Pet Mellis, inicio"
               className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo />
+              <Imagotipo width={184} />
             </Link>
             <TopNav items={clienteNav} root="/" />
             {/* Reservar ya está en la barra inferior (celular) y en las pestañas (tablet): el botón aparece desde 1024 px */}

@@ -162,14 +162,14 @@
   --text-base--line-height: 24px;
   --text-lg: 18px;
   --text-lg--line-height: 27px;
-  --text-xl: 20px; /* título de tarjeta */
-  --text-xl--line-height: 26px;
+  --text-xl: 22px; /* encabezado de tarjeta o sección (Brand Book: Bold 22 px) */
+  --text-xl--line-height: 28px;
   --text-2xl: 26px; /* título de bloque */
   --text-2xl--line-height: 32px;
-  --text-3xl: clamp(28px, 6vw, 36px); /* título de sección («Nuestros servicios») */
+  --text-3xl: clamp(28px, 6vw, 36px); /* subtítulo (Brand Book: Bold 36 px) */
   --text-3xl--line-height: 1.15;
-  --text-4xl: clamp(36px, 8vw, 56px); /* título principal de portada */
-  --text-4xl--line-height: 1.08;
+  --text-4xl: clamp(36px, 8vw, 56px); /* título (Brand Book: Bold 56 px, interlineado 1,05) */
+  --text-4xl--line-height: 1.05;
 }
 
 @layer base {
@@ -219,13 +219,14 @@
 }
 
 @layer components {
-  /* Rótulo de datos: Outfit Medium 12 px (estados, fechas, datos del ticket) */
+  /* Rótulo: Outfit Medium 12 px en mayúsculas espaciadas (Brand Book: «PRÓXIMO TURNO») */
   .rotulo {
     font-family: var(--font-mono);
     font-size: 12px;
     line-height: 16px;
     font-weight: 500;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   /* Texto en oración: primera letra mayúscula (reemplaza al viejo «lowercase» de los títulos) */
