@@ -23,7 +23,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
       >
         Saltar al contenido
       </a>
-      <div className="md:grid md:min-h-dvh md:grid-cols-[200px_minmax(0,1fr)] lg:grid-cols-[248px_minmax(0,1fr)]">
+      <div className="md:grid md:min-h-dvh md:grid-cols-[248px_minmax(0,1fr)]">
         <header className="sticky top-0 z-40 w-full border-b border-linea bg-superficie md:h-dvh md:border-b-0 md:border-r">
           <div className="flex min-h-16 items-center justify-between gap-3 px-4 md:h-full md:flex-col md:items-stretch md:justify-start md:gap-8 md:py-6">
             <Link
@@ -31,7 +31,7 @@ export default async function PanelLayout({ children }: { children: ReactNode })
               aria-label="Pet Mellis, panel"
               className="rounded-sm focus-visible:outline-tinta"
             >
-              <Imagotipo etiqueta="Panel del salón" />
+              <Imagotipo width={196} etiqueta="Panel del salón" />
             </Link>
             <div className="hidden md:block">
               <SideNav items={panelNav} root="/panel" />

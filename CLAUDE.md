@@ -197,7 +197,7 @@ Derivados (AA verificado en `tests/contraste.test.ts`): `verde-hover` #436c56, `
 - Los estados se acompañan con palabras o íconos, no solo color.
 - Nada de hex sueltos ni de clases `emerald-*`, `amber-*`, `gray-*`: lo verifica `tests/design-rules.test.ts`.
 
-**Logo (Brand Book, cap. 2, 20/11/2026):** el header usa el archivo oficial `public/marca/logo/pet-mellis-horizontal.svg` (componente `Imagotipo`), sin sombras ni efectos y sin «Merlo»; el panel agrega «Panel del salón» debajo. Mínimo 160 px de ancho. A ese tamaño el descriptor «PELUQUERÍA CANINA» del archivo queda decorativo (2 px): no depender de él para informar. Sobre verde oscuro, `pet-mellis-horizontal-oscuro.svg`.
+**Logo (Brand Book, cap. 2, 20/11/2026):** el header usa `public/marca/logo/pet-mellis-horizontal-sin-descriptor.svg` (el oficial, sin el margen de seguridad y sin el descriptor) a 220 px, y «PELUQUERÍA CANINA» va como texto real en Outfit Medium 12 px, espaciado 0,08 em, alineado bajo «pet mellis» (componente `Imagotipo`): dentro del dibujo quedaba de 2 px y no se leía. Sin «Merlo» en el header ni arriba de la portada. Panel: logo de 196 px con «Panel del salón» debajo y barra lateral de 248 px. Sin sombras ni efectos.
 
 **Decisiones del 20/11/2026:** en el logo, «pet» va en verde oscuro igual que «mellis» (en menta sobre fondos oscuros). En pantalla se dice **usuario** (no «cliente») y **administrador** (no «peluquera»); los nombres internos del código, las rutas (`/panel/clientes`) y los valores de la base (`tutores`, rol `peluquera`) no cambian. Un turno lleva **un solo baño** (`incluyeBano`, `alternarServicio` y `unSoloBano` en `src/lib/cotizacion.ts`; la reserva lo valida).
 

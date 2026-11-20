@@ -35,9 +35,6 @@ export function InicioVista({ servicios, direccion, horarios, whatsapp }: Props)
         className="grid items-center gap-8 md:grid-cols-[1.1fr_1fr]"
       >
         <div className="flex flex-col gap-5">
-          <p className="rotulo w-fit rounded-pill border border-tinta px-3 py-1">
-            peluquería canina en Merlo, Buenos Aires
-          </p>
           <h1 id="titulo-inicio" className="text-3xl md:text-4xl">
             cada visita mejora <span className="text-verde">la siguiente</span>
           </h1>

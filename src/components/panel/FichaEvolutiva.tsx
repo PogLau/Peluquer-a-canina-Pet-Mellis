@@ -105,7 +105,7 @@ export function FichaEvolutiva({ ficha }: { ficha: Ficha }) {
   )
 }
 
-/* ---------- Ficha de registro: encabezado con los datos del perro y entradas de cada visita ---------- */
+/* ---------- La ficha completa, en UNA sola tarjeta ---------- */
 
 type EtiquetaFicha = { nombre: string; tipo: 'alerta' | 'info' }
 
@@ -119,61 +119,11 @@ export type DatosFicha = {
   usuario: string
   cuidados: string | null
   etiquetas: EtiquetaFicha[]
-  visitas: number
-  ultimaVisita: string | null
 }
 
-/** Un campo rotulado de la ficha: rótulo chico arriba y el dato debajo, como en una ficha impresa. */
-function Campo({ rotulo, children }: { rotulo: string; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-0.5 border-b border-linea px-4 py-3">
-      <dt className="rotulo text-texto-suave">{rotulo}</dt>
-      <dd className="font-medium">{children}</dd>
-    </div>
-  )
-}
-
-/** Encabezado de la ficha: número, datos del perro y cuidados, todo en campos rotulados. */
-export function FichaDatos({ datos }: { datos: DatosFicha }) {
-  return (
-    <div className="overflow-hidden rounded-md border border-tinta">
-      <div className="flex flex-wrap items-center justify-between gap-2 bg-verde-oscuro px-4 py-2 text-blanco">
-        <p className="rotulo">Ficha evolutiva · Pet Mellis</p>
-        <p className="rotulo cifras">Nº {String(datos.numero).padStart(4, '0')}</p>
-      </div>
-      <dl className="grid sm:grid-cols-2 lg:grid-cols-4">
-        <Campo rotulo="Nombre">{datos.nombre}</Campo>
-        <Campo rotulo="Raza">{datos.raza || 'Sin dato'}</Campo>
-        <Campo rotulo="Tamaño">{datos.tamano}</Campo>
-        <Campo rotulo="Manto">{datos.manto}</Campo>
-        <Campo rotulo="Peso">{datos.pesoKg ? `${datos.pesoKg} kg` : 'Sin dato'}</Campo>
-        <Campo rotulo="Usuario">{datos.usuario}</Campo>
-        <Campo rotulo="Visitas registradas">{datos.visitas}</Campo>
-        <Campo rotulo="Última visita">
-          {datos.ultimaVisita ? formatShortDate(new Date(datos.ultimaVisita)) : 'Todavía no vino'}
-        </Campo>
-      </dl>
-      <div className="flex flex-col gap-2 bg-durazno px-4 py-3">
-        <p className="rotulo text-texto-suave">Cuidados y comportamiento</p>
-        <p className={cn('text-sm', datos.cuidados ? 'font-bold' : 'text-texto-suave')}>
-          {datos.cuidados || 'Sin cuidados especiales anotados.'}
-        </p>
-        {datos.etiquetas.length > 0 && (
-          <ul className="flex flex-wrap gap-2">
-            {datos.etiquetas.map((e) => (
-              <li key={e.nombre}>
-                <TagChip kind={e.tipo}>{e.nombre}</TagChip>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-  )
-}
-
-export type VisitaRegistro = {
-  numero: number
+/** Una visita tal como la guarda el panel (la más reciente primero). */
+export type VisitaEntrada = {
+  id: number
   fecha: string
   servicios: string[]
   precioFinal: number | null
@@ -183,44 +133,174 @@ export type VisitaRegistro = {
   recomendacion: string | null
 }
 
-/** Entrada del registro de visitas: fecha y número arriba, y cada dato en su renglón rotulado. */
-export function VisitaFicha({ visita, acciones }: { visita: VisitaRegistro; acciones?: ReactNode }) {
-  const filas: Array<[string, ReactNode]> = [
-    ['Servicios', visita.servicios.length ? visita.servicios.join(' + ') : 'Sin dato'],
-    ['Precio final', visita.precioFinal !== null ? formatMoney(visita.precioFinal) : 'Sin dato'],
-  ]
-  if (visita.etiquetas.length)
-    filas.push([
-      'Comportamiento',
-      <span key="e" className="flex flex-wrap gap-1.5">
-        {visita.etiquetas.map((e) => (
-          <TagChip key={e.nombre} kind={e.tipo}>
-            {e.nombre}
-          </TagChip>
-        ))}
-      </span>,
-    ])
-  if (visita.resumenTutor) filas.push(['Para el usuario', visita.resumenTutor])
-  if (visita.notaInterna) filas.push(['Nota interna (solo el salón)', visita.notaInterna])
-  if (visita.recomendacion) filas.push(['Para la próxima', visita.recomendacion])
+function Etiquetas({ lista }: { lista: EtiquetaFicha[] }) {
+  return (
+    <ul className="flex flex-wrap gap-1.5">
+      {lista.map((e) => (
+        <li key={e.nombre}>
+          <TagChip kind={e.tipo}>{e.nombre}</TagChip>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+/** Título de cada parte de la ficha: rótulo verde y una línea que la separa de la anterior. */
+function Parte({ id, titulo, children }: { id: string; titulo: string; children: ReactNode }) {
+  return (
+    <section aria-labelledby={id} className="flex flex-col gap-3 border-t border-linea px-5 py-5">
+      <h3 id={id} className="rotulo text-verde-oscuro">
+        {titulo}
+      </h3>
+      {children}
+    </section>
+  )
+}
+
+/**
+ * Ficha evolutiva completa en una sola tarjeta:
+ * nombre del animal y sus datos, cómo se comportó, los valores marcados (puntajes por aspecto)
+ * y el registro de cada visita. `recomendacion` y `acciones` son los controles del panel.
+ */
+export function FichaTarjeta({
+  datos,
+  ficha,
+  visitas,
+  recomendacion,
+  acciones,
+}: {
+  datos: DatosFicha
+  ficha: Ficha
+  visitas: VisitaEntrada[]
+  recomendacion?: ReactNode
+  acciones?: (visita: VisitaEntrada) => ReactNode
+}) {
+  const ultima = visitas[0] ?? null
+  const datosLinea = [
+    datos.raza,
+    datos.tamano,
+    datos.manto ? `manto ${datos.manto.toLowerCase()}` : null,
+    datos.pesoKg ? `${datos.pesoKg} kg` : null,
+  ].filter(Boolean)
 
   return (
-    <article className="overflow-hidden rounded-md border border-linea bg-superficie">
-      <header className="flex flex-wrap items-baseline justify-between gap-2 border-b border-linea bg-superficie-alt px-4 py-2">
-        <p className="font-bold">
-          <span className="rotulo mr-2 text-verde-oscuro">Visita {visita.numero}</span>
-          {formatLongDate(new Date(visita.fecha))}
-        </p>
+    <article
+      aria-labelledby="ficha"
+      className="overflow-hidden rounded-md border border-linea bg-superficie shadow-ticket"
+    >
+      <header className="flex flex-wrap items-center justify-between gap-2 bg-verde-oscuro px-5 py-2.5 text-blanco">
+        <p className="rotulo">Ficha evolutiva · Pet Mellis</p>
+        <p className="rotulo cifras">Nº {String(datos.numero).padStart(4, '0')}</p>
       </header>
-      <dl className="divide-y divide-linea">
-        {filas.map(([rotulo, valor]) => (
-          <div key={rotulo} className="grid gap-1 px-4 py-2.5 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-4">
-            <dt className="rotulo pt-0.5 text-texto-suave">{rotulo}</dt>
-            <dd className="text-sm">{valor}</dd>
+
+      {/* 1. El animal */}
+      <div className="flex flex-col gap-2 px-5 py-5">
+        <h2 id="ficha" className="text-3xl">
+          {datos.nombre}
+        </h2>
+        <p className="text-texto-suave">{datosLinea.join(' · ')}</p>
+        <dl className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+          <div className="flex gap-1.5">
+            <dt className="text-texto-suave">Usuario:</dt>
+            <dd className="font-medium">{datos.usuario}</dd>
           </div>
-        ))}
-      </dl>
-      {acciones && <div className="border-t border-linea px-4 py-3">{acciones}</div>}
+          <div className="flex gap-1.5">
+            <dt className="text-texto-suave">Visitas:</dt>
+            <dd className="font-medium">{visitas.length}</dd>
+          </div>
+          <div className="flex gap-1.5">
+            <dt className="text-texto-suave">Última visita:</dt>
+            <dd className="font-medium">
+              {ultima ? formatShortDate(new Date(ultima.fecha)) : 'todavía no vino'}
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      {/* 2. Cómo se comportó */}
+      <Parte id="ficha-comportamiento" titulo="Cómo se comportó">
+        {ultima && ultima.etiquetas.length > 0 ? (
+          <div className="flex flex-col gap-1.5">
+            <p className="text-sm text-texto-suave">
+              En la última visita ({formatLongDate(new Date(ultima.fecha))}):
+            </p>
+            <Etiquetas lista={ultima.etiquetas} />
+          </div>
+        ) : (
+          <p className="text-sm text-texto-suave">
+            {ultima
+              ? 'En la última visita no se marcó nada fuera de lo común.'
+              : 'Todavía sin visitas.'}
+          </p>
+        )}
+        {(datos.cuidados || datos.etiquetas.length > 0) && (
+          <div className="flex flex-col gap-1.5 rounded-sm bg-durazno px-3 py-2.5">
+            <p className="text-sm font-bold">{datos.cuidados || 'Tener en cuenta siempre:'}</p>
+            {datos.etiquetas.length > 0 && <Etiquetas lista={datos.etiquetas} />}
+          </div>
+        )}
+      </Parte>
+
+      {/* 3. Valores marcados */}
+      <Parte id="ficha-valores" titulo="Valores marcados (de 1 a 5, por visita)">
+        <FichaEvolutiva ficha={ficha} />
+        {recomendacion}
+      </Parte>
+
+      {/* 4. Registro de visitas */}
+      <Parte id="ficha-visitas" titulo="Registro de visitas">
+        {visitas.length === 0 ? (
+          <p className="text-sm text-texto-suave">
+            Cuando registres la primera atención, aparece acá.
+          </p>
+        ) : (
+          <ol className="flex flex-col divide-y divide-linea">
+            {visitas.map((v, i) => (
+              <li key={v.id} className="flex flex-col gap-2 py-4 first:pt-0 last:pb-0">
+                <p className="font-bold">
+                  <span className="rotulo mr-2 text-verde-oscuro">Visita {visitas.length - i}</span>
+                  {formatLongDate(new Date(v.fecha))}
+                </p>
+                <dl className="grid gap-x-4 gap-y-1.5 text-sm sm:grid-cols-[160px_minmax(0,1fr)]">
+                  <dt className="text-texto-suave">Servicios</dt>
+                  <dd>{v.servicios.length ? v.servicios.join(' + ') : 'Sin dato'}</dd>
+                  <dt className="text-texto-suave">Precio final</dt>
+                  <dd className="cifras">
+                    {v.precioFinal !== null ? formatMoney(v.precioFinal) : 'Sin dato'}
+                  </dd>
+                  {v.etiquetas.length > 0 && (
+                    <>
+                      <dt className="text-texto-suave">Comportamiento</dt>
+                      <dd>
+                        <Etiquetas lista={v.etiquetas} />
+                      </dd>
+                    </>
+                  )}
+                  {v.resumenTutor && (
+                    <>
+                      <dt className="text-texto-suave">Para el usuario</dt>
+                      <dd>{v.resumenTutor}</dd>
+                    </>
+                  )}
+                  {v.notaInterna && (
+                    <>
+                      <dt className="text-texto-suave">Nota interna</dt>
+                      <dd>{v.notaInterna}</dd>
+                    </>
+                  )}
+                  {v.recomendacion && (
+                    <>
+                      <dt className="text-texto-suave">Para la próxima</dt>
+                      <dd>{v.recomendacion}</dd>
+                    </>
+                  )}
+                </dl>
+                {acciones && <div className="pt-1">{acciones(v)}</div>}
+              </li>
+            ))}
+          </ol>
+        )}
+      </Parte>
     </article>
   )
 }

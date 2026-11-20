@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { EditarRecomendacion } from '@/components/panel/EditarRecomendacion'
 import { EnviarResumen } from '@/components/panel/EnviarResumen'
-import { FichaDatos, FichaEvolutiva, VisitaFicha } from '@/components/panel/FichaEvolutiva'
+import { FichaTarjeta } from '@/components/panel/FichaEvolutiva'
 import {
   Button,
   EmptyState,
@@ -42,15 +42,7 @@ function Reenviar({
       <Button size="small" variant="secondary" icon="whatsapp" onClick={() => setAbierto(true)}>
         Enviar resumen
       </Button>
-      <Modal
-        open={abierto}
-        onClose={() => setAbierto(false)}
-        title={
-          <>
-            resumen de {mascota}
-          </>
-        }
-      >
+      <Modal open={abierto} onClose={() => setAbierto(false)} title={<>resumen de {mascota}</>}>
         {abierto && (
           <EnviarResumen
             telefono={tutor.whatsapp}
@@ -110,16 +102,7 @@ export function FichaDemo({ id }: { id: number }) {
             </LinkButton>
           )
         }
-      >
-        {[
-          mascota.raza,
-          sizeLabels[mascota.tamano].label,
-          `manto ${coatLabels[mascota.manto].toLowerCase()}`,
-          mascota.pesoKg ? `${mascota.pesoKg} kg` : null,
-        ]
-          .filter(Boolean)
-          .join(' · ')}
-      </PageHeader>
+      />
 
       <div className="flex flex-col gap-6">
         {proximos.length > 0 && (
@@ -156,66 +139,36 @@ export function FichaDemo({ id }: { id: number }) {
           </section>
         )}
 
-        <Ticket as="section" aria-labelledby="ficha" className="flex flex-col gap-5">
-          <div>
-            <p className="rotulo text-verde-oscuro">Cada visita mejora la siguiente</p>
-            <h2 id="ficha" className="text-2xl">
-              ficha evolutiva
-            </h2>
-          </div>
-          <FichaDatos
-            datos={{
-              numero: mascota.id,
-              nombre: mascota.nombre,
-              raza: mascota.raza || null,
-              tamano: sizeLabels[mascota.tamano]?.label ?? '',
-              manto: coatLabels[mascota.manto] ?? '',
-              pesoKg: mascota.pesoKg ?? null,
-              usuario: tutor.nombre,
-              cuidados: mascota.cuidadosEspeciales || null,
-              etiquetas: etiquetas.map((e) => ({ nombre: e.nombre, tipo: e.tipo })),
-              visitas: atenciones.length,
-              ultimaVisita: ultima?.fecha ?? null,
-            }}
-          />
-          <section aria-labelledby="evolucion" className="flex flex-col gap-3">
-            <h3 id="evolucion" className="text-xl">
-              evolución por aspecto
-            </h3>
-            <FichaEvolutiva ficha={ficha} />
-          </section>
-          {ultima && (
-            <EditarRecomendacion
-              key={ultima.id}
-              atencionId={ultima.id}
-              inicial={ultima.recomendacion ?? ''}
-              sugerida={perfil.recomendacionSugerida}
-              guardar={guardarRecomendacion}
-            />
-          )}
-          <section aria-labelledby="registro" className="flex flex-col gap-3">
-            <h3 id="registro" className="text-xl">
-              registro de visitas
-            </h3>
-            {atenciones.length === 0 ? (
-              <EmptyState icon="libreta" title="sin visitas registradas">
-                Cuando registres la primera atención, aparece acá.
-              </EmptyState>
-            ) : (
-              <ol className="flex flex-col gap-4">
-                {atenciones.map((a, i) => (
-                  <li key={a.id}>
-                    <VisitaFicha
-                      visita={{ ...a, numero: atenciones.length - i }}
-                      acciones={<Reenviar a={a} mascota={mascota.nombre} tutor={tutor} />}
-                    />
-                  </li>
-                ))}
-              </ol>
-            )}
-          </section>
-        </Ticket>
-
+        <FichaTarjeta
+          datos={{
+            numero: mascota.id,
+            nombre: mascota.nombre,
+            raza: mascota.raza || null,
+            tamano: sizeLabels[mascota.tamano]?.label ?? '',
+            manto: coatLabels[mascota.manto] ?? '',
+            pesoKg: mascota.pesoKg ?? null,
+            usuario: tutor.nombre,
+            cuidados: mascota.cuidadosEspeciales || null,
+            etiquetas: etiquetas.map((e) => ({ nombre: e.nombre, tipo: e.tipo })),
+          }}
+          ficha={ficha}
+          visitas={atenciones}
+          recomendacion={
+            ultima ? (
+              <EditarRecomendacion
+                key={ultima.id}
+                atencionId={ultima.id}
+                inicial={ultima.recomendacion ?? ''}
+                sugerida={perfil.recomendacionSugerida}
+                guardar={guardarRecomendacion}
+              />
+            ) : null
+          }
+          acciones={(v) => {
+            const a = atenciones.find((x) => x.id === v.id)
+            return a ? <Reenviar a={a} mascota={mascota.nombre} tutor={tutor} /> : null
+          }}
+        />
       </div>
     </>
   )
